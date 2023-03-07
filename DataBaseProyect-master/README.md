@@ -22,7 +22,7 @@ pass1234
 
 admin.py (backend)
 
-javier@gmail.com
+nebula@gmail.com
 
 pass1234
 ***************
