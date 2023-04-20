@@ -1,0 +1,82 @@
+{% extends 'BaseClientLogin.html' %}
+
+<!--A block is used to replace a part of a blueprint for othe information-->
+
+<!--Here the title of the page is replaced-->
+{% block title %}Login{% endblock %}
+
+<!--And here is replaced the content, the names are not nesesari related to what is being replaced
+is like having a variable, if is there no previus base information in the block in the blueprint
+this information will be put there other wise this information will replace the information in the blueprint-->
+{% block content %}
+<!--=====================================
+                USER FORM PART START
+    =======================================-->
+<section class="user-form-part">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
+        <div class="user-form-logo">
+          <a href="#"
+            ><img
+              src="{{url_for('static', filename='images/logo.png')}}"
+              alt="logo"
+          /></a>
+        </div>
+        <div class="user-form-card">
+          <div class="user-form-title">
+            <h2 class="SetTextColor">welcome!</h2>
+            <p>Use your credentials to access</p>
+          </div>
+
+          <div style="padding: 0px 30%" class="user-form-group">
+            <form class="user-form" method="POST">
+              <div class="form-group">
+                <input
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  placeholder="Enter your email"
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  placeholder="Enter your password"
+                />
+              </div>
+              <div class="form-button">
+                <button type="submit" class="SetBackgroundColor">login</button>
+                <p>
+                  Forgot your password?
+                  <a href="#" class="SetTextColor"> reset here</a>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="user-form-remind">
+          <p>
+            Don't have any account?<a
+              href="{{url_for('auth.register')}}"
+              class="SetTextColor"
+              >register here</a
+            >
+          </p>
+        </div>
+        <div class="user-form-footer">
+          <p>
+            Nebula | &COPY; Copyright by
+            <a href="#" class="SetTextColor">Mironcoder</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--=====================================
+                USER FORM PART END
+    =======================================-->
+{% endblock content %}

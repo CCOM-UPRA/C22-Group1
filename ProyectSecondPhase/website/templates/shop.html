@@ -1,0 +1,345 @@
+{% extends 'BaseClient.html' %} {% block title %}Nebula - Shop{% endblock title
+%} {% block content %}
+
+<!--=====================================
+                SHOP PART START
+    =======================================-->
+<section class="inner-section shop-part">
+  <div class="container">
+    <div class="row content-reverse">
+      <div class="col-lg-3">
+        <form action="{{url_for('views.shop')}}" method="POST">
+          <div style="text-align: center; color: white">
+            <h5 class="shop-widget-title" style="color: white">Sort</h5>
+          </div>
+
+          <br />
+
+          <div class="shop-widget">
+            <br />
+
+            <h6 class="shop-widget-title">By Price</h6>
+            <div class="shop-widget-group">
+              <input
+                type="text"
+                placeholder="Min - ${{price[0]}}"
+                name="minPrice"
+              />
+              <input
+                type="text"
+                placeholder="Max - ${{price[1]}}"
+                name="maxPrice"
+              />
+            </div>
+
+            <br />
+
+            <h6 class="shop-widget-title">By Focal Distance</h6>
+            <div class="shop-widget-group">
+              <input
+                type="text"
+                placeholder="Min - {{focal_distance[0]}} mm"
+                name="minFocal_distance"
+              />
+              <input
+                type="text"
+                placeholder="Max - {{focal_distance[1]}} mm"
+                name="maxFocal_distance"
+              />
+            </div>
+
+            <h6 class="shop-widget-title">By Aperture</h6>
+            <div class="shop-widget-group">
+              <input
+                type="text"
+                placeholder="Min - {{aperture[0]}} mm"
+                name="minAperture"
+              />
+              <input
+                type="text"
+                placeholder="Max - {{aperture[1]}} mm"
+                name="maxAperture"
+              />
+            </div>
+
+            <button class="shop-widget-btn">
+              <i class="fas fa-search"></i>
+              <span>search</span>
+            </button>
+          </div>
+
+          <div style="text-align: center; color: white">
+            <h5 class="shop-widget-title" style="color: white">Filters</h5>
+          </div>
+
+          <br />
+
+          <div class="shop-widget">
+            <h6 class="shop-widget-title">By Brand</h6>
+            <ul class="shop-widget-list">
+              {% for brand in brands %}
+              <li>
+                <div class="shop-widget-content">
+                  <input
+                    type="checkbox"
+                    id="brand"
+                    name="brand"
+                    value="{{brand.brand}}"
+                  />
+                  <label for="brand">{{brand.brand}}</label>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+
+            <h6 class="shop-widget-title">By Lens Type</h6>
+            <ul class="shop-widget-list">
+              {% for lens in Lens %}
+              <li>
+                <div class="shop-widget-content">
+                  <input
+                    type="checkbox"
+                    id="lens"
+                    name="lens"
+                    value="{{lens.lens}}"
+                  />
+                  <label for="lens">{{lens.lens}}</label>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+
+            <h6 class="shop-widget-title">By Mount Type</h6>
+            <ul class="shop-widget-list">
+              {% for mount in mounts %}
+              <li>
+                <div class="shop-widget-content">
+                  <input type="checkbox" id="mount" name="mount" />
+                  <label for="mount">{{mount.mount}}</label>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+
+            <button class="shop-widget-btn">
+              <i class="fas fa-search"></i>
+              <span>Search</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Products -->
+
+      <div class="col-lg-9">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="top-filter">
+              <div></div>
+            </div>
+          </div>
+          <div class="row row-cols-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
+            {% for telescope in telescopes %}
+            <div class="col">
+              <div class="product-card">
+                <div class="product-media">
+                  <a
+                    class="product-image"
+                    href="static/images/product-images/{{telescope.image_name}}"
+                  >
+                    <img
+                      src="static/images/product-images/{{telescope.image_name}}"
+                      alt="product"
+                      style="width: 300px; height: 300px"
+                    />
+                  </a>
+                  <div class="product-widget">
+                    <a
+                      title="Product View"
+                      href="#"
+                      class="fas fa-eye"
+                      data-bs-toggle="modal"
+                      data-bs-target="#product-view-{{telescope.id}}"
+                    ></a>
+                  </div>
+                </div>
+
+                <div class="product-content">
+                  <h6 class="product-name">
+                    <a
+                      data-bs-toggle="modal"
+                      data-bs-target="#product-view-{{telescope.id}}"
+                      >{{telescope.name}}</a
+                    >
+                  </h6>
+                  <h6 class="product-price">
+                    <span>Price: {{telescope.price}}.00</span>
+                  </h6>
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span>add</span>
+                  </button>
+                  <div class="product-action">
+                    <form action="{{url_for('views.addToCart')}}" method="post">
+                      <input
+                        style="width: 50%"
+                        class="action-input"
+                        title="Quantity Number"
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        value="1"
+                      />
+                      <input
+                        type="hidden"
+                        id="p_id"
+                        name="p_id"
+                        value="{{telescope.id}}"
+                      />
+                      <input
+                        type="hidden"
+                        id="name"
+                        name="name"
+                        value="{{telescope.name}}"
+                      />
+                      <input
+                        type="hidden"
+                        id="price"
+                        name="price"
+                        value="{{telescope.price}}"
+                      />
+                      <input
+                        type="hidden"
+                        id="stock"
+                        name="stock"
+                        value="{{telescope.stock}}"
+                      />
+                      <input
+                        type="hidden"
+                        id="brand"
+                        name="brand"
+                        value="{{telescope.brand}}"
+                      />
+                      <input
+                        type="hidden"
+                        id="mount"
+                        name="mount"
+                        value="{{telescope.mount}}"
+                      />
+                      <input
+                        type="hidden"
+                        id="desc"
+                        name="desc"
+                        value="{{telescope.description}}"
+                      />
+                      <input
+                        type="hidden"
+                        id="image"
+                        name="image"
+                        value="{{telescope.image_name}}"
+                      />
+                      <input style="width: 30%" type="submit" value="Add" />
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="product-view-{{telescope.id}}">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <button
+                    class="modal-close icofont-close"
+                    data-bs-dismiss="modal"
+                  ></button>
+                  <div class="product-view">
+                    <div class="row">
+                      <div class="col-md-6 col-lg-6">
+                        <div class="view-gallery">
+                          <div class="view-label-group">
+                            <label class="view-label new"
+                              >{{telescope.stock}} in stock</label
+                            >
+                          </div>
+                          <ul class="preview-slider">
+                            <li>
+                              <img
+                                src="static/images/product-images/{{telescope.image_name}}"
+                                alt="product"
+                              />
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="view-details">
+                          <h3 class="view-name">
+                            <a href="product-video.html">{{telescope.name}}</a>
+                          </h3>
+                          <div class="view-meta">
+                            <p>Brand:<span>{{telescope.brand}}</span></p>
+                            <br />
+                            <p>Type: {{telescope.lens}}</p>
+                            <br />
+                            <p>Mount: {{telescope.mount}}</p>
+                            <br />
+                            <p>
+                              Focal Distance: {{telescope.focal_distance}} mm
+                            </p>
+                          </div>
+                          <h3 class="view-price">
+                            <span>Price: {{telescope.price}}.00</span>
+                          </h3>
+                          <p class="view-desc">Description</p>
+                          <div class="view-add-group">
+                            <button class="product-add" title="Add to Cart">
+                              <span>Tap to add amount</span>
+                            </button>
+                            <div class="product-action">
+                              <button
+                                class="action-minus"
+                                title="Quantity Minus"
+                              >
+                                <i class="icofont-minus"></i>
+                              </button>
+                              <input
+                                class="action-input"
+                                title="Quantity Number"
+                                type="text"
+                                name="quantity"
+                                value="1"
+                              />
+                              <button class="action-plus" title="Quantity Plus">
+                                <i class="icofont-plus"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="view-action-group">
+                            <a
+                              class="view-wish wish"
+                              href="/shop"
+                              title="Add to Cart"
+                            >
+                              <i class="fas fa-shopping-cart"></i>
+                              <span>add to cart</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--=====================================
+                    SHOP PART END
+        =======================================-->
+
+{% endblock content %}
