@@ -1,0 +1,8 @@
+*.pyc
+*.db
+*.sql
+/website/_pycache_
+/website/controlers/_pycache_
+/website/models/_pycache_
+/.history
+/instance
