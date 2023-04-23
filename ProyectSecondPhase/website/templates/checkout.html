@@ -14,31 +14,31 @@
                           <div class="account-title">
                               <h4>Your order</h4>
                           </div>
-
+                          {% for data in cart_items %}
                           <div class="account-content">
                               <div class="table-scroll">
                                   <table class="table-list">
                                       <thead>
                                           <tr>
-                                              <th scope="col">Product</th>
-                                              <th scope="col">Name</th>
-                                              <th scope="col">Price</th>
-                                              <th scope="col">Quantity</th>
-                                              <th scope="col">Total Price</th>
-                                              <th scope="col">action</th>
+                                              <th class="nose2" scope="col">Product</th>
+                                              <th class="nose2" scope="col">Name</th>
+                                              <th class="nose2" scope="col">Price</th>
+                                              <th class="nose2" scope="col">Quantity</th>
+                                              <th class="nose2" scope="col">Total Price</th>
+                                              <!-- <th scope="col">action</th> -->
                                           </tr>
                                       </thead>
                                       <tbody>
                                           <tr>
-                                              <td class="table-image"><img src="image" alt="product"></td>
-                                              <td class="table-name"><h6>name</h6></td>
-                                              <td class="table-price"><h6>$price</h6></td>
-                                              <td class="table-brand"><h6>quantity</h6></td>
-                                              <td class="table-brand"><h6>$total price</h6></td>
-                                              <td class="table-action">
+                                              <td class="table-image"><img src='static/images/product-images/{{data["product"]["image"]}} 'alt="product"></td>
+                                              <td class="table-name"><h6>{{data["product"]["name"]}}</h6></td>
+                                              <td class="table-price"><h6>${{data["product"]["price"]}}</h6></td>
+                                              <td class="table-brand"><h6>{{data["quantity"]}}</h6></td>
+                                              <td class="table-brand"><h6>${{data["quantity"] * data["product"]["price"]}}</h6></td>
+                                              <!-- <td class="table-action">
                                                   <a class="view" href="#" title="Edit Amount" data-bs-toggle="modal" data-bs-target="#product-view-{{key}}"><i class="fas fa-edit"></i></a>
                                                   <a class="trash" href="#" title="Remove Wishlist"><i class="icofont-trash"></i></a>
-                                              </td>
+                                              </td> -->
                                           </tr>
 
 
@@ -98,17 +98,17 @@
                               </div>
 
                               <br><br>
-
+                              {% endfor %}
                               <div class="checkout-charge">
                                   <ul>
                                       <li>
                                           <span>Total</span>
-                                          <span>$total</span>
+                                          <span>${{total}}0</span>
                                       </li>
                                   </ul>
                               </div>
                           </div>
-
+                          
                           <div class="col-lg-12">
                               <div class="account-card">
                                   <div class="account-title">
@@ -120,7 +120,7 @@
                                           <div class="col-md-6 col-lg-4 alert fade show">
                                               <div class="profile-card contact active">
                                                   <h6>primary</h6>
-                                                  <p> {{user.Phone}} </p>
+                                                  <p id="phone"> {{user.Phone}} </p>
                                               </div>
                                           </div>
                                       </div>
@@ -156,8 +156,8 @@
                                       <div class="row">
                                           <div class="col-md-6 col-lg-4 alert fade show">
                                               <div class="payment-card payment active">
-                                                <h2> {{name[0]}}</h2>
-                                                <p> {{number[0]}} </p>
+                                                <h2 > {{name[0]}}</h2>
+                                                <p id="cardNumber"> {{number[0]}} </p>
                                                 <h5> {{type[0]}} </h5>
                                                 <h6> {{month[0]}}, {{year[0]}} </h6>
                                               </div>

@@ -5,7 +5,7 @@ from .controlers.paymentController import *
 from werkzeug.security import check_password_hash
 from flask_login import login_required, logout_user
 
-auth = Blueprint('auth', __name__, template_folder='templates/client/')
+auth = Blueprint('auth', __name__, template_folder='templates/')
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -57,7 +57,7 @@ def register():
             CreateAccount(fname, lname, email, pass1)
             CreateCart()
             CreateCard()
-            
+
             flash('Account created', category='success')
             return redirect(url_for('views.shop'))
     return render_template('register.html')

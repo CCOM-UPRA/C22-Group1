@@ -6924,3 +6924,37 @@ tbody tr td:last-child {
     margin-bottom: 30px;
   }
 }
+
+/* yadiel */
+.blanco{
+  color: white;
+  text-transform: capitalize;
+}
+
+.l{
+  font-size: large;
+}
+.x-l{
+  font-size: x-large;
+}
+
+.sortBy{
+  width: 150px;
+  height: 45px;
+}
+
+.filterw{
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.cap{
+  text-transform: capitalize;
+}
+
+.nose{
+  width: 16.6%;
+}
+.nose2{
+  width: 25%;
+}

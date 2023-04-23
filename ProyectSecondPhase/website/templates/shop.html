@@ -114,7 +114,12 @@
               {% for mount in mounts %}
               <li>
                 <div class="shop-widget-content">
-                  <input type="checkbox" id="mount" name="mount" />
+                  <input
+                    type="checkbox"
+                    id="mount"
+                    name="mount"
+                    value="{{mount.mount}}"
+                  />
                   <label for="mount">{{mount.mount}}</label>
                 </div>
               </li>

@@ -232,3 +232,12 @@ $('.payment-card.payment').on('click', function(){
     $('.payment-card.payment').removeClass('active');
     $(this).addClass('active');
 });
+
+// yadiel
+var cardNumber = document.getElementById("cardNumber").innerHTML;
+var lastFourDigits = cardNumber.substring(cardNumber.length - 5);
+document.getElementById("cardNumber").innerHTML = "XXXX XXXX XXXX " + lastFourDigits;
+
+var phoneNumber = document.getElementById("phone").textContent;
+var formattedPhoneNumber = phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+document.getElementById("phone").textContent = formattedPhoneNumber;

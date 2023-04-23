@@ -31,3 +31,28 @@ def getMonth():
 
 def getYear():
     return dataBase.session.execute(text(f"SELECT year FROM payment WHERE id = {current_user.id}")).fetchone()
+
+
+def setCname(cname):
+    dataBase.session.execute(
+        text(f"UPDATE payment SET name = '{cname}' WHERE id = {current_user.id}"))
+
+
+def setCtype(ctype):
+    dataBase.session.execute(
+        text(f"UPDATE payment SET type = '{ctype}' WHERE id = {current_user.id}"))
+
+
+def setCnumber(cnumber):
+    dataBase.session.execute(
+        text(f"UPDATE payment SET number = '{cnumber}' WHERE id = {current_user.id}"))
+
+
+def setMonth(month):
+    dataBase.session.execute(
+        text(f"UPDATE payment SET month = '{month}' WHERE id = {current_user.id}"))
+
+
+def setYear(year):
+    dataBase.session.execute(
+        text(f"UPDATE payment SET year = '{year}' WHERE id = {current_user.id}"))

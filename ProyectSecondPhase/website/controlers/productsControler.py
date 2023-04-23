@@ -8,8 +8,31 @@ def getAllTelescopes():
 
 
 def filterTelesopes(price, focal_distance, aperture, brands, lens, mounts):
+    if brands == []:
+        brands = getAllBrands()
+        brands = tuple(map(lambda x: x[0], brands))
+    else:
+        if len(brands) == 1:
+            brands.append(' ')
+            brands = tuple(brands)
 
-    query = f'SELECT * FROM telescopes WHERE price BETWEEN {price[0]} and {price[1]} and \
+    if lens == []:
+        lens = getAllLensType()
+        lens = tuple(map(lambda x: x[0], lens))
+    else:
+        if len(lens) == 1:
+            lens.append(' ')
+            lens = tuple(lens)
+
+    if mounts == []:
+        mounts = getAllMounts()
+        mounts = tuple(map(lambda x: x[0], mounts))
+    else:
+        if len(mounts) == 1:
+            mounts.append(' ')
+            mounts = tuple(mounts)
+
+    query = f'SELECT * FROM (SELECT * from telescopes WHERE brand in {brands} and lens in {lens} and mount in {mounts}) as products WHERE price BETWEEN {price[0]} and {price[1]} and \
                 focal_distance BETWEEN {focal_distance[0]} and {focal_distance[1]} and \
                 aperture BETWEEN {aperture[0]} and {aperture[1]}'
     return dataBase.session.execute(text(query))
