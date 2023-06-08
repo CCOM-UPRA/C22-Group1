@@ -9,8 +9,6 @@ database = mysql.connector.connect(
     database='sql9607914'
 )
 
-session['cursor'] = database.cursor()
-
 
 def create_app():
     app = Flask(__name__)

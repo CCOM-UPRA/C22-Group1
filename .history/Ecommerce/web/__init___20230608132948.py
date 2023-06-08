@@ -1,4 +1,4 @@
-from flask import Flask, session
+from flask import Flask
 import mysql.connector
 
 database = mysql.connector.connect(
@@ -9,7 +9,12 @@ database = mysql.connector.connect(
     database='sql9607914'
 )
 
-session['cursor'] = database.cursor()
+cursor = database.cursor()
+
+cursor.execute('show tables')
+
+for x in cursor:
+    print(x)
 
 
 def create_app():
