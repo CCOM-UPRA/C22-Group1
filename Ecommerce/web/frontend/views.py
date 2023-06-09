@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from functools import wraps
+from ..dbConnection import *
 
 
 def login_required(func):
@@ -15,12 +16,12 @@ views = Blueprint('views', __name__, template_folder='templates/')
 
 
 @views.route('/')
-@views.route('/clear')
+@views.route('/clear', methods=['GET', 'POST'])
 def clear():
     return redirect(url_for('views.shop'))
 
 
-@views.route('/shop')
+@views.route('/shop', methods=['GET', 'POST'])
 def shop():
     return render_template('shop.html')
 
