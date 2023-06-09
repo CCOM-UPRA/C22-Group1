@@ -1,4 +1,5 @@
 .history
+*.pyc
 Ecommerce/web/__pycache__
 Ecommerce/web/backend/__pycache__
 Ecommerce/web/frontend/__pycache__
