@@ -1,0 +1,6 @@
+history
+Ecommerce/web/__pycache__
+Ecommerce/web/backend/__pycache__
+Ecommerce/web/frontend/__pycache__
+Ecommerce/web/models/frontend/__pycache__
+Ecommerce/web/controllers/frontend/__pycache__
