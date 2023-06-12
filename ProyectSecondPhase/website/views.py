@@ -17,7 +17,7 @@ views = Blueprint('views', __name__, template_folder='templates/')
 @views.route('/shop', methods=['GET', 'POST'])
 def shop():
     telescopes = getAllTelescopes()
-    brands = getAllBrands()
+    # brands = getAllBrands()
     price = [getMinPrice()[0], getMaxPrice()[0]]
     lens = getAllLensType()
     focal_distance = [getMinFocalDistance()[0], getMaxFocalDistance()[0]]
@@ -71,7 +71,7 @@ def shop():
 
     return render_template('shop.html', user=current_user,
                            telescopes=telescopes,
-                           brands=brands,
+                        #    brands=brands,
                            price=price,
                            Lens=lens,
                            focal_distance=focal_distance,

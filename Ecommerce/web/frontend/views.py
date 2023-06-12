@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from functools import wraps
 
 
+
 def login_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -22,7 +23,17 @@ def clear():
 
 @views.route('/shop')
 def shop():
+    # Obtener los datos de la cuenta del usuario de la sesión
+    email = session.get('email')
+    password = session.get('password')
+
+    # Utilizar los datos de la cuenta del usuario según sea necesario
+
+    # ...
+
+    # Renderizar la página de "shop"
     return render_template('shop.html')
+
 
 
 @views.route('/profile')
