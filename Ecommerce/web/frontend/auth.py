@@ -1,18 +1,32 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from ..models.frontend.loginModel import *
+import hashlib
 
 auth = Blueprint('auth', __name__, template_folder='/templates')
 
 
-@auth.route('/login')
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
-    session['customer'] = []
+    if request.method == 'POST':
+        email = request.form['C_Email']
+        password = request.form['C_Password']
+        if email_exists(email):
+            customer = customerlog(email=email)
+            db_password = customer[0]
+            customerID = customer[1]
+            if password == db_password:
+                session['customer'] = customerID
+                return redirect(url_for('views.shop'))
+            else:
+                return 'Password dont match!'
+        else:
+            return render_template('register.html')
     return render_template('login.html')
 
 
 @auth.route('/logout')
 def logout():
-    # session.pop('customer')
+    session.pop('customer')
     return render_template('/login.html')
 
 
@@ -33,7 +47,7 @@ def register():
         
         if email_exists(email):
             return 'Email already exists!'
-        
+        pass1_hash = hashlib.sha256(pass1.encode()).hexdigest()
         insert_user(fname, lname, email, pass1)
         session['customer'] = ID_Email(email)
         return render_template('shop.html')

@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, Flask
 from functools import wraps
 from ..dbConnection import *
+from ..models.frontend.loginModel import *
 
 
 def login_required(func):
@@ -30,7 +31,8 @@ def shop():
 @login_required
 def profile():
     id = session.get('customer')
-    user = []
+    user = user_info(id)
+    print(user)
     return render_template('profile.html', user1=user)
 
 
