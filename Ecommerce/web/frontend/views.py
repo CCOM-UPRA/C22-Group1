@@ -29,6 +29,7 @@ def shop():
 @views.route('/profile')
 @login_required
 def profile():
+    id = session.get('customer')
     user = []
     return render_template('profile.html', user1=user)
 
