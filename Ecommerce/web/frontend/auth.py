@@ -2,6 +2,15 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from ..models.frontend.loginModel import *
 import hashlib
 
+def login_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if 'customer' not in session:
+            return redirect('/')
+        return func(*args, **kwargs)
+    return wrapper
+
+
 auth = Blueprint('auth', __name__, template_folder='/templates')
 
 
@@ -55,5 +64,6 @@ def register():
 
 
 @auth.route('/password')
+@login_required
 def password():
     pass

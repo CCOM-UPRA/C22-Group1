@@ -29,8 +29,14 @@ def user_info(id, database): #verificar si el email ya existe en la base de dato
     return result
 
 @DBConnection
+def edit_prof(id, fname, lname, email, database): #edit profile info
+    cursor = database.cursor()
+    cursor.execute('UPDATE customers SET C_Fname = %s, C_Lname = %s, C_Email = %s WHERE CustomerID = %s ', (fname, lname, email, id)) 
+    database.commit()
+
+@DBConnection
 def customerlog(email,database): #Obtiene el password y el customer id del email (gabriel)
     cursor = database.cursor()
-    cursor.execute("SELECT C_Password,CustomerID FROM customers WHERE C_Email = %s", (email,))
+    cursor.execute('SELECT C_Password,CustomerID FROM customers WHERE C_Email = %s', (email,))
     customer = cursor.fetchone()
     return customer

@@ -32,14 +32,20 @@ def shop():
 def profile():
     id = session.get('customer')
     user = user_info(id)
-    print(user)
     return render_template('profile.html', user1=user)
 
 
-@views.route('/editinfo')
+@views.route('/editinfo', methods=['GET', 'POST'])
 @login_required
 def editinfo():
-    pass
+    if request.method == 'POST':
+        id = session.get('customer')
+        fname = request.form['C_fname']
+        lname = request.form['C_lname']
+        email = request.form['C_email']
+        edit_prof(id, fname ,lname ,email)
+        user = user_info(id)
+    return render_template('profile.html', user1=user)
 
 
 @views.route('/orders')
