@@ -70,21 +70,21 @@
 
 
                             <div style='padding: 0px 30%' class="user-form-group">
-                                <form class="user-form" action="{{url_for('registerinfo')}}" method="POST">
+                                <form class="user-form" action="{{url_for('auth.register')}}" method="POST">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="fname" placeholder="Enter your first name">
+                                        <input type="text" class="form-control" name="C_fname" placeholder="Enter your first name">
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="lname" placeholder="Enter your last name">
+                                        <input type="text" class="form-control" name="C_lname" placeholder="Enter your last name">
                                     </div>
                                     <div class="form-group">
-                                        <input type="email" class="form-control" name="email" placeholder="Enter your email">
+                                        <input type="email" class="form-control" name="C_email" placeholder="Enter your email">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control" name="pass1" placeholder="Enter your password">
+                                        <input type="password" class="form-control" name="C_password1" placeholder="Enter your password">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control" name="pass2" placeholder="Enter your password again">
+                                        <input type="password" class="form-control" name="C_password2" placeholder="Enter your password again">
                                     </div>
                                     <div class="form-button">
                                         <button type="submit">register</button>
@@ -93,7 +93,7 @@
                             </div>
                         </div>
                         <div class="user-form-remind">
-                            <p>Have an account already?<a href="{{url_for('clear')}}">return to login</a></p>
+                            <p>Have an account already?<a href="{{url_for('auth.login')}}">return to login</a></p>
                         </div>
                         <div class="user-form-footer">
                             <p>Nebula | &COPY; Copyright by <a href="#">Mironcoder</a></p>

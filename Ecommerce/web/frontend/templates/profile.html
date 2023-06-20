@@ -196,19 +196,19 @@
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label class="form-label">name</label>
-                                            <input class="form-control" type="text" placeholder="{{user1['c_first_name']}}">
+                                            <p class="form-control">{{user1[0]}}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label class="form-label">last name</label>
-                                            <input class="form-control" type="text" placeholder="{{user1['c_last_name']}}">
+                                            <p class="form-control">{{user1[1]}}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label class="form-label">Email</label>
-                                            <input class="form-control" type="email" placeholder="{{user1['c_email']}}">
+                                            <p class="form-control">{{user1[2]}}</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
@@ -231,7 +231,7 @@
                                     <div class="col-md-6 col-lg-4 alert fade show">
                                         <div class="profile-card contact active">
                                             <h6>primary</h6>
-                                            <p>{{user1['c_phone_number']}}</p>
+                                            <p>{{user1[4]}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -248,9 +248,9 @@
                                 <div class="row">
                                     <div class="col-md-6 col-lg-4 alert fade show">
                                         <div class="profile-card address active">
-                                            <p>{{user1['c_address_line-1']}}</p><br>
-                                            <p>{{user1['c_address_line_2']}}</p><br>
-                                            <p>{{user1['c_city']}}, {{user1['c_state']}} &nbsp {{user1['c_zipcode']}}</p>
+                                            <p>{{user1[5]}}</p><br>
+                                            <p>{{user1[6]}}</p><br>
+                                            <p>{{user1[8]}}, {{user1[9]}} &nbsp {{user1[7]}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -388,15 +388,15 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">First Name</label>
-                            <input class="form-control" name="fname" type="text" value="{{user1['c_first_name']}}">
+                            <input class="form-control" name="C_fname" type="text" value="{{user1[0]}}">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Last Name</label>
-                            <input class="form-control" name="lname" type="text" value="{{user1['c_last_name']}}">
+                            <input class="form-control" name="C_lname" type="text" value="{{user1[1]}}">
                         </div>
                         <div class="form-group">
                             <label class="form-label">email</label>
-                            <input class="form-control" name="email" type="text" value="{{user1['c_email']}}">
+                            <input class="form-control" name="C_email" type="text" value="{{user1[2]}}">
                         </div>
                         <input type="hidden" name="page" id="page" value="/profile">
                         <button class="form-btn" type="submit">save profile info</button>
