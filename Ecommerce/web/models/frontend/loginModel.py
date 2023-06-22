@@ -19,7 +19,7 @@ def email_exists(C_Email, database): #verificar si el email ya existe en la base
 def ID_Email(C_Email, database): #obtener el id dependiendo del email
     cursor = database.cursor()
     cursor.execute('SELECT CustomerID FROM customers WHERE C_Email = %s', (C_Email,))
-    result = cursor
+    result = cursor.fetchone()
     return result
 
 #login

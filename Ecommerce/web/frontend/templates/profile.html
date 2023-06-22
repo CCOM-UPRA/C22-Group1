@@ -300,6 +300,7 @@
                         <div class="form-group">
                             <label class="form-label">number</label>
                             <input class="form-control" name="number" type="number" value="{{user1[4]}}">
+                            <input type="hidden" name="form_name" value="form3">
                         </div>
                         <button class="form-btn" type="submit">save contact number</button>
                         <input type="hidden" name="page" value="/profile">
@@ -337,6 +338,7 @@
                         <div class="form-group">
                             <label class="form-label">Zipcode</label>
                             <input type="text" name="zipcode" class="form-control" value="{{user1[7]}}"></input>
+                            <input type="hidden" name="form_name" value="form2">
                         </div>
                         <button class="form-btn" type="submit">save address info</button>
                         <input type="hidden" name="page" value="/profile">
@@ -397,6 +399,7 @@
                         <div class="form-group">
                             <label class="form-label">email</label>
                             <input class="form-control" name="C_email" type="text" value="{{user1[2]}}">
+                            <input type="hidden" name="form_name" value="form1">
                         </div>
                         <input type="hidden" name="page" id="page" value="/profile">
                         <button class="form-btn" type="submit">save profile info</button>
