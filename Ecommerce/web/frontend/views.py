@@ -56,8 +56,7 @@ def editinfo():
         elif form_name == 'form3':
             number = request.form['number']
             edit_phone(id,number)
-    user = user_info(id)
-    return render_template('profile.html', user1=user)
+    return redirect(url_for('views.profile'))
 
 
 @views.route('/orders')
