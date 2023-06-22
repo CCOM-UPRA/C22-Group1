@@ -5,7 +5,8 @@ from ...dbConnection import *
 def getProducts(database):
     cursor = database.cursor()
     cursor.execute('select * from telescopes')
-    return cursor
+    data = cursor.fetchall()
+    return data
 
 
 @DBConnection
@@ -55,3 +56,20 @@ def getMaxPrice(database):
     cursor = database.cursor()
     cursor.execute('select max(price) from telescopes')
     return cursor.fetchone()
+
+@DBConnection
+def getCart(id, database):
+    cursor = database.cursor()
+    cursor.execute('SELECT OrderId FROM Orders WHERE CustomerID = %s and Order_Number = 0', (id))
+    return cursor.fetchone()
+
+@DBConnection
+def CreateCart(id, database):
+    cursor = database.cursor()
+    cursor.execute('INSERT INTO Orders (CustomerId) VALUES (%s)')
+
+@DBConnection
+def GetCartData(cartId, database):
+    cursor = database.cursor()
+    cursor.execute('SELECT TelescopeID FROM Contains where OrderID = %s', (cartId))
+    return cursor.fetchall()
