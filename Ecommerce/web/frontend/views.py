@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, Flask
 from functools import wraps
-from ..dbConnection import *
 from ..models.frontend.loginModel import *
+from ..controllers.frontend.shopController import *
 
 
 def login_required(func):
@@ -24,7 +24,20 @@ def clear():
 
 @views.route('/shop', methods=['GET', 'POST'])
 def shop():
-    return render_template('shop.html')
+    telescopes = Telescopes()
+    brands = Brands()
+    mounts = Mounts()
+    lenses = Lenses()
+    focalDistance = FocalDistance()
+    aperture = Aperture()
+    print(telescopes)
+    return render_template('shop.html',
+                           products=telescopes,
+                           brands=brands,
+                           mounts=mounts,
+                           Lenses=lenses,
+                           aperture=aperture,
+                           focal_distance=focalDistance)
 
 
 @views.route('/profile')
