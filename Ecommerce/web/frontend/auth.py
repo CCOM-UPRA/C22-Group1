@@ -59,6 +59,7 @@ def register():
         pass1_hash = hashlib.sha256(pass1.encode()).hexdigest()
         insert_user(fname, lname, email, pass1)
         session['customer'] = ID_Email(email)[0]
+        
         return render_template('shop.html')
     return render_template('register.html')
 
