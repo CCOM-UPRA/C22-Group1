@@ -63,7 +63,36 @@ def register():
     return render_template('register.html')
 
 
-@auth.route('/password')
-@login_required
-def password():
-    pass
+
+
+@auth.route('/password', methods=['GET', 'POST'])
+def change_password():
+    if request.method == 'POST':
+        # Obtener los datos del formulario 
+        username = request.form['C_Email']
+        pass_o = request.form['C_Password']
+        pass_n = request.form['pass_n']
+        pass_n1 = request.form['pass_n1']
+
+        # Verificar si las contraseñas nuevas coinciden
+        if pass_n == pass_n1:
+            # Verificar la existencia de la contraseña actual en la base de datos
+            count = check_password(username, pass_o)
+            session['customer'] = check_password(username, pass_n)
+            if count > 0:
+                # Actualizar la contraseña en la base de datos
+                session['customer'] = update_password(username, pass_n)
+
+                # Redirigir a una página de éxito
+                return "Contraseña actualizada exitosamente."
+            else:
+                # Contraseña actual incorrecta
+                error_message = "La contraseña actual es incorrecta."
+                return render_template('change_password.html', error_message=error_message)
+        else:
+            # Las contraseñas nuevas no coinciden
+            error_message = "Las contraseñas nuevas no coinciden."
+            return render_template('change_password.html', error_message=error_message)
+
+    # Si el método de solicitud es GET, simplemente renderiza el formulario de cambio de contraseña
+    return render_template('change_password.html')

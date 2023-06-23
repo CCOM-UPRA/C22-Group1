@@ -32,7 +32,7 @@ def shop():
 def profile():
     id = session.get('customer')
     print(id)
-    user = user_info(id[0])
+    user = user_info(id)
     return render_template('profile.html', user1=user)
 
 

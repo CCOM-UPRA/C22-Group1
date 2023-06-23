@@ -57,3 +57,18 @@ def edit_phone(id, C_Phone, database): #edit number
     cursor = database.cursor()
     cursor.execute('UPDATE customers SET C_Phone = %s WHERE CustomerID = %s ', (C_Phone, id)) 
     database.commit() 
+    
+@DBConnection
+def check_password( C_Email, C_Password,database):
+    cursor = database.cursor()
+    cursor.execute('SELECT COUNT(*) FROM customers WHERE C_Email = %s AND C_Password = %s', (C_Email, C_Password))
+    count = cursor.fetchone()[0]
+    return count
+
+
+@DBConnection
+def update_password(C_Email, C_Password,database):
+    cursor = database.cursor()
+    cursor.execute('UPDATE customers SET C_Password = %s WHERE C_Email = %s',(C_Password, C_Email))
+    database.commit()
+   
