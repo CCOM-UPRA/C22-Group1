@@ -190,6 +190,7 @@
                             <div class="account-title">
                                 <h4>Your Profile</h4>
                                 <button data-bs-toggle="modal" data-bs-target="#profile-edit">edit info</button>
+                                <button data-bs-toggle="modal" data-bs-target="#PasswordC">Change Passwordddd</button>
                             </div>
                             <div class="account-content">
                                 <div class="row">
@@ -211,11 +212,11 @@
                                             <p class="form-control">{{user1[2]}}</p>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2">
+                                    <!-- <div class="col-lg-2">
                                         <div class="profile-btn">
                                             <a href="{{url_for('auth.change_password')}}">change password</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -225,6 +226,7 @@
                             <div class="account-title">
                                 <h4>contact number</h4>
                                 <button data-bs-toggle="modal" data-bs-target="#contact-add">edit number</button>
+
                             </div>
                             <div class="account-content">
                                 <div class="row">
@@ -407,6 +409,37 @@
                 </div>
             </div>
         </div>
+
+
+            <!-- profile edit form -->
+            <div class="modal fade" id="PasswordC">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+                        <form name="form1" class="modal-form" action="{{url_for('views.change_password')}}" method="post">
+                            <div class="form-title">
+                                <h3>edit profile info</h3>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last used password</label>
+                                <input class="form-control" name="C_Password" type="password" value="{{user1[0]}}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">New password</label>
+                                <input class="form-control" name="pass_n" type="password" value="{{user1[1]}}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Repeat new password</label>
+                                <input class="form-control" name="pass_n1" type="password" value="{{user1[2]}}">
+                            </div>
+                            
+                            <button class="form-btn" type="submit">save profile info</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
         <!--=====================================
                     MODAL ADD FORM END
         =======================================-->

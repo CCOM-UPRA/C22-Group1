@@ -71,7 +71,36 @@ def editinfo():
         elif form_name == 'form3':
             number = request.form['number']
             edit_phone(id[0],number)
+            
     return redirect(url_for('views.profile'))
+
+
+
+
+@views.route('/change_password', methods=['POST'])
+@login_required
+def change_password():
+    id = session.get('customer')
+    password = request.form['C_Password']
+    password2 = request.form['pass_n']
+    password3 = request.form['pass_n1']
+   
+    if(password != password2) and (password != password3):
+       
+        if password2 == password3:
+            # Passwords match
+            error_message = "Las contraseñas coinciden."
+            update_password(id, password2)  # Assuming you have the update_password function defined separately
+            return redirect(url_for('views.profile', error_message=error_message))
+        else: 
+             # Passwords do not match
+            error_message = "Las contraseñas no coinciden."
+            return redirect(url_for('views.profile', error_message=error_message))
+
+     
+
+    
+
 
 
 @views.route('/orders')
