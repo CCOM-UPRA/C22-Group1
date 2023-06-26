@@ -1,7 +1,6 @@
 from ...dbConnection import *
 
 #register
-
 @DBConnection
 def insert_user(C_Fname, C_Lname, C_Email, C_password, database): #insertar el user en la base de datos
     cursor = database.cursor()
@@ -22,8 +21,8 @@ def ID_Email(C_Email, database): #obtener el id dependiendo del email
     result = cursor.fetchone()
     return result
 
-#login
 
+#login
 @DBConnection
 def customerlog(email,database): #Obtiene el password y el customer id del email (gabriel)
     cursor = database.cursor()
@@ -31,10 +30,10 @@ def customerlog(email,database): #Obtiene el password y el customer id del email
     customer = cursor.fetchone()
     return customer
 
-#profile
 
+#profile
 @DBConnection
-def user_info(id, database): #selecciona informacion deacuerdo al id del usuario
+def user_info(id, database): #selecciona informacion del usuario deacuerdo al id
     cursor = database.cursor()
     cursor.execute('SELECT C_Fname, C_Lname, C_Email, C_Password, C_Phone, Street_number, Street_name, zipCode, C_City, C_State FROM customers WHERE CustomerID = %s', (id,))
     result = cursor.fetchone()
@@ -58,14 +57,38 @@ def edit_phone(id, C_Phone, database): #edit number
     cursor.execute('UPDATE customers SET C_Phone = %s WHERE CustomerID = %s ', (C_Phone, id)) 
     database.commit() 
     
-
+    
+#password 
+@DBConnection
+def old_password(id, database):
+    cursor = database.cursor()
+    cursor.execute('SELECT C_Password FROM customers WHERE CustomerID = %s', (id,))
+    result = cursor.fetchone()
+    return result
 
 @DBConnection
-def update_password(id , C_Password, database):
+def update_password(id, C_Password, database):
     cursor = database.cursor()
     cursor.execute('UPDATE customers SET C_Password = %s WHERE CustomerID = %s', (C_Password, id))
     database.commit()
     
+    
+#paymenth
+@DBConnection
+def insert_card(CustomerID,Card_Name, Card_type, Card_Number, Card_Month, Card_Year, Card_CVV, Card_zipcode, database): #insertar el payment info en la base de datos
+    cursor = database.cursor()
+    cursor.execute('INSERT INTO payment (CustomerID, Card_Name, Card_type, Card_Number, Card_Month, Card_Year, Card_CVV, Card_zipcode) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (CustomerID,Card_Name, Card_type, Card_Number, Card_Month, Card_Year, Card_CVV, Card_zipcode))
+    database.commit()
+    
+@DBConnection
+def card_info(CustomerID, database): #seleccionar todas las tarjetas del usuario
+    cursor = database.cursor()
+    cursor.execute('SELECT Payment_ID, Card_Name, Card_type, Card_Number, Card_Month, Card_Year, Card_CVV, Card_zipcode FROM payment WHERE CustomerID = %s', (CustomerID,))
+    result = cursor.fetchall()
+    return result
 
-
-   
+@DBConnection
+def update_payment(c_number, c_name, c_type, year, month, database): #update the card info
+    cursor = database.cursor()
+    cursor.execute('UPDATE payment SET Card_Name = %s, Card_Type = %s, Card_Month = %s, Card_Year = %s WHERE Card_number = %s', (c_name, c_type, month, year, c_number))
+    database.commit()
