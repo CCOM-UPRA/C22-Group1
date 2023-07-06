@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, Flask
 from functools import wraps
-from ..dbConnection import *
+from ..models.frontend.loginModel import *
+from ..controllers.frontend.shopController import *
 
 
 def login_required(func):
@@ -23,20 +24,47 @@ def clear():
 
 @views.route('/shop', methods=['GET', 'POST'])
 def shop():
-    return render_template('shop.html')
+    cartProducts = []
+    if 'customer' in session:
+        if 'cart' not in session:
+            Cart()
+        getCartTotal()
+        cartProducts = getCartItems()
+    telescopes = Telescopes()
+    brands = Brands()
+    mounts = Mounts()
+    lenses = Lenses()
+    focalDistance = FocalDistance()
+    aperture = Aperture()
+    return render_template('shop.html',
+                           products=telescopes,
+                           brands=brands,
+                           mounts=mounts,
+                           Lenses=lenses,
+                           aperture=aperture,
+                           focal_distance=focalDistance,
+                           CartItems = cartProducts)
 
 
 @views.route('/profile')
 @login_required
 def profile():
-    user = []
+    id = session.get('customer')
+    user = user_info(id)
     return render_template('profile.html', user1=user)
 
 
-@views.route('/editinfo')
+@views.route('/editinfo', methods=['GET', 'POST'])
 @login_required
 def editinfo():
-    pass
+    if request.method == 'POST':
+        id = session.get('customer')
+        fname = request.form['C_fname']
+        lname = request.form['C_lname']
+        email = request.form['C_email']
+        edit_prof(id, fname ,lname ,email)
+        user = user_info(id)
+    return render_template('profile.html', user1=user)
 
 
 @views.route('/orders')
@@ -45,16 +73,24 @@ def orders():
     return render_template('orderlist.html', order1=[], order2=[], products1=[], products2=[])
 
 
-@views.route('/addcart')
+@views.route('/addcart', methods = ['GET', 'POST'])
 @login_required
 def addcart():
-    pass
+    if request.method == 'POST':
+        productQuantity = request.form['quantity']
+        productID = request.form['p_id']
+        
+        addToCart(productID, productQuantity)
+    return redirect(url_for('views.shop'))
 
 
-@views.route('/deletecart')
+@views.route('/deletecart', methods = ['GET', 'POST'])
 @login_required
 def deletecart():
-    pass
+    if request.method == 'POST':
+        productID = request.form['itemId']
+        deleteFromCart(productID)
+    return redirect(url_for('views.shop'))
 
 
 @views.route('/editcart')

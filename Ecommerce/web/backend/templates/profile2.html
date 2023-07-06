@@ -67,22 +67,22 @@
                 <div class="header-content">
                     <div class="header-media-group">
                         <button class="header-user"><img src="static/images/user.png" alt="user"></button>
-                        <a href="{{url_for('products')}}"><img src="static/images/logo.png" alt="logo"></a>
+                        <a href="{{url_for('back_views.products')}}"><img src="static/images/logo.png" alt="logo"></a>
                         <button class="header-src"><i class="fas fa-search"></i></button>
                     </div>
 
-                    <a href="{{url_for('products')}}" class="header-logo">
+                    <a href="{{url_for('back_views.products')}}" class="header-logo">
                         <img src="static/images/logo.png" alt="logo">
                     </a>
-<!--                    <a href="{{url_for('profile')}}" class="header-widget" title="My Account">-->
+<!--                    <a href="{{url_for('back_views.profile')}}" class="header-widget" title="My Account">-->
 <!--                        <img src="static/images/user.png" alt="user">-->
 <!--                        <span>My Account</span>-->
 <!--                    </a>-->
                     <ul class="dropdown">
                     <a class="navbar-link dropdown-arrow" href="#">My Account</a>
                                     <ul class="dropdown-position-list">
-                                        <li><a href="{{url_for('profile')}}">Account Info</a></li>
-                                        <li><a href="{{url_for('clear')}}">Logout</a></li>
+                                        <li><a href="{{url_for('back_views.profile')}}">Account Info</a></li>
+                                        <li><a href="{{url_for('back_views.clear')}}">Logout</a></li>
                                     </ul>
                     </ul>
 
@@ -116,11 +116,11 @@
                                 </li>
 
                                 <li class="navbar-item dropdown">
-                                    <a class="navbar-link" href="{{url_for('reports')}}">Reports</a>
+                                    <a class="navbar-link" href="{{url_for('back_views.reports')}}">Reports</a>
                                 </li>
 
                                 <li class="navbar-item dropdown">
-                                    <a class="navbar-link" href="{{url_for('accounts')}}">Accounts</a>
+                                    <a class="navbar-link" href="{{url_for('back_views.accounts')}}">Accounts</a>
                                 </li>
 
 
@@ -169,7 +169,7 @@
                                 <div class="row">
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
-                                            <label class="form-label">name</label>
+                                            <label class="form-label">name Hola</label>
                                             <input class="form-control" type="text" placeholder="{{user1['c_first_name']}}">
                                         </div>
                                     </div>
