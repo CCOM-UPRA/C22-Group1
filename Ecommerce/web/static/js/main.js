@@ -234,10 +234,40 @@ $('.payment-card.payment').on('click', function(){
 });
 
 // yadiel
-var cardNumber = document.getElementById("cardNumber").innerHTML;
-var lastFourDigits = cardNumber.substring(cardNumber.length - 5);
-document.getElementById("cardNumber").innerHTML = "XXXX XXXX XXXX " + lastFourDigits;
 
+// card numbers
+var cardNumberElements = document.getElementsByClassName("card-number");
+for (var i = 0; i < cardNumberElements.length; i++) {
+    var cardNumberElement = cardNumberElements[i];
+    var cardNumber = cardNumberElement.innerHTML;
+    var lastFourDigits = cardNumber.substring(cardNumber.length - 4);
+    cardNumberElement.innerHTML = "XXXX XXXX XXXX " + lastFourDigits;
+}
+
+//separete number in cellphone 
 var phoneNumber = document.getElementById("phone").textContent;
 var formattedPhoneNumber = phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
 document.getElementById("phone").textContent = formattedPhoneNumber;
+
+// show the card info in the edit payment
+var selectedCard = document.getElementById('selectedCard');
+var cardNameInput = document.getElementById('cardName');
+var cardTypeInput = document.getElementById('cardType');
+var expirationDateInput = document.getElementById('expirationDate');
+
+    selectedCard.addEventListener('change', function() {
+        var selectedCardValue = selectedCard.value.trim();
+        var index = cardData.findIndex(function(card) {
+            return card[3] == selectedCardValue;
+        });
+        
+        if (index >= 0) {
+            cardNameInput.value = cardData[index][1];
+            cardTypeInput.value = cardData[index][2];
+            expirationDateInput.value = cardData[index][5] + '-' + cardData[index][4];
+        } else {
+            cardNameInput.value = '';
+            cardTypeInput.value = '';
+            expirationDateInput.value = '';
+        }
+    });

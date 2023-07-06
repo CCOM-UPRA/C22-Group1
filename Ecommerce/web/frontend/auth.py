@@ -20,7 +20,7 @@ def login():
         email = request.form['C_Email']
         password = request.form['C_Password']
         if email_exists(email):
-            customer = customerlog(email=email)
+            customer = customerlog(email)
             db_password = customer[0]
             customerID = customer[1]
             if password == db_password:
@@ -61,12 +61,12 @@ def register():
             return 'Email already exists!'
         pass1_hash = hashlib.sha256(pass1.encode()).hexdigest()
         insert_user(fname, lname, email, pass1)
-        session['customer'] = ID_Email(email)
+        session['customer'] = ID_Email(email)[0]
+        
         return render_template('shop.html')
     return render_template('register.html')
 
 
 @auth.route('/password')
-@login_required
-def password():
+def change_password():
     pass

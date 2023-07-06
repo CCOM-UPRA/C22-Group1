@@ -189,6 +189,7 @@
                         <div class="account-card">
                             <div class="account-title">
                                 <h4>Your Profile</h4>
+                                <button data-bs-toggle="modal" data-bs-target="#PasswordC">Change Password</button>
                                 <button data-bs-toggle="modal" data-bs-target="#profile-edit">edit info</button>
                             </div>
                             <div class="account-content">
@@ -211,11 +212,6 @@
                                             <p class="form-control">{{user1[2]}}</p>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2">
-                                        <div class="profile-btn">
-                                            <a href="{{url_for('auth.password')}}">change password</a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -225,13 +221,14 @@
                             <div class="account-title">
                                 <h4>contact number</h4>
                                 <button data-bs-toggle="modal" data-bs-target="#contact-add">edit number</button>
+
                             </div>
                             <div class="account-content">
                                 <div class="row">
                                     <div class="col-md-6 col-lg-4 alert fade show">
                                         <div class="profile-card contact active">
                                             <h6>primary</h6>
-                                            <p>{{user1[4]}}</p>
+                                            <p id= "phone" >{{user1[4]}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -241,7 +238,7 @@
                     <div class="col-lg-12">
                         <div class="account-card">
                             <div class="account-title">
-                                <h4>delivery address</h4>
+                                <h4>billing address</h4>
                                 <button data-bs-toggle="modal" data-bs-target="#address-add">edit address</button>
                             </div>
                             <div class="account-content">
@@ -258,21 +255,24 @@
                         </div>
                     </div>
                     <div class="col-lg-12">
-                        <div class="account-card mb-0">
+                        <div id = "payment-card" class="account-card mb-0">
                             <div class="account-title">
                                 <h4>payment option</h4>
+                                <button data-bs-toggle="modal" data-bs-target="#payment-add2">Add payment info</button>
                                 <button data-bs-toggle="modal" data-bs-target="#payment-add">edit payment info</button>
                             </div>
                             <div class="account-content">
                                 <div class="row">
+                                    {% for c in card %}
                                     <div class="col-md-6 col-lg-4 alert fade show">
-                                        <div class="payment-card payment active">
-                                            <h2>{{user1['c_card_name']}}</h2>
-                                            <p>{{user1['c_card_num']}} </p>
-                                            <h5>{{user1['c_card_type']}}</h5>
-                                            <h6>{{user1['c_exp_date']}}</h6>
+                                        <div class="payment-card active">
+                                            <h2>{{c[1]}}</h2>
+                                            <p>{{c[2]}} </p>
+                                            <h5 class="card-number">{{c[3]}}</h5>
+                                            <h6>{{c[4]}} / {{c[5]}}</h6>
                                         </div>
                                     </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -293,13 +293,14 @@
             <div class="modal-dialog modal-dialog-centered"> 
                 <div class="modal-content">
                     <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-                    <form class="modal-form" action="{{url_for('views.editinfo')}}" method="post">
+                    <form name="form3" class="modal-form" action="{{url_for('views.editinfo')}}" method="post">
                         <div class="form-title">
                             <h3>Edit contact number</h3>
                         </div>
                         <div class="form-group">
                             <label class="form-label">number</label>
-                            <input class="form-control" name="number" type="number" value="{{user1['c_phone_number']}}">
+                            <input class="form-control" name="number" type="phone" value="{{user1[4]}}">
+                            <input type="hidden" name="form_name" value="form3">
                         </div>
                         <button class="form-btn" type="submit">save contact number</button>
                         <input type="hidden" name="page" value="/profile">
@@ -313,30 +314,31 @@
             <div class="modal-dialog modal-dialog-centered"> 
                 <div class="modal-content">
                     <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-                    <form class="modal-form" action="{{url_for('views.editinfo')}}" method="post">
+                    <form name="form2" class="modal-form" action="{{url_for('views.editinfo')}}" method="post">
                         <div class="form-title">
                             <h3>edit address info</h3>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Address Line 1</label>
-                            <input type="text" name="aline1" class="form-control" value="{{user1['c_address_line_1']}}"></input>
+                            <input type="text" name="aline1" class="form-control" value="{{user1[5]}}"></input>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Address Line 2</label>
-                            <input type="text" name="aline2" class="form-control" value="{{user1['c_address_line_2']}}"></input>
+                            <input type="text" name="aline2" class="form-control" value="{{user1[6]}}"></input>
                         </div>
                         <div class="form-group">
                             <label class="form-label">City</label>
-                            <input type="text" name="city" class="form-control" value="{{user1['c_city']}}"></input>
+                            <input type="text" name="city" class="form-control" value="{{user1[8]}}"></input>
                         </div>
                         <div class="form-group">
                             <label class="form-label">State</label>
-                            <input type="text" name="state" class="form-control" value="{{user1['c_state']}}"></input>
+                            <input type="text" name="state" class="form-control" value="{{user1[9]}}"></input>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Zipcode</label>
-                            <input type="text" name="zipcode" class="form-control" value="{{user1['c_zipcode']}}"></input>
+                            <input type="text" name="zipcode" class="form-control" value="{{user1[7]}}"></input>
+                            <input type="hidden" name="form_name" value="form2">
                         </div>
                         <button class="form-btn" type="submit">save address info</button>
                         <input type="hidden" name="page" value="/profile">
@@ -355,22 +357,67 @@
                             <h3>edit payment info</h3>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">card name</label>
-                            <input class="form-control" name="card_name" type="text" value="{{user1['c_card_name']}}">
+                            <label class="form-label">Select Card:</label>
+                            <select class="form-control" name="selected_card" id="selectedCard">
+                                <option value="" selected>Select a card</option>
+                                {% for card in card %}
+                                <option class="card-number" value="{{ card[3] }}">{{ card[3] }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">card number</label>
-                            <input class="form-control" name="card_num" type="number" value="{{user1['c_card_num']}}">
+                            <label class="form-label">card name</label>
+                            <input class="form-control" name="card_name" id="cardName" type="text" value="">
                         </div>
                         <div class="form-group">
                             <label class="form-label">card type</label>
-                            <input class="form-control" name="card_type" type="text" value="{{user1['c_card_type']}}">
+                            <input class="form-control" name="card_type" id="cardType" type="text" value="">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">expiration date (MM/DD/YYYY)</label>
-                            <input class="form-control" name="date" type="date" value="{{user1['c_exp_date']}}">
+                            <label class="form-label">expiration date (MM/YYYY)</label>
+                            <input class="form-control" name="date" id="expirationDate" type="month" value="">
+                            <input type="hidden" name="form_name" value="form4">
                         </div>
                         <button class="form-btn" type="submit">save payment info</button>
+                        <input type="hidden" name="page" value="/profile">
+                    </form>
+                </div> 
+            </div> 
+        </div>
+
+        <div class="modal fade" id="payment-add2">
+            <div class="modal-dialog modal-dialog-centered"> 
+                <div class="modal-content">
+                    <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+                    <form class="modal-form" action="{{url_for('views.payment')}}" method="post">
+                        <div class="form-title">
+                            <h3>edit payment info</h3>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Card Name</label>
+                            <input type="text" class="form-control" name="Card_Name" placeholder="Enther the card name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Card Number</label>
+                            <input type="number" class="form-control" name="Card_Number" placeholder="Enther the card number">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Card Type</label>
+                            <input class="form-control" name="card_type" type="text" placeholder="Enter the card type">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Expiration Date (MM/YYYY)</label>
+                            <input type="month" class="form-control" name="Card_date" placeholder="Enther the expiration date">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Card CVV</label>
+                            <input type="number" class="form-control" name="Card_cvv" placeholder="Enther the card cvv">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Card zipcode</label>
+                            <input type="number" class="form-control" name="Card_zipcode" placeholder="Enther the card zipcode">
+                        </div>
+                        <button class="form-btn" type="submit">save card info</button>
                         <input type="hidden" name="page" value="/profile">
                     </form>
                 </div> 
@@ -382,7 +429,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-                    <form class="modal-form" action="{{url_for('views.editinfo')}}" method="post">
+                    <form name="form1" class="modal-form" action="{{url_for('views.editinfo')}}" method="post">
                         <div class="form-title">
                             <h3>edit profile info</h3>
                         </div>
@@ -397,6 +444,7 @@
                         <div class="form-group">
                             <label class="form-label">email</label>
                             <input class="form-control" name="C_email" type="text" value="{{user1[2]}}">
+                            <input type="hidden" name="form_name" value="form1">
                         </div>
                         <input type="hidden" name="page" id="page" value="/profile">
                         <button class="form-btn" type="submit">save profile info</button>
@@ -404,6 +452,37 @@
                 </div>
             </div>
         </div>
+
+
+            <!-- profile edit form -->
+            <div class="modal fade" id="PasswordC">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+                        <form name="form1" class="modal-form" action="{{url_for('views.change_password')}}" method="post">
+                            <div class="form-title">
+                                <h3>edit profile info</h3>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last used password</label>
+                                <input class="form-control" name="C_Password" type="password">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">New password</label>
+                                <input class="form-control" name="pass_n" type="password">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Repeat new password</label>
+                                <input class="form-control" name="pass_n1" type="password">
+                            </div>
+                            
+                            <button class="form-btn" type="submit">save profile info</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
         <!--=====================================
                     MODAL ADD FORM END
         =======================================-->
@@ -497,7 +576,9 @@
         <script src="{{url_for('static', filename='js/accordion.js')}}"></script>
         <script src="{{url_for('static', filename='js/venobox.js')}}"></script>
         <script src="{{url_for('static', filename='js/slick.js')}}"></script>
+        <script> var cardData = JSON.parse('{{ card | tojson | safe }}');</script>
         <script src="{{url_for('static', filename='js/main.js')}}"></script>
+        
         <!--=====================================
                     JS LINK PART END
         =======================================-->
