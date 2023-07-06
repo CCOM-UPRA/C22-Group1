@@ -31,4 +31,4 @@ def reports():
 
 @views.route('/profile')
 def profile():
-    return render_template('profile.html')
+    return render_template('profile2.html', user1 = [])
