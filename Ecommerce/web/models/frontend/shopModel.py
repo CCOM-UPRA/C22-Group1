@@ -60,7 +60,7 @@ def getMaxPrice(database):
 @DBConnection
 def getCart(id, database):
     cursor = database.cursor()
-    cursor.execute('SELECT Order_Id FROM orders WHERE CustomerID = %s and Order_Number = 0', (id,))
+    cursor.execute('SELECT Order_Id FROM orders WHERE CustomerID = %s and Order_Number = 0 ', (id,))
     return cursor.fetchone()
 
 @DBConnection

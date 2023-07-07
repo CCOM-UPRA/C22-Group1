@@ -88,10 +88,26 @@ def editinfo():
     return redirect(url_for('views.profile'))
 
 
-@views.route('/orders')
+@views.route('/orders', methods=['GET','POST'])
 @login_required
 def orders():
-    return render_template('orderlist.html', order1=[], order2=[], products1=[], products2=[])
+    cartProducts = []
+    if 'customer' in session:
+        if 'cart' not in session:
+            Cart()
+        getCartTotal()
+        cartProducts = getCartItems()
+        telescopes = Telescopes()
+        
+    ## incomplete ##
+    
+    return render_template('orderlist.html', 
+                           order1=[], 
+                           order2=[], 
+                           products1=[], 
+                           products2=[], 
+                           products=telescopes,
+                           CartItems = cartProducts)
 
 
 @views.route('/addcart', methods = ['GET', 'POST'])
@@ -120,10 +136,27 @@ def editcart():
     pass
 
 
-@views.route('/checkout')
+@views.route('/checkout', methods=['GET','POST'])
 @login_required
 def checkout():
-    return render_template('checkout.html', user1=[])
+    id = session.get('customer')
+    user = user_info(id)
+    cards = card_info(id)
+    
+    cartProducts = []
+    if 'customer' in session:
+        if 'cart' not in session:
+            Cart()
+        getCartTotal()
+        cartProducts = getCartItems()
+        telescopes = Telescopes()
+       
+    
+    return render_template('checkout.html', 
+                           user1=user,
+                           card = cards,
+                           products=telescopes,
+                           CartItems = cartProducts)
 
 
 @views.route('/invoice')
