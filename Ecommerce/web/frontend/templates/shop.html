@@ -178,27 +178,32 @@
               <h6><a href="product-single.html">{{item['name']}}</a></h6>
               <p>Unit Price - {{item['price']}}</p>
             </div>
+
             <div class="cart-action-group">
               <div class="product-action">
-                <button class="action-minus" title="Quantity Minus">
-                  <i class="icofont-minus"></i>
-                </button>
-                <input
-                  class="action-input"
-                  title="Quantity Number"
-                  type="text"
-                  name="quantity"
-                  value="{{item['quantity']}}"
-                />
-                <button class="action-plus" title="Quantity Plus">
-                  <i class="icofont-plus"></i>
-                </button>
+                <form action="{{url_for('views.editcart')}}" method="POST">
+                  <button class="action-minus" title="Quantity Minus">
+                    <i class="icofont-minus"></i>
+                  </button>
+
+                  <input
+                    class="action-input"
+                    title="Quantity-Number"
+                    type="text"
+                    name="quantity"
+                    value="{{item['quantity']}}"
+                  />
+
+                  <button class="action-plus" title="Quantity Plus">
+                    <i class="icofont-plus"></i>
+                  </button>
+
+                  <input type="submit" value="Update" class="action-input" />
+                </form>
               </div>
-              <form action="{{url_for('views.editcart')}}" method="post">
-                <button class="action">Update</button>
-              </form>
-              <h6>${{item['price'] * item['quantity']}}</h6>
             </div>
+
+            <h6>Total Price - ${{item['price'] * item['quantity']}}</h6>
           </div>
         </li>
         {% endfor %} {% endif %}
