@@ -157,6 +157,14 @@ def checkout():
                            card = cards,
                            products=telescopes,
                            CartItems = cartProducts)
+    
+    
+@views.route('/changePayment', methods=['GET', 'POST'])
+@login_required
+def changePayment():
+    if request.method == 'POST':
+        selectedCard = request.form['selectedCard']
+    
 
 
 @views.route('/invoice')
