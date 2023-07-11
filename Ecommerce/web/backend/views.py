@@ -1,10 +1,8 @@
-
 import calendar
 from datetime import datetime, timedelta
-#from ..controllers.backend.reportController import *
-
-from flask import Blueprint, render_template, redirect, url_for, request,Flask
+from flask import Blueprint, render_template, redirect, url_for, request, Flask
 from ..models.backend.reportmodel import *
+
 views = Blueprint('back_views', __name__, template_folder='templates/')
 
 

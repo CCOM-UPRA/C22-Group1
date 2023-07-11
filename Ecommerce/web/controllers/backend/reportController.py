@@ -1,4 +1,6 @@
 from ...models.backend.reportmodel import *
+
+
 def Reports(report_month,report_day,report_week,report_week_start,product,database):
     sales_reports = get_sales_report_by_product(product,database)
     inventory_rep = get_inventory_report()
