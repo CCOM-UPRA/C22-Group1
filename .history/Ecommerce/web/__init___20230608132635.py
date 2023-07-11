@@ -1,5 +1,15 @@
-from flask import Flask, session
+from flask import Flask
 import mysql.connector
+
+database = mysql.connector.connect(
+    host='sql9.freemysqlhosting.net',
+    port=3306,
+    user='sql9607914',
+    password='uWzaFxXgrH',
+    database='sql9607914'
+)
+
+print(database)
 
 
 def create_app():

@@ -64,183 +64,141 @@
         <a class="backtop fas fa-arrow-up" href="#"></a>
 
 
-         <!--=====================================
-                    HEADER PART START
-        =======================================-->
+        <!--=====================================
+        HEADER PART START
+=======================================-->
 
-        <header class="header-part">
-            <div class="container">
-                <div class="header-content">
-                    <div class="header-media-group">
-                        <button class="header-user"><img src="static/images/user.png" alt="user"></button>
-                        <a href="{{url_for('products')}}"><img src="static/images/logo.png" alt="logo"></a>
-                        <button class="header-src"><i class="fas fa-search"></i></button>
-                    </div>
+<header class="header-part">
+    <div class="container">
+        <div class="header-content">
+            <div class="header-media-group">
+                <button class="header-user"><img src="static/images/user.png" alt="user"></button>
+                <a href="{{url_for('back_views.products')}}"><img src="static/images/logo.png" alt="logo"></a>
+                <button class="header-src"><i class="fas fa-search"></i></button>
+            </div>
 
-                    <a href="{{url_for('products')}}" class="header-logo">
-                        <img src="static/images/logo.png" alt="logo">
-                    </a>
-                    <ul class="dropdown">
-                    <a class="navbar-link dropdown-arrow" href="#">My Account</a>
-                                    <ul class="dropdown-position-list">
-                                        <li><a href="{{url_for('profile')}}">Account Info</a></li>
-                                        <li><a href="{{url_for('clear')}}">Logout</a></li>
-                                    </ul>
+            <a href="{{url_for('back_views.products')}}" class="header-logo">
+                <img src="static/images/logo.png" alt="logo">
+            </a>
+            <ul class="dropdown">
+                <a class="navbar-link dropdown-arrow" href="#">My Account</a>
+                <ul class="dropdown-position-list">
+                    <li><a href="{{url_for('back_views.profile')}}">Account Info</a></li>
+                    <li><a href="{{url_for('back_views.clear')}}">Logout</a></li>
+                </ul>
+            </ul>
+
+            <form class="header-form">
+                <input type="text" placeholder="Search anything...">
+                <button><i class="fas fa-search"></i></button>
+            </form>
+
+            <div class="header-widget-group">
+            </div>
+        </div>
+    </div>
+</header>
+<!--=====================================
+        HEADER PART END
+=======================================-->
+
+<!--=====================================
+        NAVBAR PART START
+=======================================-->
+<nav class="navbar-part">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="navbar-content">
+                    <ul class="navbar-list">
+                        <li class="navbar-item dropdown">
+                            <a class="navbar-link" href="{{url_for('back_views.products')}}">Products</a>
+                        </li>
+
+                        <li class="navbar-item dropdown">
+                            <a class="navbar-link active" href="{{url_for('back_views.reports')}}">Reports</a>
+                        </li>
+
+                        <li class="navbar-item dropdown">
+                            <a class="navbar-link" href="{{url_for('back_views.accounts')}}">Accounts</a>
+                        </li>
                     </ul>
 
-                    <form class="header-form">
-                        <input type="text" placeholder="Search anything...">
-                        <button><i class="fas fa-search"></i></button>
-                    </form>
-
-                    <div class="header-widget-group">
-
-
-                    </div>
                 </div>
             </div>
-        </header>
-        <!--=====================================
-                    HEADER PART END
-        =======================================-->
+        </div>
+    </div>
+</nav>
+<!--=====================================
+        NAVBAR PART END
+=======================================-->
 
-        <!--=====================================
-                    NAVBAR PART START
-        =======================================-->
-        <nav class="navbar-part">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="navbar-content">
-                            <ul class="navbar-list">
-                                <li class="navbar-item dropdown">
-                                    <a class="navbar-link" href="{{url_for('products')}}">Products</a>
-                                </li>
-
-                                <li class="navbar-item dropdown">
-                                    <a class="navbar-link active" href="{{url_for('reports')}}">Reports</a>
-                                </li>
-
-                                <li class="navbar-item dropdown">
-                                    <a class="navbar-link" href="{{url_for('accounts')}}">Accounts</a>
-                                </li>
-                            </ul>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <!--=====================================
-                    NAVBAR PART END
-        =======================================-->
 
 
 
 
         <!--=====================================
-                PRODUCT DETAILS PART START
-        =======================================-->
-        <section class="inner-section checkout-part">
-            <div class="container">
+    PRODUCT DETAILS PART START
+=======================================-->
+<section class="inner-section checkout-part">
+    <div class="container">
 
-                <div style='text-align: center'>
+        <div style='text-align: center'>
+            <br><br>
+            <h2>Report</h2>
+        </div>
 
-                        <br><br>
-                        <h2>Report</h2>
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="account-card">
-                            <div class="account-title">
-
-                            </div>
-                            <div class="account-content">
-                            <div class="table-scroll">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="account-card">
+                    <div class="account-title"></div>
+                    <div class="account-content">
+                        <div class="table-scroll">
                             <table class="table-list">
-                                {% if date_report|length %}
+                                {% if report %}
                                 <thead>
                                     <tr>
-                                        <th scope="col">Order Tracking Number</th>
-                                        <th scope="col">Product Name</th>
-                                        <th scope="col">Brand</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Total Price</th>
+                                        <th scope="col">Order Date</th>
+                                        <th scope="col">Telescope Name</th>
+                                        <th scope="col">Product Quantity</th>
+                                        <th scope="col">Product Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for key, order in date_report.items() %}
-                                <tr>
-                                        <td class="table-name"><h6>{{key}}</h6></td>
-                                        <td class="table-name"><h6>{{order['name']}}</h6></td>
-                                        <td class="table-price"><h6>{{order['brand']}}</h6></td>
-                                        <td class="table-brand"><h6>{{order['date']}}</h6></td>
-                                         <td class="table-brand"><h6>{{order['price']}}</h6></td>
-                                         <td class="table-brand"><h6>{{order['quantity']}}</h6></td>
-                                         <td class="table-brand"><h6>{{order['total_price']}}</h6></td>
-                                    </tr>
-                                {% endfor %}
-
-
-                                </tbody>
-                            </table>
-                                <div class="checkout-charge" style="margin-top: 20px;">
-                                    <ul>
-                                        <li>
-                                            <span>Total</span>
-                                            <span>${{total}}0</span>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                {% else %}
-                                    <thead>
+                                    {% for entry in report %}
                                     <tr>
-                                        <th scope="col">Product ID</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Brand</th>
-                                        <th scope="col">Quantity</th>
+                                        <td>{{ entry.Order_Date }}</td>
+                                        <td>{{ entry.Telescope_Name }}</td>
+                                        <td>{{ entry.Product_Quantity }}</td>
+                                        <td>{{ entry.Product_Price }}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                {% for key, product in stock_report.items() %}
-                                <tr>
-                                        <td class="table-name"><h6>{{key}}</h6></td>
-                                        <td class="table-name"><h6>{{product['name']}}</h6></td>
-                                        <td class="table-price"><h6>{{product['brand']}}</h6></td>
-                                        <td class="table-brand"><h6>{{product['quantity']}}</h6></td>
-                                    </tr>
-                                {% endfor %}
-
-                                {% endif %}
-
-
-
+                                    {% endfor %}
                                 </tbody>
+                                {% else %}
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4">No sales report available.</td>
+                                    </tr>
+                                </tbody>
+                                {% endif %}
                             </table>
-
-                            </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
-
-                <div style='padding: 0 40%' class="view-add-group">
-                       <form action="{{url_for('reports')}}">
-                           <button style="" class="product-add">Return</button>
-                       </form>
-                </div>
-
             </div>
-            </div>
-        </section>
-        <!--=====================================
-                PRODUCT DETAILS PART END
-        =======================================-->
+        </div>
 
+        <div style='padding: 0 40%' class="view-add-group">
+            <form action="{{url_for('back_views.reports')}}">
+                <button style="" class="product-add">Return</button>
+            </form>
+        </div>
+
+    </div>
+</section>
+<!--=====================================
+    PRODUCT DETAILS PART END
+=======================================-->
 
 
 

@@ -1,5 +1,7 @@
-from flask import Flask, session
+from flask import Flask
 import mysql.connector
+
+database = mysql.connector.connect
 
 
 def create_app():
