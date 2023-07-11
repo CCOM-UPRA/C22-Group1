@@ -93,10 +93,14 @@ def deletecart():
     return redirect(url_for('views.shop'))
 
 
-@views.route('/editcart')
+@views.route('/editcart', methods = ['GET', 'POST'])
 @login_required
 def editcart():
-    pass
+    if request.method == 'POST':
+        productId = request.form['id']
+        newQuantity = int(request.form['quantity'])
+        updateCart(productId, newQuantity)
+    return redirect(url_for('views.shop'))
 
 
 @views.route('/checkout')

@@ -191,14 +191,24 @@
                     title="Quantity-Number"
                     type="text"
                     name="quantity"
+                    id="quantity"
                     value="{{item['quantity']}}"
+                  />
+
+                  <input
+                    type="hidden"
+                    name="id"
+                    id="id"
+                    value="{{item['id']}}"
                   />
 
                   <button class="action-plus" title="Quantity Plus">
                     <i class="icofont-plus"></i>
                   </button>
 
-                  <input type="submit" value="Update" class="action-input" />
+                  <button class="action">
+                    <i class="icofont-save">Save</i>
+                  </button>
                 </form>
               </div>
             </div>

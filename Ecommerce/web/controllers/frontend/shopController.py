@@ -129,4 +129,16 @@ def deleteFromCart(productId):
     
     if QuantityOnCart > 0:
         deleteItemFromCart(productId, cart)
+
+def updateCart(productId, newQuantity):
+    
+    if newQuantity <= 0:
+        deleteFromCart(productId)
+    else:
+        cart = session['cart']
+        QuantityOnCart = checkCartProducts(productId, cart)
+        maxQuantity = checkMaxItemQuantity(productId)
+        
+        if newQuantity < maxQuantity and newQuantity != QuantityOnCart:
+            updateCartItem(productId, cart, newQuantity)
         
