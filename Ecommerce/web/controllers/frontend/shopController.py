@@ -26,6 +26,7 @@ def Telescopes():
     return productsList
 
 
+
 def Brands():
     brands = getBrands()
     brandsList = []

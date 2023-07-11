@@ -24,9 +24,17 @@ def ID_Email(C_Email, database): #obtener el id dependiendo del email
 
 #login
 @DBConnection
-def customerlog(email,database): #Obtiene el password y el customer id del email (gabriel)
+def customerlog(email,database,): #Obtiene el password y el customer id del email (gabriel)
     cursor = database.cursor()
-    cursor.execute('SELECT C_Password,CustomerID FROM customers WHERE C_Email = %s', (email,))
+    cursor.execute('SELECT C_Password,CustomerID,C_Status FROM customers WHERE C_Email = %s', (email,))
+    customer = cursor.fetchone()
+    return customer
+
+#login for admins
+@DBConnection
+def adminlog(email, database):
+    cursor = database.cursor()
+    cursor.execute('SELECT C_Password, CustomerID FROM customers WHERE C_Email = %s AND C_Status = %s', (email, 'ADMIN'))
     customer = cursor.fetchone()
     return customer
 
@@ -92,3 +100,6 @@ def update_payment(c_number, c_name, c_type, year, month, database): #update the
     cursor = database.cursor()
     cursor.execute('UPDATE payment SET Card_Name = %s, Card_Type = %s, Card_Month = %s, Card_Year = %s WHERE Card_number = %s', (c_name, c_type, month, year, c_number))
     database.commit()
+    
+
+    

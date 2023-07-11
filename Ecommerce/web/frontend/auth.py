@@ -21,15 +21,23 @@ def login():
         password = request.form['C_Password']
         if email_exists(email):
             customer = customerlog(email)
+            customerS = customer[2]
             db_password = customer[0]
             customerID = customer[1]
             if password == db_password:
-                session['customer'] = customerID
-                return redirect(url_for('views.shop'))
+                if customerS == 'ADMIN':
+                    session['customer'] = customerID
+                    return render_template('products.html')#redirect(url_for('back_views.admin_products'))
+                elif customerS == 'ACTIVE':
+                    session['customer'] = customerID
+                    return redirect(url_for('views.shop'))
+                else:
+                   return redirect(url_for('auth.login', message='Cuenta Inactiva..'))
             else:
                 return 'Password dont match!'
         else:
             return render_template('register.html')
+            
     return render_template('login.html')
 
 
