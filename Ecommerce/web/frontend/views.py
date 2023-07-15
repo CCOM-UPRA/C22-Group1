@@ -44,6 +44,14 @@ def shop():
                            aperture=aperture,
                            focal_distance=focalDistance,
                            CartItems = cartProducts)
+    
+
+@views.route('/filter')
+def filter():
+    if request.method == 'POST':
+        checkedBrands = request.form.getlist('brand')
+        print(checkedBrands)
+    return redirect(url_for('views.shop'))
 
 
 @views.route('/profile')
@@ -98,7 +106,7 @@ def deletecart():
 def editcart():
     if request.method == 'POST':
         productId = request.form['id']
-        newQuantity = int(request.form['quantity'])
+        newQuantity = int(request.form['cartQuantity'])
         updateCart(productId, newQuantity)
     return redirect(url_for('views.shop'))
 
