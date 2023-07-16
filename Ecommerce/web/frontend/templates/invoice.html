@@ -168,13 +168,12 @@
               <div class="account-content">
                 <div class="invoice-recieved">
                   <h6>
-                    order tracking number <span>{{order['tracking_num']}}</span>
+                    order tracking number
+                    <span>{{order['Tracking_Number']}}</span>
                   </h6>
-                  <h6>order date <span>{{order['order_date']}}</span></h6>
-                  <h6>total amount <span>${{order['total']}}0</span></h6>
-                  <h6>
-                    payment method <span>{{order['payment_method']}}</span>
-                  </h6>
+                  <h6>order date <span>{{order['Order_Date']}}</span></h6>
+                  <!-- <h6>total amount <span>${{order['total']}}0</span></h6> -->
+                  <h6>payment method <span>{{order['PaymentID']}}</span></h6>
                 </div>
               </div>
             </div>
@@ -188,24 +187,25 @@
                 <ul class="invoice-details">
                   <li>
                     <h6>Order Date</h6>
-                    <p>{{order['order_date']}}</p>
+                    <p>{{order['Order_Date']}}</p>
                   </li>
                   <li>
                     <h6>Arrival Date</h6>
-                    <p>{{order['arrival_date']}}</p>
+                    <p>{{order['Arrival_Date']}}</p>
                   </li>
                   <li>
                     <h6>Delivery Address</h6>
-                    <p>{{order['address_line_1']}}</p>
+                    <p>{{order['Street_number']}}</p>
                   </li>
                   <li>
                     <h6></h6>
-                    <p>{{order['address_line_2']}}</p>
+                    <p>{{order['Street_name']}}</p>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
+          {% if 'cart' in session %} {% for item in CartItems %}
           <div class="col-lg-6">
             <div class="account-card">
               <div class="account-title">
@@ -215,11 +215,11 @@
                 <ul class="invoice-details">
                   <li>
                     <h6>Total Items</h6>
-                    <p>{{amount}} items</p>
+                    <p>{{item['quantity']}} items</p>
                   </li>
                   <li>
                     <h6>Total</h6>
-                    <p>${{order['total']}}0</p>
+                    <p>${{session['cartTotalPrice']}}</p>
                   </li>
                 </ul>
               </div>
@@ -239,25 +239,34 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for key, product in products %}
                   <tr>
                     <td class="table-image">
                       <img
-                        src="static/images/product-images/{{product['image']}}"
+                        src="static/images/product-images/{{item['image']}}"
                         alt="product"
                       />
                     </td>
-                    <td class="table-name"><h6>{{product['brand']}}</h6></td>
-                    <td class="table-name"><h6>{{product['name']}}</h6></td>
-                    <td class="table-price"><h6>${{product['price']}}</h6></td>
+                    <td class="table-name"><h6>{{item['name']}}</h6></td>
+                    <td class="table-price"><h6>${{item['price']}}</h6></td>
+                    <td class="table-brand"><h6>{{item['quantity']}}</h6></td>
                     <td class="table-brand">
-                      <h6>{{product['quantity']}}</h6>
+                      <h6>${{item['price'] * item['quantity']}}</h6>
                     </td>
-                    <td class="table-brand">
-                      <h6>${{product['total_price']}}0</h6>
+                    <td class="table-action">
+                      <a
+                        class="view"
+                        href="#"
+                        title="Edit Amount"
+                        data-bs-toggle="modal"
+                        data-bs-target="#product-view-{{key}}"
+                        ><i class="fas fa-edit"></i
+                      ></a>
+                      <a class="trash" href="#" title="Remove Wishlist"
+                        ><i class="icofont-trash"></i
+                      ></a>
                     </td>
                   </tr>
-                  {% endfor %}
+                  {% endfor %} {% endif %}
                 </tbody>
               </table>
             </div>

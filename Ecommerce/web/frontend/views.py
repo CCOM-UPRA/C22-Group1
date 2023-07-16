@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, Flask
 from functools import wraps
 from ..models.frontend.loginModel import *
+from ..models.frontend.orderModel import *
 from ..controllers.frontend.shopController import *
 
 
@@ -167,10 +168,28 @@ def changePayment():
     
 
 
-@views.route('/invoice')
+@views.route('/invoice', methods=['GET','POST'])
 @login_required
 def invoice():
-    return render_template('invoice.html', order=[], products=[])
+    id = session.get('customer')
+    user = user_info(id)
+    cards = card_info(id)
+    orders = order_info(id)
+    
+    cartProducts = []
+    if 'customer' in session:
+        if 'cart' not in session:
+            Cart()
+        getCartTotal()
+        cartProducts = getCartItems()
+        telescopes = Telescopes()
+    
+    return render_template('invoice.html', 
+                           user1=user,
+                           card = cards,
+                           products=telescopes,
+                           CartItems = cartProducts,
+                           order = orders)
 
 
 @views.route('/payment', methods=['GET', 'POST'])
