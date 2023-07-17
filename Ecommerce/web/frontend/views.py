@@ -144,6 +144,12 @@ def checkout():
     id = session.get('customer')
     user = user_info(id)
     cards = card_info(id)
+    order_update(id, user_info(id), order_number())
+    
+    orders = order_info(id)
+    print(orders)
+    
+    
     
     cartProducts = []
     if 'customer' in session:
@@ -174,11 +180,8 @@ def changePayment():
 def invoice():
     id = session.get('customer')
     user = user_info(id)
-    cards = card_info(id)
-    order_update(id, user_info(id), order_number())
-    
+    cards = card_info(id)  
     orders = order_info(id)
-    print(orders)
     
     
     
