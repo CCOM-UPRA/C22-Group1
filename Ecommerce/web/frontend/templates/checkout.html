@@ -45,6 +45,26 @@
         <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='css/checkout.css')}}">
 
+        <script>
+            function selectCard(cardID) {
+                // get all payment-card elements
+                const cards = document.querySelectorAll('.payment-card');
+              
+                // loop through all payment-card elements
+                cards.forEach(function(card) {
+                  // remove the active class from all payment-card elements
+                  card.classList.remove('active');
+                });
+              
+                // get the payment-card element for the selected card
+                const selectedCard = document.querySelector(`[data-card-id="${cardID}"]`);
+              
+                // add the active class to the payment-card element for the selected card
+                selectedCard.classList.add('active');
+              }
+              
+        </script>
+
         <!--=====================================
                     CSS LINK PART END
         =======================================-->
@@ -279,11 +299,13 @@
                                 <div class="row">
                                     {% for c in card %}
                                     <div class="col-md-6 col-lg-4 alert fade show">
-                                        <div class="payment-card active">
+                                        <div class="payment-card active" data-card-id="{{c[0]}}">
                                             <h2>{{c[1]}}</h2>
                                             <p>{{c[2]}} </p>
                                             <h5 class="card-number">{{c[3]}}</h5>
                                             <h6>{{c[4]}} / {{c[5]}}</h6>
+                                            
+                                            <button onclick="selectCard('{{c[0]}}')">Select Card</button>
                                         </div>
                                     </div>
                                     {% endfor %}
