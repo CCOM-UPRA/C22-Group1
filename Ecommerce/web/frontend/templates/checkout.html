@@ -45,11 +45,6 @@
         <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='css/checkout.css')}}">
 
-        
-
-        
-
-
         <!--=====================================
                     CSS LINK PART END
         =======================================-->
@@ -125,7 +120,7 @@
         =======================================-->
         <section class="inner-section checkout-part">
             <div class="container">
-                < class="row">
+                <div class="row">
 
                     <div class="col-lg-12">
                         <div class="account-card">
@@ -147,12 +142,18 @@
                                         </thead>
                                         <tbody>
                                             {% if 'cart' in session %} {% for item in CartItems %}
+
                                         <tr>
-                                                <td class="table-image"><img src="static/images/product-images/{{item['image']}}" alt="product"></td>
+                                            <td class="table-image">
+                                                <img
+                                                  src="static/images/product-images/{{item['image']}}"
+                                                  alt="product"
+                                                />
+                                              </td>
                                                 <td class="table-name"><h6>{{item['name']}}</h6></td>
-                                                <td class="table-price"><h6>${{item['price']}}</h6></td>
+                                                <td class="table-price"><h6>${{item['price']}}0</h6></td>
                                                 <td class="table-brand"><h6>{{item['quantity']}}</h6></td>
-                                                 <td class="table-brand"><h6>${{item['price'] * item['quantity']}}</h6></td>
+                                                 <td class="table-brand"><h6>${{item['quantity'] * item['price']}}</h6></td>
                                                 <td class="table-action">
                                                     <a class="view" href="#" title="Edit Amount" data-bs-toggle="modal" data-bs-target="#product-view-{{key}}"><i class="fas fa-edit"></i></a>
                                                     <a class="trash" href="#" title="Remove Wishlist"><i class="icofont-trash"></i></a>
@@ -161,55 +162,55 @@
 
 
                                         <div class="modal fade" id="product-view-{{key}}">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <button class="modal-close icofont-close" data-bs-dismiss="modal"></button>
-                                <div class="product-view">
-                                    <div class="row">
-                                        <div class="col-md-6 col-lg-6">
-                                            <div class="view-gallery">
-                                                <div class="view-label-group">
-                                                    <label class="view-label new">{{item['stock']}} in stock</label>
-                                                </div>
-                                                <ul class="preview-slider">
-                                                    <li><img src="static/images/product-images/{{item['image']}}" alt="product"></li>
-                                                </ul>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <button class="modal-close icofont-close" data-bs-dismiss="modal"></button>
+                    <div class="product-view">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="view-gallery">
+                                    <div class="view-label-group">
+                                        <label class="view-label new">{{item['stock']}} in stock</label>
+                                    </div>
+                                    <ul class="preview-slider">
+                                        <li><img src="static/images/product-images/{{item['image']}}" alt="product"></li>
+                                    </ul>
 
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6">
-                                            <div class="view-details">
-                                                <h3 class="view-name">
-                                                    <a href="product-video.html">{{item['name']}}</a>
-                                                </h3>
-                                                <div class="view-meta">
-                                                    <p>Brand:<span>{{item['brand']}}</span></p>
-                                                </div>
-                                                <div class="view-meta">
-                                                    <p>Type: {{item['type']}}</p>
-                                                </div>
-                                                <div class="view-meta">
-                                                    <p>Mount: {{item['mount']}}</p>
-                                                </div>
-                                                <h3 class="view-price">
-                                                    <del>${{item['cost']}}</del>
-                                                    <span>${{item['price']}}</span>
-                                                </h3>
-                                                <p class="view-desc">{{item['description']}}</p>
-                                                <form action="{{url_for('views.checkout')}}" method="post">
-                                                <div class="view-add-group">
-                                                        <input style="width: 75%; text-align:center" class="action-input" title="Quantity Number" type="number" name="quantity" value="{{item['quantity']}}">
-                                                        <input type="hidden" id="p_id" name="p_id" value="{{key}}">
-                                                        <input type="hidden" id="page" name="page" value="/checkout"><br>
-                                                    <input type="submit" name="submit" id="submit" value="Edit amount">
-                                                </div>
-                                                </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6">
+                                <div class="view-details">
+                                    <h3 class="view-name">
+                                        <a href="product-video.html">{{item['name']}}</a>
+                                    </h3>
+                                    <div class="view-meta">
+                                        <p>Brand:<span>{{item['brand']}}</span></p>
+                                    </div>
+                                    <div class="view-meta">
+                                        <p>Type: {{item['type']}}</p>
+                                    </div>
+                                    <div class="view-meta">
+                                        <p>Mount: {{item['mount']}}</p>
+                                    </div>
+                                    <h3 class="view-price">
+                                        <del>${{item['cost']}}0</del>
+                                        <span>${{item['price']}}0</span>
+                                    </h3>
+                                    <p class="view-desc">{{item['desc']}}</p>
+                                    <form action="{{url_for('views.checkout')}}" method="post">
+                                    <div class="view-add-group">
+                                            <input style="width: 75%; text-align:center" class="action-input" title="Quantity Number" type="number" name="quantity" value="{{item['quantity']}}">
+                                            <input type="hidden" id="p_id" name="p_id" value="{{key}}">
+                                            <input type="hidden" id="page" name="page" value="/checkout"><br>
+                                         <input type="submit" name="submit" id="submit" value="Edit amount">
+                                    </div>
+                                    </form>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                                         {% endfor %}
@@ -223,7 +224,7 @@
                                     <ul>
                                         <li>
                                             <span>Total</span>
-                                            <span>${{session['cartTotalPrice']}}</span>
+                                            <span>${{session['cartTotalPrice']}}.00</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -236,14 +237,13 @@
                             <div class="account-title">
                                 <h4>contact number</h4>
                                 <button data-bs-toggle="modal" data-bs-target="#contact-add">edit number</button>
-
                             </div>
                             <div class="account-content">
                                 <div class="row">
                                     <div class="col-md-6 col-lg-4 alert fade show">
                                         <div class="profile-card contact active">
                                             <h6>primary</h6>
-                                            <p id= "phone" >{{user1[4]}}</p>
+                                            <p>{{user1[4]}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -253,7 +253,7 @@
                     <div class="col-lg-12">
                         <div class="account-card">
                             <div class="account-title">
-                                <h4>billing address</h4>
+                                <h4>delivery address</h4>
                                 <button data-bs-toggle="modal" data-bs-target="#address-add">edit address</button>
                             </div>
                             <div class="account-content">
@@ -270,16 +270,14 @@
                         </div>
                     </div>
                     <div class="col-lg-12">
-                        <div id = "payment-card" class="account-card mb-0">
+                        <div class="account-card mb-0">
                             <div class="account-title">
                                 <h4>payment option</h4>
-                                <button data-bs-toggle="modal" data-bs-target="#payment-add">Choose card</button>
-
+                                <button data-bs-toggle="modal" data-bs-target="#payment-add">add payment info</button>
                             </div>
                             <div class="account-content">
                                 <div class="row">
-                                    {% for c in card %} 
-                                    
+                                    {% for c in card %}
                                     <div class="col-md-6 col-lg-4 alert fade show">
                                         <div class="payment-card active">
                                             <h2>{{c[1]}}</h2>
@@ -294,106 +292,100 @@
                         </div>
                     </div>
 
-
-                    
-
                     <!-- contact add form -->
-                    <div class="modal fade" id="contact-add">
-                        <div class="modal-dialog modal-dialog-centered"> 
-                            <div class="modal-content">
-                                <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-                                <form name="form3" class="modal-form" action="{{url_for('views.editinfo')}}" method="post">
-                                    <div class="form-title">
-                                        <h3>Edit contact number</h3>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">number</label>
-                                        <input class="form-control" name="number" type="phone" value="{{user1[4]}}">
-                                        <input type="hidden" name="form_name" value="form3">
-                                    </div>
-                                    <button class="form-btn" type="submit">save contact number</button>
-                                    <input type="hidden" name="page" value="/profile">
-                                </form>
-                            </div> 
-                        </div> 
-                    </div>
-                
+        <div class="modal fade" id="contact-add">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+                    <form class="modal-form">
+                        <div class="form-title">
+                            <h3>Edit contact number</h3>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">number</label>
+                            <input class="form-control" type="number" value="{{user1[10]}}">
+                        </div>
+                        <button class="form-btn" type="submit">save contact number</button>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <!-- address add form -->
-                <div class="modal fade" id="address-add">
-                    <div class="modal-dialog modal-dialog-centered"> 
-                        <div class="modal-content">
-                            <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-                            <form name="form2" class="modal-form" action="{{url_for('views.editinfo')}}" method="post">
-                                <div class="form-title">
-                                    <h3>edit address info</h3>
-                                </div>
+        <div class="modal fade" id="address-add">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+                    <form class="modal-form">
+                        <div class="form-title">
+                            <h3>edit address info</h3>
+                        </div>
 
-                                <div class="form-group">
-                                    <label class="form-label">Address Line 1</label>
-                                    <input type="text" name="aline1" class="form-control" value="{{user1[5]}}"></input>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Address Line 2</label>
-                                    <input type="text" name="aline2" class="form-control" value="{{user1[6]}}"></input>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">City</label>
-                                    <input type="text" name="city" class="form-control" value="{{user1[8]}}"></input>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">State</label>
-                                    <input type="text" name="state" class="form-control" value="{{user1[9]}}"></input>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Zipcode</label>
-                                    <input type="text" name="zipcode" class="form-control" value="{{user1[7]}}"></input>
-                                    <input type="hidden" name="form_name" value="form2">
-                                </div>
-                                <button class="form-btn" type="submit">save address info</button>
-                                <input type="hidden" name="page" value="/profile">
-                            </form>
-                        </div> 
-                    </div> 
+                        <div class="form-group">
+                            <label class="form-label">Address Line 1</label>
+                            <input type="text" class="form-control" value="{{user1[3]}}"></input>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Address Line 2</label>
+                            <input type="text" class="form-control" value="{{user1[4]}}"></input>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">City</label>
+                            <input type="text" class="form-control" value="{{user1[5]}}"></input>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">State</label>
+                            <input type="text" class="form-control" value="{{user1[6]}}"></input>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Zipcode</label>
+                            <input type="text" class="form-control" value="{{user1[7]}}"></input>
+                        </div>
+                        <button class="form-btn" type="submit">save address info</button>
+                    </form>
                 </div>
+            </div>
+        </div>
 
         <!-- payment add form -->
         <div class="modal fade" id="payment-add">
-            <div class="modal-dialog modal-dialog-centered"> 
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-                    <form class="modal-form" action="{{url_for('views.checkout')}}" method="post">
+                    <form class="modal-form">
                         <div class="form-title">
-                            <h3>Choose Card</h3>
+                            <h3>edit payment info</h3>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Select Card:</label>
-                            <select class="form-control" name="selected_card" id="selectedCard">
-                                <option value="" selected>Select a card</option>
-                                {% for card in card %}
-                                <option class="card-number" value="{{ card[3] }}">{{ card[3] }}</option>
-                                {% endfor %}
-                            </select>
+                            <label class="form-label">card name</label>
+                            <input class="form-control" type="text" value="{{user1[11]}}">
                         </div>
-                        
-                        <button class="form-btn" type="submit">save</button>
-                        <input type="hidden" name="page" value="/profile">
+                        <div class="form-group">
+                            <label class="form-label">card number</label>
+                            <input class="form-control" type="number" value="{{user1[13]}}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">card type</label>
+                            <input class="form-control" type="text" value="{{user1[12]}}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">expiration date (MM/DD/YYYY)</label>
+                            <input class="form-control" type="date" value="{{user1[14]}}">
+                        </div>
+                        <button class="form-btn" type="submit">save payment info</button>
                     </form>
-                </div> 
-            </div> 
-        
+                </div>
+            </div>
+        </div>
 
-       
-          
 
-                        <div>
                             <div class="checkout-proced">
                                 <a href="{{url_for('views.invoice')}}" class="btn btn-inline">proceed to checkout</a>
                             </div>
                         </div>
-                    
-              </div>
-               
+                    </div>
+                </div>
+            </div>
         </section>
         <!--=====================================
                     CHECKOUT PART END
