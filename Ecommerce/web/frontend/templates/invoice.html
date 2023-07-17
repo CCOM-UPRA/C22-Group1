@@ -169,11 +169,13 @@
                 <div class="invoice-recieved">
                   <h6>
                     order tracking number
-                    <span>{{order['Tracking_Number']}}</span>
+                    <span>{{order[12]}}</span>
                   </h6>
-                  <h6>order date <span>{{order['Order_Date']}}</span></h6>
-                  <!-- <h6>total amount <span>${{order['total']}}0</span></h6> -->
-                  <h6>payment method <span>{{order['PaymentID']}}</span></h6>
+                  <h6>order date <span>{{order[4]}}</span></h6>
+                  <h6>
+                    total amount <span>${{session['cartTotalPrice']}}.00</span>
+                  </h6>
+                  <h6>payment method <span>{{order[2]}}</span></h6>
                 </div>
               </div>
             </div>
@@ -187,19 +189,27 @@
                 <ul class="invoice-details">
                   <li>
                     <h6>Order Date</h6>
-                    <p>{{order['Order_Date']}}</p>
+                    <p>{{order[4]}}</p>
                   </li>
                   <li>
                     <h6>Arrival Date</h6>
-                    <p>{{order['Arrival_Date']}}</p>
+                    <p>{{order[5]}}</p>
                   </li>
                   <li>
                     <h6>Delivery Address</h6>
-                    <p>{{order['Street_number']}}</p>
+                    <p>{{order[7]}}</p>
                   </li>
                   <li>
                     <h6></h6>
-                    <p>{{order['Street_name']}}</p>
+                    <p>{{order[8]}}</p>
+                  </li>
+                  <li>
+                    <h6></h6>
+                    <p>{{order[10]}}, {{order[11]}}</p>
+                  </li>
+                  <li>
+                    <h6></h6>
+                    <p>{{order[9]}}</p>
                   </li>
                 </ul>
               </div>
@@ -219,7 +229,7 @@
                   </li>
                   <li>
                     <h6>Total</h6>
-                    <p>${{session['cartTotalPrice']}}</p>
+                    <p>${{session['cartTotalPrice']}}.00</p>
                   </li>
                 </ul>
               </div>
@@ -246,24 +256,14 @@
                         alt="product"
                       />
                     </td>
-                    <td class="table-name"><h6>{{item['name']}}</h6></td>
-                    <td class="table-price"><h6>${{item['price']}}</h6></td>
-                    <td class="table-brand"><h6>{{item['quantity']}}</h6></td>
+                    <td class="table-name"><h6>{{item['brand']}}</h6></td>
+                    <td class="table-price"><h6>{{item['name']}}</h6></td>
+                    <td class="table-brand"><h6>${{item['price']}}0</h6></td>
                     <td class="table-brand">
-                      <h6>${{item['price'] * item['quantity']}}</h6>
+                      <h6>{{item['quantity']}}</h6>
                     </td>
-                    <td class="table-action">
-                      <a
-                        class="view"
-                        href="#"
-                        title="Edit Amount"
-                        data-bs-toggle="modal"
-                        data-bs-target="#product-view-{{key}}"
-                        ><i class="fas fa-edit"></i
-                      ></a>
-                      <a class="trash" href="#" title="Remove Wishlist"
-                        ><i class="icofont-trash"></i
-                      ></a>
+                    <td class="table-brand">
+                      <h6>${{session['cartTotalPrice']}}.00</h6>
                     </td>
                   </tr>
                   {% endfor %} {% endif %}

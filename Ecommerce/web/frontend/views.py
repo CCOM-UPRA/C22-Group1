@@ -3,6 +3,7 @@ from functools import wraps
 from ..models.frontend.loginModel import *
 from ..models.frontend.orderModel import *
 from ..controllers.frontend.shopController import *
+from ..controllers.frontend.orderController import *
 
 
 def login_required(func):
@@ -174,7 +175,12 @@ def invoice():
     id = session.get('customer')
     user = user_info(id)
     cards = card_info(id)
+    order_update(id, user_info(id), order_number())
+    
     orders = order_info(id)
+    print(orders)
+    
+    
     
     cartProducts = []
     if 'customer' in session:
