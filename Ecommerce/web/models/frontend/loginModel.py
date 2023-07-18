@@ -63,3 +63,6 @@ def update_payment(c_number, c_name, c_type, year, month, c_id, database): #upda
     cursor = database.cursor()
     cursor.execute('UPDATE payment SET Card_Name = %s, Card_Type = %s, Card_Month = %s, Card_Year = %s WHERE Card_number = %s AND Payment_ID = %s' , (c_name, c_type, month, year, c_number, c_id))
     database.commit()
+    
+
+    

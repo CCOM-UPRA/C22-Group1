@@ -22,6 +22,7 @@ def login():
         password = request.form['C_Password']
         if email_exists(email):
             customer = customerlog(email)
+            customerS = customer[2]
             db_password = customer[0]
             customerID = customer[1]
             customer_status = customer[2]
@@ -45,6 +46,7 @@ def login():
             
         else:
             return render_template('register.html')
+            
     return render_template('login.html')
 
 
