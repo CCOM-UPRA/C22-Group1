@@ -2696,7 +2696,7 @@ tbody tr td:last-child {
   }
   .product-add i,
   .standard-wish i {
-    display: none;
+    display: "visible";
   }
   .standard-action input {
     height: 38px;
@@ -2731,7 +2731,7 @@ tbody tr td:last-child {
   }
   .product-add i,
   .standard-wish i {
-    display: none;
+    display: "visible";
   }
   .standard-action input {
     height: 38px;

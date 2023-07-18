@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from ..models.frontend.loginModel import *
+from ..models.frontend.authModel import *
 import hashlib
 
 def login_required(func):
@@ -23,11 +24,25 @@ def login():
             customer = customerlog(email)
             db_password = customer[0]
             customerID = customer[1]
+            customer_status = customer[2]
             if password == db_password:
-                session['customer'] = customerID
-                return redirect(url_for('views.shop'))
+                
+                if customer_status == 'ACTIVE':
+                    session['customer'] = customerID
+                    return redirect(url_for('views.shop')
+                                    )
+                elif customer_status == 'INACTIVE':
+                    flash('ACCOUNT IS INACTIVE. CONTACT AN ADMINISTRATOR', 'ERROR')
+                    return redirect(url_for('auth.login'))
+                
+                elif customer_status == 'ADMIN':
+                    session['customer'] = customerID
+                    return redirect(url_for('back_views.products'))
+                
             else:
-                return 'Password dont match!'
+                flash('PASSWORD IS INCORRRECT', 'ERROR')
+                return redirect(url_for('auth.login'))
+            
         else:
             return render_template('register.html')
     return render_template('login.html')
@@ -49,13 +64,16 @@ def register():
         pass2 = request.form['C_password2']
         
         if not fname or not lname or not email or not pass1 or not pass2:
-            return 'fill all the blanks'
+            flash('fill all the blanks', 'ERROR')
+            return redirect(url_for('auth.register'))
         
         if pass1 != pass2:
-            return 'Password dont match!'
+            flash('Password dont match!', 'ERROR')
+            return redirect(url_for('auth.register'))
         
         if email_exists(email):
-            return 'Email already exists!'
+            flash('Email already exists', 'ERROR')
+            return redirect(url_for('auth.register'))
         pass1_hash = hashlib.sha256(pass1.encode()).hexdigest()
         insert_user(fname, lname, email, pass1)
         session['customer'] = ID_Email(email)[0]

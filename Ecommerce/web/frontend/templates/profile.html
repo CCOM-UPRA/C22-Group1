@@ -178,6 +178,47 @@
                     BANNER PART END
         =======================================-->
 
+        {% with messages = get_flashed_messages(category_filter='EDITED') %}
+            {% if messages %}
+                <div class="inner-section profile-part">
+                    <div class="container">
+                        <div>
+                            {% for message in messages %}
+                                <h2 style="color: white; text-align: center;">{{ message }}</h2>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% with messages = get_flashed_messages(category_filter='ADDED') %}
+            {% if messages %}
+                <div class="inner-section profile-part">
+                    <div class="container">
+                        <div>
+                            {% for message in messages %}
+                                <h2 style="color: white; text-align: center;">{{ message }}</h2>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% with messages = get_flashed_messages(category_filter='error') %}
+            {% if messages %}
+                <div class="inner-section profile-part">
+                    <div class="container">
+                        <div>
+                            {% for message in messages %}
+                                <h2 style="color: red; text-align: center;">{{ message }}</h2>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
 
         <!--=====================================
                     PROFILE PART START
@@ -189,27 +230,29 @@
                         <div class="account-card">
                             <div class="account-title">
                                 <h4>Your Profile</h4>
-                                <button data-bs-toggle="modal" data-bs-target="#PasswordC">Change Password</button>
-                                <button data-bs-toggle="modal" data-bs-target="#profile-edit">edit info</button>
+                                <div>
+                                    <button data-bs-toggle="modal" data-bs-target="#PasswordC">Change Password</button>
+                                    <button data-bs-toggle="modal" data-bs-target="#profile-edit">edit info</button>
+                                </div>
                             </div>
                             <div class="account-content">
                                 <div class="row">
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label class="form-label">name</label>
-                                            <p class="form-control">{{user1[0]}}</p>
+                                            <p class="profile-card contact active">{{user1[0]}}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label class="form-label">last name</label>
-                                            <p class="form-control">{{user1[1]}}</p>
+                                            <p class="profile-card contact active">{{user1[1]}}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label class="form-label">Email</label>
-                                            <p class="form-control">{{user1[2]}}</p>
+                                            <p class="profile-card contact active">{{user1[2]}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -258,8 +301,10 @@
                         <div id = "payment-card" class="account-card mb-0">
                             <div class="account-title">
                                 <h4>payment option</h4>
-                                <button data-bs-toggle="modal" data-bs-target="#payment-add2">Add payment info</button>
-                                <button data-bs-toggle="modal" data-bs-target="#payment-add">edit payment info</button>
+                                <div>
+                                    <button data-bs-toggle="modal" data-bs-target="#payment-add2">Add payment info</button>
+                                    <button data-bs-toggle="modal" data-bs-target="#payment-add">edit payment info</button>
+                                </div>
                             </div>
                             <div class="account-content">
                                 <div class="row">
@@ -377,6 +422,7 @@
                             <label class="form-label">expiration date (MM/YYYY)</label>
                             <input class="form-control" name="date" id="expirationDate" type="month" value="">
                             <input type="hidden" name="form_name" value="form4">
+                            <input type="hidden" name="card_id" id="card_id" value="">
                         </div>
                         <button class="form-btn" type="submit">save payment info</button>
                         <input type="hidden" name="page" value="/profile">
@@ -391,7 +437,7 @@
                     <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
                     <form class="modal-form" action="{{url_for('views.payment')}}" method="post">
                         <div class="form-title">
-                            <h3>edit payment info</h3>
+                            <h3>add payment info</h3>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Card Name</label>
