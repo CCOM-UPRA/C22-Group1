@@ -31,9 +31,14 @@ def shop():
         getCartTotal()
         cartProducts = getCartItems()
     
+    if 'minPrice' not in session:
+        setPriceRange()
+    
     telescopes = []
     if 'filters' in session:
         telescopes = FilteredTelescopes()
+    elif 'searchString' in session:
+        telescopes = SearchBar()
     else:
         telescopes = Telescopes()
     brands = Brands()
@@ -63,6 +68,17 @@ def filter():
         session['filters'] = [checkedBrands, checkedFocalDistance, checkedAperture, checkedLens, checkedMount]
     return redirect(url_for('views.shop'))
 
+@views.route('filterBySearch', methods = ['GET', 'POST'])
+def filterBySearch():
+    if request.method == 'POST':
+        searchString = request.form['searchBar']
+        if len(searchString) > 0:
+            session['searchString'] = searchString
+        else:
+            if 'searchString' in session:
+                session.pop('searchString')
+    return redirect(url_for('views.shop'))
+
 @views.route('clearFilters', methods = ['GET', 'POST'])
 def clearFilters():
     if request.method == 'POST':
@@ -70,6 +86,24 @@ def clearFilters():
             session.pop('filters')
     return redirect(url_for('views.shop'))
 
+@views.route('UpdatePriceRange', methods = ['GET', 'POST'])
+def UpdatePriceRange():
+    if request.method == 'POST':
+        newMinPrice = request.form['minPrice']
+        newMaxPrice = request.form['maxPrice']
+        
+        if newMinPrice.isalpha() or len(newMinPrice) == 0:
+            newMinPrice = session['minPrice']
+        else:
+            newMinPrice = int(newMinPrice)
+        
+        if newMaxPrice.isalpha() or len(newMaxPrice) == 0:
+            newMaxPrice = session['maxPrice']
+        else:
+            newMaxPrice = int(newMaxPrice)
+            
+        updatePriceRange(newMinPrice, newMaxPrice)
+    return redirect(url_for('views.shop'))
 
 @views.route('/profile')
 @login_required

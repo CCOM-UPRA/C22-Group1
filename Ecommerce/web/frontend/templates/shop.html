@@ -146,8 +146,22 @@
           </ul>
           {% endif %}
 
-          <form class="header-form">
-            <input type="text" placeholder="Search anything..." />
+          <form class="header-form" action="filterBySearch" method="POST">
+            {%if 'searchString' in session%}
+            <input
+              type="text"
+              placeholder="{{session['searchString']}}"
+              id="searchBar"
+              name="searchBar"
+            />
+            {% else %}
+            <input
+              type="text"
+              placeholder="Search anything..."
+              id="searchBar"
+              name="searchBar"
+            />
+            {% endif %}
             <button><i class="fas fa-search"></i></button>
           </form>
 
@@ -282,10 +296,23 @@
           <div class="col-lg-3">
             <div class="shop-widget">
               <h6 class="shop-widget-title">Sort by Price</h6>
-              <form>
+              <form
+                action="{{url_for('views.UpdatePriceRange')}}"
+                method="POST"
+              >
                 <div class="shop-widget-group">
-                  <input type="text" placeholder="Min - 00" />
-                  <input type="text" placeholder="Max - 5k" />
+                  <input
+                    type="text"
+                    placeholder="Min - ${{session['minPrice']}}"
+                    id="minPrice"
+                    name="minPrice"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Max - ${{session['maxPrice']}}"
+                    id="maxPrice"
+                    name="maxPrice"
+                  />
                 </div>
                 <button class="shop-widget-btn">
                   <i class="fas fa-search"></i>

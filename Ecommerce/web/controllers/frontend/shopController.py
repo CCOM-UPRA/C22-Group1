@@ -3,7 +3,30 @@ from flask import session
 
 
 def Telescopes():
-    products = getProducts()
+    products = getProducts(session['minPrice'], session['maxPrice'])
+    productsList = []
+    for x in products:
+        product = {
+            'id': x[0],
+            'name': x[1],
+            'price': x[2],
+            'cost': x[3],
+            'brand': x[4],
+            'description': x[5],
+            'image': x[6],
+            'stock': x[7],
+            'status': x[8],
+            'type': x[9],
+            'mount': x[10],
+            'focal_distance': x[11],
+            'aperture': x[12],
+        }
+        productsList.append(product)
+
+    return productsList
+
+def SearchBar():
+    products = getProductsForSearchBar(session['minPrice'], session['maxPrice'], session['searchString'] + '%')
     productsList = []
     for x in products:
         product = {
@@ -67,10 +90,8 @@ def FilteredTelescopes():
     aperture = stringFormatList(aperture)
     lens = stringFormatList(lens)
     mount = stringFormatList(mount)
-        
     
-    
-    products = getFilteredProducts(brands, focalDistance, aperture, lens, mount)
+    products = getFilteredProducts(brands, focalDistance, aperture, lens, mount, session['minPrice'], session['maxPrice'])
     
     if products == None:
         return []
@@ -96,7 +117,30 @@ def FilteredTelescopes():
 
     return productsList
         
+def setPriceRange():
+    session['minPrice'] = int(getMinPrice()[0])
+    session['maxPrice'] = int(getMaxPrice()[0])
 
+def updatePriceRange(newMinPrice, newMaxPrice):
+    minPrice = int(getMinPrice()[0])
+    maxPrice = int(getMaxPrice()[0])
+    
+    if newMinPrice > minPrice:
+        if newMinPrice < maxPrice:
+            session['minPrice'] = newMinPrice
+        else:
+            session['minPrice'] = maxPrice
+    else:
+        session['minPrice'] = minPrice
+    
+    if newMaxPrice < maxPrice:
+        if newMaxPrice > session['minPrice']:
+            session['maxPrice'] = newMaxPrice
+        else:
+            session['maxPrice'] = session['minPrice']
+    else:
+        session['maxPrice'] = maxPrice
+        
 
 def Brands():
     brands = getBrands()
