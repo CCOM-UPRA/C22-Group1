@@ -101,15 +101,12 @@
           <a href="#" class="header-logo">
             <img src="static/images/logo.png" alt="logo" />
           </a>
-          <!--                    <a href="{{url_for('back_views.profile')}}" class="header-widget" title="My Account">-->
-          <!--                        <img src="static/images/user.png" alt="user">-->
-          <!--                        <span>My Account</span>-->
-          <!--                    </a>-->
+                            
           <ul class="dropdown">
             <a class="navbar-link dropdown-arrow" href="#">My Account</a>
             <ul class="dropdown-position-list">
               <li>
-                <a href="{{url_for('back_views.profile')}}">Account Info</a>
+                <a href="{{url_for('views.profile')}}">Account Info</a>
               </li>
               <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
             </ul>

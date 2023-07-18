@@ -3,8 +3,6 @@ from ...dbConnection import *
 import sqlite3
 
 
-
-
 @DBConnection
 def get_sales_report_by_month(report_month_start, report_month_end, database):
     cursor = database.cursor()

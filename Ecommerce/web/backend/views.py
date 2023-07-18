@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash, Flask
-from ..controllers.backend.accountController import * 
+from flask import Blueprint, redirect, url_for, render_template, request, flash
+from ..controllers.backend.accountController import *
 from ..models.backend.reportmodel import *
 import calendar
 from datetime import datetime, timedelta
@@ -53,7 +53,6 @@ def add_accounts():
         addaccount(fname,lname,email,pass1,pass2)
         flash('The new account have been added', 'succes')
     return redirect(url_for('back_views.accounts'))
-
 
     
 @views.route('/reports', methods=['GET', 'POST'])
@@ -149,10 +148,3 @@ def reports():
             return render_template('report.html', inventory_data=inventory_data)
 
     return render_template('reports.html')
-
-@views.route('/profile')
-def profile():
-    
-    
-    
-    return render_template('profile.html')

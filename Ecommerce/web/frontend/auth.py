@@ -30,8 +30,8 @@ def login():
                 
                 if customer_status == 'ACTIVE':
                     session['customer'] = customerID
-                    return redirect(url_for('views.shop')
-                                    )
+                    return redirect(url_for('views.shop'))
+                
                 elif customer_status == 'INACTIVE':
                     flash('ACCOUNT IS INACTIVE. CONTACT AN ADMINISTRATOR', 'ERROR')
                     return redirect(url_for('auth.login'))
