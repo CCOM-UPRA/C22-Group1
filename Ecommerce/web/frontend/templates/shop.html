@@ -294,15 +294,15 @@
               </form>
             </div>
 
-            <div style="text-align: center; color: white">
-              <h5 class="shop-widget-title" style="color: white">Filters</h5>
-            </div>
+            <form action="{{url_for('views.filter')}}" method="POST">
+              <div style="text-align: center; color: white">
+                <h5 class="shop-widget-title" style="color: white">Filters</h5>
+              </div>
 
-            <br />
+              <br />
 
-            <div class="shop-widget">
-              <h6 class="shop-widget-title">Filter by Brand</h6>
-              <form method="POST" action="{{url_for('views.filter')}}">
+              <div class="shop-widget">
+                <h6 class="shop-widget-title">Brands</h6>
                 <input
                   type="hidden"
                   value=" "
@@ -324,16 +324,10 @@
                   </li>
                   {% endfor %}
                 </ul>
-                <button class="shop-widget-btn" onclick="getBrands()">
-                  <i class="fas fa-search"></i>
-                  <span>Search by brands</span>
-                </button>
-              </form>
-            </div>
+              </div>
 
-            <div class="shop-widget">
-              <h6 class="shop-widget-title">Filter by Focal Distance</h6>
-              <form action="{{url_for('views.clear')}}" method="post">
+              <div class="shop-widget">
+                <h6 class="shop-widget-title">Focal Distance</h6>
                 <ul class="shop-widget-list">
                   {% for focal in focal_distance %}
                   <li>
@@ -349,16 +343,10 @@
                   </li>
                   {% endfor %}
                 </ul>
-                <button class="shop-widget-btn">
-                  <i class="fas fa-search"></i>
-                  <span>Search by Focal Distance</span>
-                </button>
-              </form>
-            </div>
+              </div>
 
-            <div class="shop-widget">
-              <h6 class="shop-widget-title">Filter by Aperture</h6>
-              <form action="{{url_for('views.clear')}}" method="post">
+              <div class="shop-widget">
+                <h6 class="shop-widget-title">Aperture</h6>
                 <ul class="shop-widget-list">
                   {% for aper in aperture %}
                   <li>
@@ -374,29 +362,18 @@
                   </li>
                   {% endfor %}
                 </ul>
-                <button class="shop-widget-btn">
-                  <i class="fas fa-search"></i>
-                  <span>Search by Aperture</span>
-                </button>
-              </form>
-            </div>
+              </div>
 
-            <div class="shop-widget">
-              <button class="shop-widget-btn">
-                <i class="fas fa-search"></i>
-                <span>Search by All Filters</span>
-              </button>
-            </div>
+              <div style="text-align: center; color: white">
+                <h5 class="shop-widget-title" style="color: white">
+                  Categories
+                </h5>
+              </div>
 
-            <div style="text-align: center; color: white">
-              <h5 class="shop-widget-title" style="color: white">Categories</h5>
-            </div>
+              <br />
 
-            <br />
-
-            <div class="shop-widget">
-              <h6 class="shop-widget-title">Filter by Lens Tipe</h6>
-              <form action="{{url_for('views.clear')}}" method="post">
+              <div class="shop-widget">
+                <h6 class="shop-widget-title">Lens Types</h6>
                 <ul class="shop-widget-list">
                   {% for Lens in Lenses %}
                   <li>
@@ -404,7 +381,7 @@
                       <input
                         type="checkbox"
                         id="{{Lens}}"
-                        name="model"
+                        name="lens"
                         value="{{Lens}}"
                       />
                       <label for="tag1">{{Lens}}</label>
@@ -412,32 +389,43 @@
                   </li>
                   {% endfor %}
                 </ul>
-                <button class="shop-widget-btn">
-                  <i class="fas fa-search"></i>
-                  <span>Search by Lens Tipe</span>
-                </button>
-              </form>
-            </div>
+              </div>
 
-            <div class="shop-widget">
-              <h6 class="shop-widget-title">Filter by Mount</h6>
-              <form>
+              <div class="shop-widget">
+                <h6 class="shop-widget-title">Mounts</h6>
                 <ul class="shop-widget-list">
                   {% for mount in mounts %}
                   <li>
                     <div class="shop-widget-content">
-                      <input type="checkbox" id="tag3" />
+                      <input
+                        type="checkbox"
+                        id="tag3"
+                        name="mount"
+                        value="{{mount}}"
+                      />
                       <label for="tag1">{{mount}}</label>
                     </div>
                   </li>
                   {% endfor %}
                 </ul>
-                <button class="shop-widget-btn">
+              </div>
+
+              <div class="shop-widget">
+                <button class="shop-widget-btn" type="submit">
                   <i class="fas fa-search"></i>
-                  <span>Search by Mounts</span>
+                  <span>Search</span>
                 </button>
-              </form>
-            </div>
+              </div>
+            </form>
+            <br />
+            <form action="{{url_for('views.clearFilters')}}" method="POST">
+              <div class="shop-widget">
+                <button class="shop-widget-btn" type="submit">
+                  <i class="fas fa-search"></i>
+                  <span>Clear filters</span>
+                </button>
+              </div>
+            </form>
           </div>
 
           <!-- Products -->
@@ -581,7 +569,7 @@
                               <ul class="preview-slider">
                                 <li>
                                   <img
-                                    src="static/images/product-images/{{product[8]}}"
+                                    src="static/images/product-images/{{product['image']}}"
                                     alt="product"
                                   />
                                 </li>
@@ -608,42 +596,51 @@
                               <p class="view-desc">
                                 {{product['description']}}
                               </p>
-                              <div class="view-add-group">
-                                <button class="product-add" title="Add to Cart">
-                                  <span>Tap to add amount</span>
-                                </button>
-                                <div class="product-action">
-                                  <button
-                                    class="action-minus"
-                                    title="Quantity Minus"
-                                  >
-                                    <i class="icofont-minus"></i>
+                              <form
+                                action="{{url_for('views.addcartModal')}}"
+                                method="POST"
+                              >
+                                <input
+                                  type="hidden"
+                                  value="{{product['id']}}"
+                                  name="p_idModal"
+                                  id="p_idModal"
+                                />
+                                <div class="view-add-group">
+                                  <button class="product-add" type="button">
+                                    <span>Tap to add amount</span>
                                   </button>
-                                  <input
-                                    class="action-input"
-                                    title="Quantity Number"
-                                    type="text"
-                                    name="quantity"
-                                    value="1"
-                                  />
-                                  <button
-                                    class="action-plus"
-                                    title="Quantity Plus"
-                                  >
-                                    <i class="icofont-plus"></i>
+                                  <div class="product-action">
+                                    <button
+                                      class="action-minus"
+                                      title="Quantity Minus"
+                                      type="button"
+                                    >
+                                      <i class="icofont-minus"></i>
+                                    </button>
+                                    <input
+                                      class="action-input"
+                                      title="Quantity Number"
+                                      type="text"
+                                      name="quantity"
+                                      value="1"
+                                    />
+                                    <button
+                                      class="action-plus"
+                                      title="Quantity Plus"
+                                      type="button"
+                                    >
+                                      <i class="icofont-plus"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                                <div class="view-action-group">
+                                  <button class="view-wish wish" type="submit">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span>add to cart</span>
                                   </button>
                                 </div>
-                              </div>
-                              <div class="view-action-group">
-                                <a
-                                  class="view-wish wish"
-                                  href="/shop"
-                                  title="Add to Cart"
-                                >
-                                  <i class="fas fa-shopping-cart"></i>
-                                  <span>add to cart</span>
-                                </a>
-                              </div>
+                              </form>
                             </div>
                           </div>
                         </div>

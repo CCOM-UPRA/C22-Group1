@@ -25,6 +25,78 @@ def Telescopes():
 
     return productsList
 
+def stringFormatList(list):
+    string = ""
+    for x in list:
+        if type(x) == tuple:
+            x = x[0]
+        
+        x = "'" + x + "'"
+            
+        if len(string) == 0:
+            string += x
+        else:
+            string = string + ',' + x
+    return string
+
+def FilteredTelescopes():
+    filters = session['filters']
+    brands = filters[0]
+    focalDistance = filters[1]
+    aperture = filters[2]
+    lens = filters[3]
+    mount = filters[4]
+    
+    if len(brands) == 0:
+        brands = getBrands()
+    
+    if len(focalDistance) == 0:
+        focalDistance = getFocal_Distance()
+    
+    if len(aperture) == 0:
+        aperture = getAperture()
+    
+    if len(lens) == 0:
+        lens = getLenses()
+        
+    if len(mount) == 0:
+        mount = getMounts()
+    
+    brands = stringFormatList(brands)
+    focalDistance = stringFormatList(focalDistance)
+    aperture = stringFormatList(aperture)
+    lens = stringFormatList(lens)
+    mount = stringFormatList(mount)
+        
+    
+    
+    products = getFilteredProducts(brands, focalDistance, aperture, lens, mount)
+    
+    if products == None:
+        return []
+    
+    productsList = []
+    for x in products:
+        product = {
+            'id': x[0],
+            'name': x[1],
+            'price': x[2],
+            'cost': x[3],
+            'brand': x[4],
+            'description': x[5],
+            'image': x[6],
+            'stock': x[7],
+            'status': x[8],
+            'type': x[9],
+            'mount': x[10],
+            'focal_distance': x[11],
+            'aperture': x[12],
+        }
+        productsList.append(product)
+
+    return productsList
+        
+
 
 def Brands():
     brands = getBrands()

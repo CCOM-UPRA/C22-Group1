@@ -22,7 +22,7 @@ def clear():
     return redirect(url_for('views.shop'))
 
 
-@views.route('/shop', methods=['GET', 'POST'])
+@views.route('/shop')
 def shop():
     cartProducts = []
     if 'customer' in session:
@@ -30,7 +30,12 @@ def shop():
             Cart()
         getCartTotal()
         cartProducts = getCartItems()
-    telescopes = Telescopes()
+    
+    telescopes = []
+    if 'filters' in session:
+        telescopes = FilteredTelescopes()
+    else:
+        telescopes = Telescopes()
     brands = Brands()
     mounts = Mounts()
     lenses = Lenses()
@@ -46,11 +51,23 @@ def shop():
                            CartItems = cartProducts)
     
 
-@views.route('/filter')
+@views.route('/filter', methods = ['GET', 'POST'])
 def filter():
     if request.method == 'POST':
         checkedBrands = request.form.getlist('brand')
+        checkedFocalDistance = request.form.getlist('focal_distance')
+        checkedAperture = request.form.getlist('aperture')
+        checkedLens = request.form.getlist('lens')
+        checkedMount = request.form.getlist('mount')
         print(checkedBrands)
+        session['filters'] = [checkedBrands, checkedFocalDistance, checkedAperture, checkedLens, checkedMount]
+    return redirect(url_for('views.shop'))
+
+@views.route('clearFilters', methods = ['GET', 'POST'])
+def clearFilters():
+    if request.method == 'POST':
+        if 'filters' in session:
+            session.pop('filters')
     return redirect(url_for('views.shop'))
 
 
@@ -87,6 +104,16 @@ def addcart():
     if request.method == 'POST':
         productQuantity = request.form['quantity']
         productID = request.form['p_id']
+        
+        addToCart(productID, productQuantity)
+    return redirect(url_for('views.shop'))
+
+@views.route('/addcartModal', methods = ['GET', 'POST'])
+@login_required
+def addcartModal():
+    if request.method == 'POST':
+        productQuantity = request.form['quantity']
+        productID = request.form['p_idModal']
         
         addToCart(productID, productQuantity)
     return redirect(url_for('views.shop'))

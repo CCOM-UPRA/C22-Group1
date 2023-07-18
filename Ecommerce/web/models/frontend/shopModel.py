@@ -8,40 +8,49 @@ def getProducts(database):
     data = cursor.fetchall()
     return data
 
+@DBConnection
+def getFilteredProducts(brands, focal_distance, aperture, lens, mount, database):
+    cursor = database.cursor()
+    string = "select * from telescopes where Telescope_Brand in ({}) and Telescope_FD in ({}) and Telescope_Aperture in ({}) and Telescope_Type in ({}) and Telescope_Mount in ({})"
+    string = string.format(brands, focal_distance, aperture, lens, mount,)
+    cursor.execute(string)
+    data = cursor.fetchall()
+    return data
+
 
 @DBConnection
 def getBrands(database):
     cursor = database.cursor()
     cursor.execute('select DISTINCT Telescope_Brand from telescopes')
-    return cursor
+    return cursor.fetchall()
 
 
 @DBConnection
 def getMounts(database):
     cursor = database.cursor()
     cursor.execute('select DISTINCT Telescope_Mount from telescopes')
-    return cursor
+    return cursor.fetchall()
 
 
 @DBConnection
 def getLenses(database):
     cursor = database.cursor()
     cursor.execute('select DISTINCT Telescope_Type from telescopes')
-    return cursor
+    return cursor.fetchall()
 
 
 @DBConnection
 def getFocal_Distance(database):
     cursor = database.cursor()
     cursor.execute('select DISTINCT Telescope_FD from telescopes')
-    return cursor
+    return cursor.fetchall()
 
 
 @DBConnection
 def getAperture(database):
     cursor = database.cursor()
     cursor.execute('select DISTINCT Telescope_Aperture from telescopes')
-    return cursor
+    return cursor.fetchall()
 
 
 @DBConnection
