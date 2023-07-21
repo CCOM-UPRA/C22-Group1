@@ -101,14 +101,24 @@ def orders():
         cartProducts = getCartItems()
         telescopes = Telescopes()
         
+    id = session.get('customer')
+    user = user_info(id)
+    order_update(id, user_info(id), order_number())
+    orders = order_info(id)
+    orderProducts = getOrderItems()
+    total = getCartTotalPrice(orders[0])
+        
     ## incomplete ##
     
     return render_template('orderlist.html', 
                            order1=[], 
-                           order2=[], 
+                           order2=[],
+                           order = orders,
+                           user = user, 
                            products1=[], 
                            products2=[], 
                            products=telescopes,
+                           OrderItems = orderProducts,
                            CartItems = cartProducts)
 
 
@@ -144,28 +154,41 @@ def checkout():
     id = session.get('customer')
     user = user_info(id)
     cards = card_info(id)
-    order_update(id, user_info(id), order_number())
+    order_update(id, user, order_number())
     
     orders = order_info(id)
-    print(orders)
-    
+
     
     
     cartProducts = []
     if 'customer' in session:
         if 'cart' not in session:
             Cart()
-        getCartTotal()
+        if 'cartTotalItems' not in session:
+            getCartTotal()
         cartProducts = getCartItems()
         telescopes = Telescopes()
+    
+    cardId = 'card'
+    if 'cardId' in session:
+        cardId = session['cardId']
        
     
     return render_template('checkout.html', 
                            user1=user,
                            card = cards,
                            products=telescopes,
-                           CartItems = cartProducts)
-    
+                           CartItems = cartProducts,
+                           cardId = cardId)
+
+@views.route('saveSelectedCard', methods = ['GET', 'POST'])
+def saveSelectedCard():
+    if request.method == 'POST':
+        cardId = request.form['cardId']
+        if cardId != 'card':
+            session['cardId'] = cardId
+    return redirect(url_for('views.checkout'))
+
     
 @views.route('/changePayment', methods=['GET', 'POST'])
 @login_required
@@ -180,25 +203,19 @@ def changePayment():
 def invoice():
     id = session.get('customer')
     user = user_info(id)
-    cards = card_info(id)  
+    cards = card_info(id) 
+    order_update(id, user_info(id), order_number())
     orders = order_info(id)
+    orderProducts = getOrderItems()
     
     
-    
-    cartProducts = []
-    if 'customer' in session:
-        if 'cart' not in session:
-            Cart()
-        getCartTotal()
-        cartProducts = getCartItems()
-        telescopes = Telescopes()
     
     return render_template('invoice.html', 
                            user1=user,
                            card = cards,
-                           products=telescopes,
-                           CartItems = cartProducts,
-                           order = orders)
+                           order = orders,
+                           OrderItems = orderProducts
+                          )
 
 
 @views.route('/payment', methods=['GET', 'POST'])
@@ -242,3 +259,11 @@ def change_password():
     update_password(id, password2) 
     success_message = "Contraseña actualizada con éxito."
     return redirect(url_for('views.profile', success_message=success_message))
+
+@views.route('clearCart')
+def clearCart():
+    if 'cart' in session:
+        session.pop('cart')
+        session.pop('cartTotalItems')
+        session.pop('cartTotalPrice')
+    return redirect(url_for('views.shop'))

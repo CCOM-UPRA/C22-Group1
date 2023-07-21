@@ -6,7 +6,8 @@ connection = mysql.connector.connect(
         port=3306,
         user='sql9607914',
         password='uWzaFxXgrH',
-        database='sql9607914'
+        database='sql9607914',
+        buffered=True
     )
 
 

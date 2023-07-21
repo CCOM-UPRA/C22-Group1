@@ -13,35 +13,35 @@ def getProducts(database):
 def getBrands(database):
     cursor = database.cursor()
     cursor.execute('select DISTINCT Telescope_Brand from telescopes')
-    return cursor
+    return cursor.fetchall()
 
 
 @DBConnection
 def getMounts(database):
     cursor = database.cursor()
     cursor.execute('select DISTINCT Telescope_Mount from telescopes')
-    return cursor
+    return cursor.fetchall()
 
 
 @DBConnection
 def getLenses(database):
     cursor = database.cursor()
     cursor.execute('select DISTINCT Telescope_Type from telescopes')
-    return cursor
+    return cursor.fetchall()
 
 
 @DBConnection
 def getFocal_Distance(database):
     cursor = database.cursor()
     cursor.execute('select DISTINCT Telescope_FD from telescopes')
-    return cursor
+    return cursor.fetchall()
 
 
 @DBConnection
 def getAperture(database):
     cursor = database.cursor()
     cursor.execute('select DISTINCT Telescope_Aperture from telescopes')
-    return cursor
+    return cursor.fetchall()
 
 
 @DBConnection

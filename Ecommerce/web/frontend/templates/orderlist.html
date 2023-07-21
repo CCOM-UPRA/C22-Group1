@@ -337,28 +337,28 @@
                           </tr>
                         </thead>
                         <tbody>
-                          {% for key, product in products1 %}
+                          {% for item in OrderItems %}
                           <tr>
-                            <td class="table-serial">
-                              <h6>{{product['name']}}</h6>
-                            </td>
                             <td class="table-image">
                               <img
-                                src="static/images/product-images/{{product['image']}}"
+                                src="static/images/product-images/{{item['image']}}"
                                 alt="product"
                               />
                             </td>
                             <td class="table-name">
-                              <h6>{{product['brand']}}</h6>
+                              <h6>{{item['brand']}}</h6>
                             </td>
                             <td class="table-price">
-                              <h6>${{product['price']}}0</h6>
+                              <h6>{{item['name']}}</h6>
                             </td>
                             <td class="table-brand">
-                              <h6>{{product['quantity']}}</h6>
+                              <h6>${{item['price']}}0</h6>
                             </td>
-                            <td class="table-quantity">
-                              <h6>${{product['total_price']}}0</h6>
+                            <td class="table-brand">
+                              <h6>{{item['quantity']}}</h6>
+                            </td>
+                            <td class="table-brand">
+                              <h6>${{ item['quantity'] * item['price'] }}</h6>
                             </td>
                           </tr>
                           {% endfor %}
@@ -449,28 +449,28 @@
                           </tr>
                         </thead>
                         <tbody>
-                          {% for key, product in products2 %}
+                          {% for item in OrderItems %}
                           <tr>
-                            <td class="table-serial">
-                              <h6>{{product['name']}}</h6>
-                            </td>
                             <td class="table-image">
                               <img
-                                src="static/images/product-images/{{product['image']}}"
+                                src="static/images/product-images/{{item['image']}}"
                                 alt="product"
                               />
                             </td>
                             <td class="table-name">
-                              <h6>{{product['brand']}}</h6>
+                              <h6>{{item['brand']}}</h6>
                             </td>
                             <td class="table-price">
-                              <h6>${{product['price']}}0</h6>
+                              <h6>{{item['name']}}</h6>
                             </td>
                             <td class="table-brand">
-                              <h6>{{product['quantity']}}</h6>
+                              <h6>${{item['price']}}0</h6>
                             </td>
-                            <td class="table-quantity">
-                              <h6>${{product['total_price']}}0</h6>
+                            <td class="table-brand">
+                              <h6>{{item['quantity']}}</h6>
+                            </td>
+                            <td class="table-brand">
+                              <h6>${{ item['quantity'] * item['price'] }}</h6>
                             </td>
                           </tr>
                           {% endfor %}

@@ -207,15 +207,10 @@
                     <h6></h6>
                     <p>{{order[10]}}, {{order[11]}}</p>
                   </li>
-                  <li>
-                    <h6></h6>
-                    <p>{{order[9]}}</p>
-                  </li>
                 </ul>
               </div>
             </div>
           </div>
-          {% if 'cart' in session %} {% for item in CartItems %}
           <div class="col-lg-6">
             <div class="account-card">
               <div class="account-title">
@@ -225,7 +220,7 @@
                 <ul class="invoice-details">
                   <li>
                     <h6>Total Items</h6>
-                    <p>{{item['quantity']}} items</p>
+                    <p>{{session['cartTotalItems']}} items</p>
                   </li>
                   <li>
                     <h6>Total</h6>
@@ -235,6 +230,7 @@
               </div>
             </div>
           </div>
+
           <div class="col-lg-12">
             <div class="table-scroll">
               <table class="table-list">
@@ -248,7 +244,9 @@
                     <th scope="col">Total Price</th>
                   </tr>
                 </thead>
+
                 <tbody>
+                  {% for item in OrderItems %}
                   <tr>
                     <td class="table-image">
                       <img
@@ -263,10 +261,10 @@
                       <h6>{{item['quantity']}}</h6>
                     </td>
                     <td class="table-brand">
-                      <h6>${{session['cartTotalPrice']}}.00</h6>
+                      <h6>${{ item['quantity'] * item['price'] }}</h6>
                     </td>
                   </tr>
-                  {% endfor %} {% endif %}
+                  {% endfor %}
                 </tbody>
               </table>
             </div>
@@ -275,7 +273,7 @@
         <div class="row">
           <div class="col-lg-12 text-center mt-5">
             <div class="back-home">
-              <a href="{{url_for('views.shop')}}">Back to Shop</a>
+              <a href="{{url_for('views.clearCart')}}">Back to Shop</a>
             </div>
           </div>
         </div>
