@@ -2,9 +2,25 @@ from ...dbConnection import *
 
 
 @DBConnection
-def getProducts(database):
+def getProducts(minPrice, maxPrice, database):
     cursor = database.cursor()
-    cursor.execute('select * from telescopes')
+    cursor.execute('select * from telescopes where Telescope_Price between %s and %s', (minPrice, maxPrice,))
+    data = cursor.fetchall()
+    return data
+
+@DBConnection
+def getProductsForSearchBar(minPrice, maxPrice, searchString, database):
+    cursor = database.cursor()
+    cursor.execute('select * from telescopes where Telescope_Name like %s and Telescope_Price between %s and %s', (searchString, minPrice, maxPrice,))
+    data = cursor.fetchall()
+    return data
+
+@DBConnection
+def getFilteredProducts(brands, focal_distance, aperture, lens, mount, minPrice, maxPrice, database):
+    cursor = database.cursor()
+    string = "select * from telescopes where Telescope_Brand in ({}) and Telescope_FD in ({}) and Telescope_Aperture in ({}) and Telescope_Type in ({}) and Telescope_Mount in ({}) and Telescope_Price between {} and {}"
+    string = string.format(brands, focal_distance, aperture, lens, mount, minPrice, maxPrice)
+    cursor.execute(string)
     data = cursor.fetchall()
     return data
 
@@ -47,14 +63,14 @@ def getAperture(database):
 @DBConnection
 def getMinPrice(database):
     cursor = database.cursor()
-    cursor.execute('select min(price) from telescopes')
+    cursor.execute('select min(Telescope_Price) from telescopes')
     return cursor.fetchone()
 
 
 @DBConnection
 def getMaxPrice(database):
     cursor = database.cursor()
-    cursor.execute('select max(price) from telescopes')
+    cursor.execute('select max(Telescope_Price) from telescopes')
     return cursor.fetchone()
 
 @DBConnection
