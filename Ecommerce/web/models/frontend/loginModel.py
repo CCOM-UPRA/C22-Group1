@@ -43,6 +43,12 @@ def update_password(id, C_Password, database):  #update el password
     cursor.execute('UPDATE customers SET C_Password = %s WHERE CustomerID = %s', (C_Password, id))
     database.commit()
     
+@DBConnection
+def reset_password(email, C_Password, database):  #update el password
+    cursor = database.cursor()
+    cursor.execute('UPDATE customers SET C_Password = %s WHERE C_Email = %s', (C_Password, email))
+    database.commit()
+    
     
 #paymenth
 @DBConnection

@@ -85,16 +85,17 @@ def register():
 
 
 @auth.route('/Cpassword', methods=['GET', 'POST'])
-def change_password(): 
+def Cpassword(): 
     if request.method == 'POST':
         email = request.form['C_email']
         pass1 = request.form['pass_n']
         pass2 = request.form['pass_n1']
+        print(email,pass1,pass2)
         if email_exists(email):
             if pass1 != pass2:
                 flash('Password dont match!', 'ERROR')
                 return redirect(url_for('auth.Cpassword'))
-            update_password(email, pass2) 
+            reset_password(email, pass2) 
             flash('Password successfully changed', 'error')
             return render_template('login.html')
         return redirect(url_for('auth.Cpassword'))
