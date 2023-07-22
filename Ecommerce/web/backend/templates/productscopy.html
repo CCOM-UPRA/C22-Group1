@@ -91,7 +91,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="header-media-group">
-                    <button class="header-user"><img src="../static/images/user.png" alt="user"></button>
+                    <button class="header-user"><img src="static/images/user.png" alt="user"></button>
                     <a href="{{url_for('back_views.products')}}"><img src="../static/images/logo.png" alt="logo"></a>
                     <button class="header-src"><i class="fas fa-search"></i></button>
                 </div>
@@ -195,18 +195,17 @@
                   <div class="product-media">
                     <a
                       class="product-image"
-                      href="../static/images/product-images/{{product['image']}}" 
+                      href="static/images/product-images/{{product['image']}}" 
                     >
                       <img
-                        src="../static/images/product-images/{{product['image']}}"
-                        
+                        src="static/images/product-images/{{product['image']}}"
                         alt="product"
                       />
                     </a>
                     <div class="product-widget">
                       <a
                         title="Product View"
-                        href=""
+                        href="{{url_for('product', prod=product['image'])}}"
                         class="fas fa-eye"
                       ></a>
                     </div>
@@ -214,26 +213,26 @@
                   <div class="product-content">
                     <h6 class="product-name">
                       <a
-                        href=""
-                        >{{product['name']}}</a
+                        href="{{url_for('back_views.product', prod=product[0])}}"
+                        >{{product[1]}}</a
                       >
                     </h6>
                     <h6 class="product-name">
-                      <a>{{product['name']}}</a>
+                      <a>{{product[2]}}</a>
                     </h6>
                     <h6 class="product-price">
-                      <span>${{product['price']}}</span>
+                      <span>${{product[11]}}</span>
                     </h6>
                     <h6 class="product-name">
-                      <a>{{product['stock']}} in stock</a>
+                      <a>{{product[9]}} in stock</a>
                     </h6>
                     <h6 class="product-name">
-                      <a>Status: {{product['status']}} </a>
+                      <a>Status: {{product[10]}}</a>
                     </h6>
 
                     <div class="product-action">
                       <form
-                        action=""
+                        action="{{url_for('back_views.product', prod=product) }}"
                         method="post"
                       >
                         <input
@@ -249,61 +248,61 @@
                           type="hidden"
                           id="p_id"
                           name="p_id"
-                          value="{{product['id']}}"
+                          value="{{product[0]}}"
                         />
                         <input
                           type="hidden"
                           id="name"
                           name="name"
-                          value=""
+                          value="{{product[1]}}"
                         />
                         <input
                           type="hidden"
                           id="price"
                           name="price"
-                          value=""
+                          value="{{product[10]}}"
                         />
                         <input
                           type="hidden"
                           id="cost"
                           name="cost"
-                          value=""
+                          value="{{product[11]}}"
                         />
                         <input
                           type="hidden"
                           id="stock"
                           name="stock"
-                          value=""
+                          value="{{product[8]}}"
                         />
                         <input
                           type="hidden"
                           id="brand"
                           name="brand"
-                          value=""
+                          value="{{product[2]}}"
                         />
                         <input
                           type="hidden"
                           id="wifi"
                           name="wifi"
-                          value=""
+                          value="{{product[4]}}"
                         />
                         <input
                           type="hidden"
                           id="videores"
                           name="videores"
-                          value=""
+                          value="{{product[5]}}"
                         />
                         <input
                           type="hidden"
                           id="desc"
                           name="desc"
-                          value=""
+                          value="{{product[3]}}"
                         />
                         <input
                           type="hidden"
                           id="image"
                           name="image"
-                          value=""
+                          value="{{product[7]}}"
                         />
                         <input style="width: 30%" type="submit" value="Add" />
                         <button class="action">View</button>
@@ -313,7 +312,7 @@
                 </div>
               </div>
 
-              <div class="modal fade" id="product-view-">
+              <div class="modal fade" id="product-view-{{product[0]}}">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <button
@@ -326,13 +325,13 @@
                           <div class="view-gallery">
                             <div class="view-label-group">
                               <label class="view-label new"
-                                > in stock</label
+                                >{{product[8]}} in stock</label
                               >
                             </div>
                             <ul class="preview-slider">
                               <li>
                                 <img
-                                  src="static/images/product-images/"
+                                  src="static/images/product-images/{{product[7]}}"
                                   alt="product"
                                 />
                               </li>
@@ -342,17 +341,17 @@
                         <div class="col-md-6 col-lg-6">
                           <div class="view-details">
                             <h3 class="view-name">
-                              <a href="product-video.html"></a>
+                              <a href="product-video.html">{{product[1]}}</a>
                             </h3>
                             <div class="view-meta">
-                              <p>Brand:<span></span></p>
+                              <p>Brand:<span>{{product[2]}}</span></p>
                               <br />
-                              <p>Wi-fi: </p>
+                              <p>Wi-fi: {{product[4]}}</p>
                               <br />
-                              <p>Video Res: </p>
+                              <p>Video Res: {{product[5]}}</p>
                             </div>
                             <h3 class="view-price">
-                              <span>Price: </span>
+                              <span>Price: {{product[10]}}</span>
                             </h3>
                             <p class="view-desc">
                               Lorem ipsum dolor sit amet consectetur adipisicing
@@ -376,7 +375,7 @@
     <!--=====================================
                     SHOP PART END
         =======================================-->
-      
+
     <!--=====================================
                      FOOTER PART START
         =======================================-->

@@ -6958,3 +6958,7 @@ tbody tr td:last-child {
 .nose2{
   width: 25%;
 }
+
+.ycenter{
+  justify-content: center;
+}

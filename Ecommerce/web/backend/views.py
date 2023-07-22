@@ -1,8 +1,18 @@
 from flask import Blueprint, redirect, url_for, render_template, request, flash
 from ..controllers.backend.accountController import *
 from ..models.backend.reportmodel import *
+from ..controllers.frontend.shopController import *
+from ..models.backend.productModel import *
 import calendar
 from datetime import datetime, timedelta
+
+def login_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if 'customer' not in session:
+            return redirect('/')
+        return func(*args, **kwargs)
+    return wrapper
 
 views = Blueprint('back_views', __name__, template_folder='templates/')
 
@@ -14,21 +24,41 @@ def clear():
 
 
 @views.route('/products')
+@login_required
 def products():
-    return render_template('products.html')
+    products = Telescopes()
+    return render_template('products.html', products = products)
 
 
-@views.route('/addproduct')
+@views.route('/addproduct', methods=['GET', 'POST'])
+@login_required
 def addproduct():
+    if request.method == 'POST':
+        tname = request.form['t_Name']
+        tbrand = request.form['t_Brand']
+        ttype = request.form['t_Lens']
+        tmount = request.form['t_Mount']
+        tfocal = request.form['t_Focal']
+        tprice = request.form['t_Price']
+        tstock = request.form['t_Stock']
+        tdesc = request.form['t_Description']
+        timage = request.form['myfile']
+        tstatus = request.form['status']
+        tcost = request.form['t_cost']
+        taperture = request.form['t_aperture']
+        print(tname,tprice,tcost,tbrand,tdesc,timage,tstock,tstatus,ttype,tmount,tfocal,taperture)
+        # new_product(tname,tprice,tcost,tbrand,tdesc,timage,tstock,tstatus,ttype,tmount,tfocal,taperture)
     return render_template('add_product.html')
 
 
 @views.route('/accounts')
+@login_required
 def accounts():
     users = UsersList()
     return render_template('accounts.html' , user = users)
 
 @views.route('/edit_accounts', methods=['GET', 'POST'])
+@login_required
 def edit_accounts():
     if request.method == 'POST':
        fname = request.form['F_Name']
@@ -43,6 +73,7 @@ def edit_accounts():
     return redirect(url_for('back_views.accounts'))
 
 @views.route('/add_accounts', methods=['GET', 'POST'])
+@login_required
 def add_accounts():
     if request.method == 'POST':
         fname = request.form['F_Name']
@@ -56,6 +87,7 @@ def add_accounts():
 
     
 @views.route('/reports', methods=['GET', 'POST'])
+@login_required
 def reports():
     print("HOLA")
     if request.method == 'POST':
