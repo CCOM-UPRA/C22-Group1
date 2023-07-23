@@ -165,9 +165,9 @@ def orders():
     order_update(id, user_info(id), order_number())
     orders = order_info(id)
     orderProducts = getOrderItems()
-    total = getCartTotalPrice(orders[0])
-        
-    ## incomplete ##
+    totalOrders = order_count(id)  
+    Orders = getAllOrders(id)      
+    
     
     return render_template('orderlist.html', 
                            order1=[], 
@@ -178,7 +178,9 @@ def orders():
                            products2=[], 
                            products=telescopes,
                            OrderItems = orderProducts,
-                           CartItems = cartProducts)
+                           CartItems = cartProducts,
+                           totalOrders = totalOrders,
+                           Orders = Orders)
 
 
 @views.route('/addcart', methods = ['GET', 'POST'])

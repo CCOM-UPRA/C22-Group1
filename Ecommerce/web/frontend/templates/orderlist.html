@@ -242,9 +242,9 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="orderlist-filter">
-              <h5>total orders <span>- (2)</span></h5>
+              <h5>total orders <span>- {{totalOrders}}</span></h5>
               <div class="filter-short">
-                <label class="form-label">sort by:</label>
+                <label class="form-label">Filter By:</label>
                 <select class="form-select">
                   <option value="all" selected>all orders</option>
                   <option value="recieved">received orders</option>
@@ -256,17 +256,20 @@
             </div>
           </div>
         </div>
+
         <div class="row">
+          {% for order in Orders%}
           <div class="col-lg-12">
             <div class="orderlist">
               <div class="orderlist-head">
-                <h5>order#01</h5>
-                <h5>order received</h5>
+                <h5>order {{order[3]}}</h5>
+                <h5>order {{order[6]}}</h5>
               </div>
               <div class="orderlist-body">
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="order-track">
+                      {% if order[6] == 'Received' %}
                       <ul class="order-track-list">
                         <li class="order-track-item active">
                           <i class="icofont-check"></i>
@@ -284,22 +287,74 @@
                           <i class="icofont-close"></i>
                           <span>order delivered</span>
                         </li>
+                        {% elif order[6] == 'Processed' %}
+                        <li class="order-track-item active">
+                          <i class="icofont-close"></i>
+                          <span>order received</span>
+                        </li>
+                        <li class="order-track-item active">
+                          <i class="icofont-close"></i>
+                          <span>order processed</span>
+                        </li>
+                        <li class="order-track-item">
+                          <i class="icofont-close"></i>
+                          <span>order shipped</span>
+                        </li>
+                        <li class="order-track-item">
+                          <i class="icofont-close"></i>
+                          <span>order delivered</span>
+                        </li>
+                        {% elif order[6] == 'Shipped' %}
+                        <li class="order-track-item active">
+                          <i class="icofont-close"></i>
+                          <span>order received</span>
+                        </li>
+                        <li class="order-track-item active">
+                          <i class="icofont-close"></i>
+                          <span>order processed</span>
+                        </li>
+                        <li class="order-track-item active">
+                          <i class="icofont-close"></i>
+                          <span>order shipped</span>
+                        </li>
+                        <li class="order-track-item">
+                          <i class="icofont-close"></i>
+                          <span>order delivered</span>
+                        </li>
+                        {% elif order[6] == 'Delivered' %}
+                        <li class="order-track-item active">
+                          <i class="icofont-close"></i>
+                          <span>order received</span>
+                        </li>
+                        <li class="order-track-item active">
+                          <i class="icofont-close"></i>
+                          <span>order processed</span>
+                        </li>
+                        <li class="order-track-item active">
+                          <i class="icofont-close"></i>
+                          <span>order shipped</span>
+                        </li>
+                        <li class="order-track-item active">
+                          <i class="icofont-close"></i>
+                          <span>order delivered</span>
+                        </li>
                       </ul>
+                      {% endif %}
                     </div>
                   </div>
                   <div class="col-lg-5">
                     <ul class="orderlist-details">
                       <li>
                         <h6>order tracking number</h6>
-                        <p>{{order1['tracking_num']}}</p>
+                        <p>{{order[12]}}</p>
                       </li>
                       <li>
-                        <h6>Order Time</h6>
-                        <p>{{order1['order_date']}}</p>
+                        <h6>Order Date</h6>
+                        <p>{{order[4]}}</p>
                       </li>
                       <li>
-                        <h6>Delivery Time</h6>
-                        <p>{{order1['arrival_date']}}</p>
+                        <h6>Estimated Delivery Date</h6>
+                        <p>{{order[5]}}</p>
                       </li>
                     </ul>
                   </div>
@@ -318,9 +373,9 @@
                   <div class="col-lg-3">
                     <div class="orderlist-deliver">
                       <h6>Delivery location</h6>
-                      <p>{{order1['address_line_1']}}</p>
+                      <p>{{order[7]}}</p>
                       <br />
-                      <p>{{order1['address_line_2']}}</p>
+                      <p>{{order[8]}}</p>
                     </div>
                   </div>
                   <div class="col-lg-12">
@@ -369,118 +424,7 @@
                 </div>
               </div>
             </div>
-
-            <div class="orderlist">
-              <div class="orderlist-head">
-                <h5>order#02</h5>
-                <h5>order delivered</h5>
-              </div>
-              <div class="orderlist-body">
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="order-track">
-                      <ul class="order-track-list">
-                        <li class="order-track-item active">
-                          <i class="icofont-check"></i>
-                          <span>order received</span>
-                        </li>
-                        <li class="order-track-item active">
-                          <i class="icofont-check"></i>
-                          <span>order processed</span>
-                        </li>
-                        <li class="order-track-item active">
-                          <i class="icofont-check"></i>
-                          <span>order shipped</span>
-                        </li>
-                        <li class="order-track-item active">
-                          <i class="icofont-check"></i>
-                          <span>order delivered</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-lg-5">
-                    <ul class="orderlist-details">
-                      <li>
-                        <h6>order tracking number</h6>
-                        <p>{{order2['tracking_num']}}</p>
-                      </li>
-                      <li>
-                        <h6>Order Time</h6>
-                        <p>{{order2['order_date']}}</p>
-                      </li>
-                      <li>
-                        <h6>Delivery Time</h6>
-                        <p>{{order2['arrival_date']}}</p>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-lg-4">
-                    <ul class="orderlist-details">
-                      <li>
-                        <h6>Total</h6>
-                        <p>${{order2['total']}}0</p>
-                      </li>
-                      <li>
-                        <h6>Amount of items</h6>
-                        <p>{{order2['amount']}}</p>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="orderlist-deliver">
-                      <h6>Delivery location</h6>
-                      <p>{{order2['address_line_1']}}</p>
-                      <br />
-                      <p>{{order2['address_line_2']}}</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-12">
-                    <div class="table-scroll">
-                      <table class="table-list">
-                        <thead>
-                          <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Image</th>
-                            <th scope="col">Brand</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Total Price</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for item in OrderItems %}
-                          <tr>
-                            <td class="table-image">
-                              <img
-                                src="static/images/product-images/{{item['image']}}"
-                                alt="product"
-                              />
-                            </td>
-                            <td class="table-name">
-                              <h6>{{item['brand']}}</h6>
-                            </td>
-                            <td class="table-price">
-                              <h6>{{item['name']}}</h6>
-                            </td>
-                            <td class="table-brand">
-                              <h6>${{item['price']}}0</h6>
-                            </td>
-                            <td class="table-brand">
-                              <h6>{{item['quantity']}}</h6>
-                            </td>
-                            <td class="table-brand">
-                              <h6>${{ item['quantity'] * item['price'] }}</h6>
-                            </td>
-                          </tr>
-                          {% endfor %}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {%endfor%}
           </div>
         </div>
       </div>

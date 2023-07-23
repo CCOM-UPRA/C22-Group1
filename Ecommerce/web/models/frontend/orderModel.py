@@ -11,5 +11,21 @@ def order_info(id, database):
 @DBConnection
 def order_update(id, user, number, database):
     cursor = database.cursor()
-    cursor.execute('UPDATE orders SET Order_Number = %s, Order_Date = %s, Arrival_Date = %s, Order_Status = %s, Street_number = %s, Street_name = %s, zipCode = %s, C_City = %s, C_State = %s, Tracking_Number = %s, Invoice_Number = %s WHERE CustomerID = %s ', (number[0], number[1], number[2], number[4], user[5], user[6], user[7], user[8], user[9], number[4], number[5], id,)) 
+    cursor.execute('UPDATE orders SET Order_Number = %s, Order_Date = %s, Arrival_Date = %s, Order_Status = %s, Street_number = %s, Street_name = %s, zipCode = %s, C_City = %s, C_State = %s, Tracking_Number = %s, Invoice_Number = %s WHERE CustomerID = %s ', (number[0], number[1], number[2], number[3], user[5], user[6], user[7], user[8], user[9], number[4], number[5], id,)) 
     database.commit()
+    
+@DBConnection
+def order_count(id, database):
+    cursor = database.cursor()
+    cursor.execute('SELECT COUNT(CustomerID) as Total from orders WHERE CustomerID = %s and Order_Number != 0', (id,))
+    data = cursor.fetchone()
+    
+    if data[0] == None:
+        return 0
+    return data[0]
+
+@DBConnection
+def getAllOrders(id, database):
+    cursor = database.cursor()
+    cursor.execute('SELECT * FROM orders WHERE CustomerID = %s', (id,))   
+    return cursor.fetchall()
