@@ -162,17 +162,16 @@ def orders():
         
     id = session.get('customer')
     user = user_info(id)
-    order_update(id, user_info(id), order_number())
-    orders = order_info(id)
+
     orderProducts = getOrderItems()
     totalOrders = order_count(id)  
-    Orders = getAllOrders(id)      
+    Orders = getAllOrders(id)  
+    #total = getTotalInfo()    
     
     
     return render_template('orderlist.html', 
                            order1=[], 
                            order2=[],
-                           order = orders,
                            user = user, 
                            products1=[], 
                            products2=[], 
@@ -181,6 +180,7 @@ def orders():
                            CartItems = cartProducts,
                            totalOrders = totalOrders,
                            Orders = Orders)
+                           #total = total)
 
 
 @views.route('/addcart', methods = ['GET', 'POST'])

@@ -1,12 +1,13 @@
 from ...models.frontend.orderModel import *
 from ...models.frontend.shopModel import *
-import datetime
+import datetime, time
 
 import random
 from flask import session
 
 def order_number():
     number = []
+    random.seed(time.time())
     number.append(random.randrange(100000, 999999)) #order number
     number.append((datetime.datetime.now()).date()) #order date
     business_days = 5 
@@ -41,3 +42,16 @@ def getOrderItems():
         productsList.append(product)
     return productsList
      
+def getTotalInfo():
+    customerId = session['customer']
+    info = getTotalOrder(customerId)
+    total = []
+    
+    for x in info:
+        list = {
+            'orderId': x[0],
+            'totalPrice': x[1],
+            'totalAmount': x[2]
+        }
+        total.append(list)
+    return total

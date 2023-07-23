@@ -362,11 +362,11 @@
                     <ul class="orderlist-details">
                       <li>
                         <h6>Total</h6>
-                        <p>${{order1['total']}}0</p>
+                        <p>$totalPrice0</p>
                       </li>
                       <li>
                         <h6>Amount of items</h6>
-                        <p>{{order1['amount']}}</p>
+                        <p>totalAmount</p>
                       </li>
                     </ul>
                   </div>
@@ -392,7 +392,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          {% for item in OrderItems %}
+                          {% for item in OrderItems  %}
                           <tr>
                             <td class="table-image">
                               <img
