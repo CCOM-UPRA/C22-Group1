@@ -37,7 +37,7 @@ def login():
                     return redirect(url_for('auth.login'))
                 
                 elif customer_status == 'ADMIN':
-                    session['customer'] = customerID
+                    session['admin'] = customerID
                     return redirect(url_for('back_views.products'))
                 
             else:

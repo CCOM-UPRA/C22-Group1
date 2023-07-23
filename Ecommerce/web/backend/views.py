@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def login_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        if 'customer' not in session:
+        if 'admin' not in session:
             return redirect('/')
         return func(*args, **kwargs)
     return wrapper
@@ -46,8 +46,9 @@ def addproduct():
         tstatus = request.form['status']
         tcost = request.form['t_cost']
         taperture = request.form['t_aperture']
-        print(tname,tprice,tcost,tbrand,tdesc,timage,tstock,tstatus,ttype,tmount,tfocal,taperture)
-        # new_product(tname,tprice,tcost,tbrand,tdesc,timage,tstock,tstatus,ttype,tmount,tfocal,taperture)
+        new_product(tname,tprice,tcost,tbrand,tdesc,timage,tstock,tstatus,ttype,tmount,tfocal,taperture)
+        flash('Product added to the database ', 'succes')
+        return redirect(url_for('back_views.products'))
     return render_template('add_product.html')
 
 

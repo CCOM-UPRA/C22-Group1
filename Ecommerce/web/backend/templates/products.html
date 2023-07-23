@@ -206,20 +206,21 @@
                     <div class="product-widget">
                       <a
                         title="Product View"
-                        href=""
+                        href="#"
                         class="fas fa-eye"
+                        data-bs-toggle="modal"
+                        data-bs-target="#product-view-{{product['id']}}"
                       ></a>
                     </div>
                   </div>
+                  
                   <div class="product-content">
                     <h6 class="product-name">
                       <a
-                        href=""
+                        data-bs-toggle="modal"
+                        data-bs-target="#product-view-{{product['id']}}"
                         >{{product['name']}}</a
                       >
-                    </h6>
-                    <h6 class="product-name">
-                      <a>{{product['name']}}</a>
                     </h6>
                     <h6 class="product-price">
                       <span>${{product['price']}}</span>
@@ -233,7 +234,7 @@
 
                     <div class="product-action">
                       <form
-                        action=""
+                        action="{{url_for('back_views.products') }}"
                         method="post"
                       >
                         <input
@@ -255,65 +256,58 @@
                           type="hidden"
                           id="name"
                           name="name"
-                          value=""
+                          value="{{product['name']}}"
                         />
                         <input
                           type="hidden"
                           id="price"
                           name="price"
-                          value=""
+                          value="{{product['price']}}"
                         />
                         <input
                           type="hidden"
                           id="cost"
                           name="cost"
-                          value=""
+                          value="{{product['cost']}}"
                         />
                         <input
                           type="hidden"
                           id="stock"
                           name="stock"
-                          value=""
+                          value="{{product['stock']}}"
                         />
                         <input
                           type="hidden"
                           id="brand"
                           name="brand"
-                          value=""
+                          value="{{product['brand']}}"
                         />
                         <input
                           type="hidden"
-                          id="wifi"
-                          name="wifi"
-                          value=""
-                        />
-                        <input
-                          type="hidden"
-                          id="videores"
-                          name="videores"
-                          value=""
+                          id="mount"
+                          name="mount"
+                          value="{{product['mount']}}"
                         />
                         <input
                           type="hidden"
                           id="desc"
                           name="desc"
-                          value=""
+                          value="{{product[description]}}"
                         />
                         <input
                           type="hidden"
                           id="image"
                           name="image"
-                          value=""
+                          value="{{product['image']}}"
                         />
                         <input style="width: 30%" type="submit" value="Add" />
-                        <button class="action">View</button>
                       </form>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div class="modal fade" id="product-view-">
+              <div class="modal fade" id="product-view-{{product['id']}}">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <button
@@ -326,13 +320,13 @@
                           <div class="view-gallery">
                             <div class="view-label-group">
                               <label class="view-label new"
-                                > in stock</label
+                                >{{product['stock']}} in stock</label
                               >
                             </div>
                             <ul class="preview-slider">
                               <li>
                                 <img
-                                  src="static/images/product-images/"
+                                  src="../static/images/product-images/{{product[8]}}"
                                   alt="product"
                                 />
                               </li>
@@ -342,23 +336,20 @@
                         <div class="col-md-6 col-lg-6">
                           <div class="view-details">
                             <h3 class="view-name">
-                              <a href="product-video.html"></a>
+                              <a href="">{{product['name']}}</a>
                             </h3>
                             <div class="view-meta">
-                              <p>Brand:<span></span></p>
+                              <p>Brand:<span>{{product['brand']}}</span></p>
                               <br />
-                              <p>Wi-fi: </p>
+                              <p>Type:{{product['type']}}</p>
                               <br />
-                              <p>Video Res: </p>
+                              <p>Mount: {{product['mount']}}</p>
                             </div>
                             <h3 class="view-price">
-                              <span>Price: </span>
+                              <span>Price: {{product['price']}}</span>
                             </h3>
                             <p class="view-desc">
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit non tempora magni repudiandae sint suscipit
-                              tempore quis maxime explicabo veniam eos
-                              reprehenderit fuga
+                              {{product['description']}}
                             </p>
                           </div>
                         </div>
