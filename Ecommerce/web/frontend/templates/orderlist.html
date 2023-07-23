@@ -262,14 +262,14 @@
           <div class="col-lg-12">
             <div class="orderlist">
               <div class="orderlist-head">
-                <h5>order {{order[3]}}</h5>
-                <h5>order {{order[6]}}</h5>
+                <h5>order {{order['Order'][3]}}</h5>
+                <h5>order {{order['Order'][6]}}</h5>
               </div>
               <div class="orderlist-body">
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="order-track">
-                      {% if order[6] == 'Received' %}
+                      {% if order['Order'][6] == 'Received' %}
                       <ul class="order-track-list">
                         <li class="order-track-item active">
                           <i class="icofont-check"></i>
@@ -287,7 +287,9 @@
                           <i class="icofont-close"></i>
                           <span>order delivered</span>
                         </li>
-                        {% elif order[6] == 'Processed' %}
+                      </ul>
+                        {% elif order['Order'][6] == 'Processed' %}
+                        <ul class="order-track-list">
                         <li class="order-track-item active">
                           <i class="icofont-close"></i>
                           <span>order received</span>
@@ -304,7 +306,9 @@
                           <i class="icofont-close"></i>
                           <span>order delivered</span>
                         </li>
-                        {% elif order[6] == 'Shipped' %}
+                      </ul>
+                        {% elif order['Order'][6] == 'Shipped' %}
+                        <ul class="order-track-list">
                         <li class="order-track-item active">
                           <i class="icofont-close"></i>
                           <span>order received</span>
@@ -321,7 +325,9 @@
                           <i class="icofont-close"></i>
                           <span>order delivered</span>
                         </li>
-                        {% elif order[6] == 'Delivered' %}
+                      </ul>
+                        {% elif order['Order'][6] == 'Delivered' %}
+                        <ul class="order-track-list">
                         <li class="order-track-item active">
                           <i class="icofont-close"></i>
                           <span>order received</span>
@@ -346,15 +352,15 @@
                     <ul class="orderlist-details">
                       <li>
                         <h6>order tracking number</h6>
-                        <p>{{order[12]}}</p>
+                        <p>{{order['Order'][12]}}</p>
                       </li>
                       <li>
                         <h6>Order Date</h6>
-                        <p>{{order[4]}}</p>
+                        <p>{{order['Order'][4]}}</p>
                       </li>
                       <li>
                         <h6>Estimated Delivery Date</h6>
-                        <p>{{order[5]}}</p>
+                        <p>{{order['Order'][5]}}</p>
                       </li>
                     </ul>
                   </div>
@@ -362,20 +368,20 @@
                     <ul class="orderlist-details">
                       <li>
                         <h6>Total</h6>
-                        <p>$totalPrice0</p>
+                        <p>${{order['TotalPrice']}}.00</p>
                       </li>
                       <li>
                         <h6>Amount of items</h6>
-                        <p>totalAmount</p>
+                        <p>{{order['TotalItems']}}</p>
                       </li>
                     </ul>
                   </div>
                   <div class="col-lg-3">
                     <div class="orderlist-deliver">
                       <h6>Delivery location</h6>
-                      <p>{{order[7]}}</p>
+                      <p>{{order['Order'][7]}}</p>
                       <br />
-                      <p>{{order[8]}}</p>
+                      <p>{{order['Order'][8]}}</p>
                     </div>
                   </div>
                   <div class="col-lg-12">
@@ -383,8 +389,8 @@
                       <table class="table-list">
                         <thead>
                           <tr>
-                            <th scope="col">Name</th>
                             <th scope="col">Image</th>
+                            <th scope="col">Name</th>
                             <th scope="col">Brand</th>
                             <th scope="col">Price</th>
                             <th scope="col">Quantity</th>
@@ -392,7 +398,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          {% for item in OrderItems  %}
+                          {% for item in order['Items']  %}
                           <tr>
                             <td class="table-image">
                               <img
@@ -413,7 +419,7 @@
                               <h6>{{item['quantity']}}</h6>
                             </td>
                             <td class="table-brand">
-                              <h6>${{ item['quantity'] * item['price'] }}</h6>
+                              <h6>${{ item['quantity'] * item['price'] }}0</h6>
                             </td>
                           </tr>
                           {% endfor %}

@@ -163,9 +163,8 @@ def orders():
     id = session.get('customer')
     user = user_info(id)
 
-    orderProducts = getOrderItems()
-    totalOrders = order_count(id)  
-    Orders = getAllOrders(id)  
+    allOrders = getAllOrdersItems()
+    totalOrders = order_count(id)
     #total = getTotalInfo()    
     
     
@@ -176,10 +175,9 @@ def orders():
                            products1=[], 
                            products2=[], 
                            products=telescopes,
-                           OrderItems = orderProducts,
                            CartItems = cartProducts,
                            totalOrders = totalOrders,
-                           Orders = Orders)
+                           Orders = allOrders)
                            #total = total)
 
 

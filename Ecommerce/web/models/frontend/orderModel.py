@@ -33,9 +33,9 @@ def getAllOrders(id, database):
 @DBConnection
 def getTotalOrder(id, database):
     cursor = database.cursor()
-    cursor.execute('SELECT OrderID, sum(Product_Price) as Total_Price, sum(Product_Quantity) as Total_Products from contains group by OrderID where CustomerID = %s',(id,))
+    cursor.execute('SELECT * from (SELECT ALL CustomerID, contains.OrderID, sum(Product_Quantity) as Total_Products, sum(Product_Price*Product_Quantity) as Total_Price from orders join contains on contains.OrderID = orders.Order_ID group by contains.OrderID) as Orders_data WHERE CustomerID = %s',(id,))
     return cursor.fetchall()
 
 
-# order id, el precio total de la orden[total price], total de articulos  [total products]
-#SELECT OrderID, sum(Product_Price) as Total_Price, sum(Product_Quantity) as Total_Products from contains group by OrderID
+# customerid, order id, el precio total de la orden[total price], total de articulos  [total products]
+#SELECT OrderID, sum(Product_Price) as Total_Products, sum(Product_Quantity) as Total_Price from contains group by OrderID
