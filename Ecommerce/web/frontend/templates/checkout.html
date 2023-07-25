@@ -413,7 +413,7 @@
                 <div class="row">
                   {% for c in card %}
                   <div class="col-md-6 col-lg-4 alert fade show">
-                    {% if cardId in c%}
+                    {% if cardId == c[0]%}
                     <div class="payment-card active" data-card-id="{{c[0]}}">
                       <h2>{{c[1]}}</h2>
                       <p>{{c[2]}}</p>
@@ -430,7 +430,6 @@
                       <p>{{c[2]}}</p>
                       <h5 class="card-number">{{c[3]}}</h5>
                       <h6>{{c[4]}} / {{c[5]}}</h6>
-                      <h6>Id: {{cardId}} == {{c[0]}}</h6>
 
                       <button onclick="selectCard('{{c[0]}}')">
                         Select Card

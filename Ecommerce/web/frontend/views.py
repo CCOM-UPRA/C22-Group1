@@ -30,6 +30,9 @@ def shop():
     if 'customer' in session:
         if 'cart' not in session:
             Cart()
+        elif 'orderTerminated' in session:
+            session.pop('orderTerminated')
+            redirect(url_for('clearCart'))
         getCartTotal()
         cartProducts = getCartItems()
     
@@ -259,7 +262,7 @@ def saveSelectedCard():
     if request.method == 'POST':
         cardId = request.form['cardId']
         if cardId != 'card':
-            session['cardId'] = cardId
+            session['cardId'] = int(cardId)
     return redirect(url_for('views.checkout'))
 
     
@@ -274,10 +277,11 @@ def changePayment():
 @views.route('/invoice', methods=['GET','POST'])
 @login_required
 def invoice():
+    session['orderTerminated'] = True
     id = session.get('customer')
     user = user_info(id)
     cards = card_info(id) 
-    order_update(id, user_info(id), order_number())
+    order_update(id, user_info(id), order_number(), session['cardId'])
     orders = order_info(id)
     orderProducts = getOrderItems()
     
