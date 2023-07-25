@@ -10,5 +10,6 @@ def all_accounts(database): #get all the accounts of the ussers
 @DBConnection #update the accounts for the backend
 def update_account(fname, lname, pass1, email, phone, status, id, database):
     cursor = database.cursor()
-    cursor.execute('UPDATE customers SET C_Fname = %s, C_Lname = %s, C_Email = %s, c_Password = %s, C_Phone = %s, C_status = %s WHERE CustomerID =%s', (fname, lname, email, pass1, phone, status, id))
+    cursor.execute('UPDATE customers SET C_Fname = %s, C_Lname = %s, C_Email = %s, c_Password = %s, C_Phone = %s, C_status = %s WHERE CustomerID =%s', 
+                   (fname, lname, email, pass1, phone, status, id))
     database.commit()

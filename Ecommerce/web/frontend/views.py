@@ -151,17 +151,17 @@ def change_password():
     
     
     if old != password:
-        flash('La contraseña no coincide con la antigua.', 'error')
+        flash('The password you entered is not the old one you had', 'error')
         return redirect(url_for('views.profile'))
     
     if old == password2:
-        flash('La contraseña es la misma que la que tienes anteriomente.', 'error')
+        flash('Your new password is the same as the old one.', 'error')
         return redirect(url_for('views.profile'))
     
     if password2 != password3:
-        flash('la contraseña no coinciden.', 'error')
+        flash('Your new password and the confirmation dont match', 'error')
         return redirect(url_for('views.profile'))
     
     update_password(id, password2) 
-    flash('Contraseña actualizada con éxito.', 'error')
+    flash('Password updates', 'ADDED')
     return redirect(url_for('views.profile'))

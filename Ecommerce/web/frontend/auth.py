@@ -45,6 +45,7 @@ def login():
                 return redirect(url_for('auth.login'))
             
         else:
+            flash('CREATE AN ACCOUNT IF YOU WANT TO USE THE STORE', 'ERROR')
             return render_template('register.html')
             
     return render_template('login.html')

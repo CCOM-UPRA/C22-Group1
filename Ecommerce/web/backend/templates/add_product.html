@@ -88,7 +88,7 @@
                     <a class="navbar-link dropdown-arrow" href="#">My Account</a>
                                     <ul class="dropdown-position-list">
                                         <li><a href="{{url_for('views.profile')}}">Account Info</a></li>
-                                        <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+                                        <li><a href="{{url_for('back_auth.backlogout')}}">Logout</a></li>
                                     </ul>
                     </ul>
 
@@ -162,74 +162,73 @@
                             <h3 class="details-name"><a href="#">Details</a></h3>
                             <div class= "split">
                                 
-                                    <form action="{{url_for('back_views.addproduct')}}" method="post">
-                                    <div class="form-group">
-                                        <label class="form-label" for="name">Name: </label>
-                                        <input class="form-control" type="text" id="name" title="Name of product" name ="t_Name" placeholder="Name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="brand">Brand: </label>
-                                        <input class="form-control" type="text" id="brand" title="" name ="t_Brand" placeholder="Select a Brand">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="lens">Lens type:</label>
-                                        <select class="form-control" name="t_Lens" id="Lens">
-                                            <option value="" selected>Select a Lens</option>
-                                            <option value="Reflector">Reflector</option>
-                                            <option value="Refractor">Refractor</option>
-                                            <option value="Catadioptric">Catadioptric</option>Equatorial
-                                            <option value="Equatorial">Equatorial</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="mount">Mount:</label>
-                                        <select class="form-control" name="t_Mount" id="mount">
-                                            <option value="" selected>Select a Mount</option>
-                                            <option value="Altazimuth">Altazimuth</option>
-                                            <option value="Equatorial">Equatorial</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="focaldis">Focal Distance: </label>
-                                        <input class="form-control" type="text" id="focaldis" title="Video Resolution of product" name ="t_Focal" placeholder="FocalDistance">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="aperture">Aperture: </label>
-                                        <input class="form-control" type="text" id="aperture" title="Video Resolution of product" name ="t_aperture" placeholder="aperture">
-                                    </div>
-                                
-                                
-                                    <div class="form-group">
-                                        <label for="price">Price in $: </label>
-                                        <input class="form-control" type="number" id='price' name ="t_Price" value="Price"><br>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="cost">cost in $: </label>
-                                        <input class="form-control" type="number" id='cost' name ="t_cost" value="cost"><br>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="stock">Stock: </label>
-                                        <input class="form-control" type="number" id='stock' name ="t_Stock" value="Amount"><br>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="desc">Description: </label>
-                                        <input class="form-control" type="text" id='desc' title="Description" name ="t_Description" placeholder="Description goes here...">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="myfile">Select an image:</label>
-                                        <input class="form-control" type="file" id="myfile" name="myfile">
-                                    </div>
-                                    <div class="form-group">
-                                        <p>Status:</p>
+                                <form action="{{url_for('back_views.addproduct')}}" method="post">
+                                <div class="form-group">
+                                    <label class="form-label" for="name">Name: </label>
+                                    <input class="form-control" type="text" id="name" title="Name of product" name ="t_Name" placeholder="Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="brand">Brand: </label>
+                                    <input class="form-control" type="text" id="brand" title="" name ="t_Brand" placeholder="Brand">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="lens">Lens type:</label>
+                                    <select class="form-control" name="t_Lens" id="Lens">
+                                        <option value="" selected>Select a Lens</option>
+                                        <option value="Reflector">Reflector</option>
+                                        <option value="Refractor">Refractor</option>
+                                        <option value="Catadioptric">Catadioptric</option>Equatorial
+                                        <option value="Equatorial">Equatorial</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="mount">Mount:</label>
+                                    <select class="form-control" name="t_Mount" id="mount">
+                                        <option value="" selected>Select a Mount</option>
+                                        <option value="Altazimuth">Altazimuth</option>
+                                        <option value="Equatorial">Equatorial</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="focaldis">Focal Distance: </label>
+                                    <input class="form-control" type="text" id="focaldis" title="Video Resolution of product" name ="t_Focal" placeholder="FocalDistance">
+                                </div>
+                                <div class="form-group">
+                                    <label for="aperture">Aperture: </label>
+                                    <input class="form-control" type="text" id="aperture" title="Video Resolution of product" name ="t_aperture" placeholder="aperture">
+                                </div>
+                            
+                            
+                                <div class="form-group">
+                                    <label for="price">Price in $: </label>
+                                    <input class="form-control" type="number" id='price' name ="t_Price" value="Price"><br>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cost">cost in $: </label>
+                                    <input class="form-control" type="number" id='cost' name ="t_cost" value="cost"><br>
+                                </div>
+                                <div class="form-group">
+                                    <label for="stock">Stock: </label>
+                                    <input class="form-control" type="number" id='stock' name ="t_Stock" value="Amount"><br>
+                                </div>
+                                <div class="form-group">
+                                    <label for="desc">Description: </label>
+                                    <input class="form-control" type="text" id='desc' title="Description" name ="t_Description" placeholder="Description goes here...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="myfile">Select an image:</label>
+                                    <input class="form-control" type="file" id="myfile" name="myfile">
+                                </div>
+                                <div class="form-group">
+                                    <p>Status:</p>
 
-                                            <input type="radio" id="active" name="status" value="ACTIVE" checked>
-                                            <label for="active">ACTIVE</label><br>
-                                            <input type="radio" id="inactive" name="status" value="INACTIVE">
-                                            <label for="inactive">INACTIVE</label><br>
-                                    </div>
-                                
+                                        <input type="radio" id="active" name="status" value="ACTIVE" checked>
+                                        <label for="active">ACTIVE</label><br>
+                                        <input type="radio" id="inactive" name="status" value="INACTIVE">
+                                        <label for="inactive">INACTIVE</label><br>
+                                </div>
                             </div>
-                            <div class="details-add-group">
+                                <div class="details-add-group">
                                 <button class="product-add" title="Save changes">
                                     <span>Add Product</span>
                                 </button>

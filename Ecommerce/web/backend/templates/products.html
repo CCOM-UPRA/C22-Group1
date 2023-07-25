@@ -103,7 +103,7 @@
                 <a class="navbar-link dropdown-arrow" href="#">My Account</a>
                                 <ul class="dropdown-position-list">
                                     <li><a href="{{url_for('views.profile')}}">Account Info</a></li>
-                                    <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+                                    <li><a href="{{url_for('back_auth.backlogout')}}">Logout</a></li>
                                 </ul>
                 </ul>
 
@@ -179,6 +179,20 @@
                     BANNER PART END
         =======================================-->
 
+        {% with messages = get_flashed_messages(category_filter='succes') %}
+            {% if messages %}
+                <div class="inner-section profile-part">
+                    <div class="container">
+                        <div>
+                            {% for message in messages %}
+                                <h2 style="color: white; text-align: center;">{{ message }}</h2>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+
     <!--=====================================
                     SHOP PART START
         =======================================-->
@@ -197,7 +211,7 @@
                       class="product-image"
                       href="../static/images/product-images/{{product['image']}}" 
                     >
-                      <img
+                      <img class="yimg3"
                         src="../static/images/product-images/{{product['image']}}"
                         
                         alt="product"
@@ -325,8 +339,8 @@
                             </div>
                             <ul class="preview-slider">
                               <li>
-                                <img
-                                  src="../static/images/product-images/{{product[8]}}"
+                                <img class="yimg"
+                                  src="../static/images/product-images/{{product['image']}}"
                                   alt="product"
                                 />
                               </li>
@@ -351,6 +365,14 @@
                             <p class="view-desc">
                               {{product['description']}}
                             </p>
+                            <div class="view-action-group">
+                              <form action="{{url_for('back_views.edit_prod')}}" method="post">
+                                <input type="hidden" name="prodId" value="{{product['id']}}">
+                                <input type="hidden" name="edit" value="noedit">
+                                <button class="form-btn" type="submit">Edit Product</button>
+                                <input type="hidden" name="page" value="/accounts">
+                              </form>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -377,7 +399,7 @@
           <div class="col-sm-6 col-xl-3">
             <div class="footer-widget">
               <a class="footer-logo" href="#">
-                <img src="static/images/logo.png" alt="logo" />
+                <img src="../static/images/logo.png" alt="logo" />
               </a>
               <p class="footer-desc">
                 This e-commerce template has been created for the sole purpose
