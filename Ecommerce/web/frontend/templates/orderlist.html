@@ -245,13 +245,15 @@
               <h5>total orders <span>- {{totalOrders}}</span></h5>
               <div class="filter-short">
                 <label class="form-label">Filter By:</label>
-                <select class="form-select">
-                  <option value="all" selected>all orders</option>
-                  <option value="recieved">received orders</option>
-                  <option value="processed">processed orders</option>
-                  <option value="shipped">shipped orders</option>
-                  <option value="delivered">delivered orders</option>
-                </select>
+                <form action="{{url_for('views.filterOrders')}}" method="POST">
+                  <select class="form-select" onchange="this.form.submit()" name="status">
+                    <option value="all" selected>all orders</option>
+                    <option value="recieved">received orders</option>
+                    <option value="processed">processed orders</option>
+                    <option value="shipped">shipped orders</option>
+                    <option value="delivered">delivered orders</option>
+                  </select>
+                </form>
               </div>
             </div>
           </div>
