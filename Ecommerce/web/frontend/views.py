@@ -56,7 +56,20 @@ def shop():
                            aperture=aperture,
                            focal_distance=focalDistance,
                            CartItems = cartProducts)
-    
+
+@views.route('/filterOrders', methods = ['GET','POST'])
+def filterOrders():
+    if request.method == 'POST':
+        selected = request.form['status']
+
+        if selected == 'all':
+            if 'filterStatus' in session:
+                session.pop('filterStatus')
+        else:
+            session['filterStatus'] = selected
+        
+    return redirect(url_for('views.orders'))
+
 
 @views.route('/filter', methods = ['GET', 'POST'])
 def filter():
@@ -66,7 +79,6 @@ def filter():
         checkedAperture = request.form.getlist('aperture')
         checkedLens = request.form.getlist('lens')
         checkedMount = request.form.getlist('mount')
-        print(checkedBrands)
         session['filters'] = [checkedBrands, checkedFocalDistance, checkedAperture, checkedLens, checkedMount]
     return redirect(url_for('views.shop'))
 
@@ -165,20 +177,17 @@ def orders():
 
     allOrders = getAllOrdersItems()
     totalOrders = order_count(id)
-    #total = getTotalInfo()    
+   
+
     
     
     return render_template('orderlist.html', 
-                           order1=[], 
-                           order2=[],
                            user = user, 
-                           products1=[], 
-                           products2=[], 
                            products=telescopes,
                            CartItems = cartProducts,
                            totalOrders = totalOrders,
-                           Orders = allOrders)
-                           #total = total)
+                           Orders = allOrders,
+                           )
 
 
 @views.route('/addcart', methods = ['GET', 'POST'])

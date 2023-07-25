@@ -80,7 +80,11 @@ def getTotalInfo():
     return total
 
 def getAllOrdersItems():
-    AllOrders = getAllOrders(session['customer'])
+    AllOrders = []
+    if 'filterStatus' in session:
+        AllOrders = getOrderbyStatus(session['customer'],session['filterStatus'])
+    else:
+        AllOrders = getAllOrders(session['customer'])
     Totals = getTotalOrder(session['customer'])
     AllOrdersItems = []
     
@@ -100,5 +104,16 @@ def getAllOrdersItems():
                 'TotalItems':TotalItems
                 }
             AllOrdersItems.append(OrderData)
-    
     return AllOrdersItems
+
+def getStatus(status):
+    Status = getOrderbyStatus(status, session['customer'])
+    OrderStatus = []
+    
+    for s in Status:
+        data = {
+            'OrderID': s[0],
+            'Status': s[6]
+        }
+    OrderStatus.append(data)   
+    return OrderStatus

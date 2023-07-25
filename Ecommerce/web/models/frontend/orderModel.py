@@ -39,3 +39,9 @@ def getTotalOrder(id, database):
 
 # customerid, order id, el precio total de la orden[total price], total de articulos  [total products]
 #SELECT OrderID, sum(Product_Price) as Total_Products, sum(Product_Quantity) as Total_Price from contains group by OrderID
+
+@DBConnection
+def getOrderbyStatus(id, status, database):
+    cursor = database.cursor()
+    cursor.execute('SELECT * from orders WHERE Order_Status = %s and CustomerID = %s', (status, id, ))
+    return cursor.fetchall()
