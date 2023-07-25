@@ -1853,7 +1853,9 @@ tbody tr td:last-child {
 }
 
 .product-image img {
-  width: 100%;
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
 }
 
 .product-widget {
@@ -5442,13 +5444,13 @@ tbody tr td:last-child {
   margin-bottom: 12px;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
+  display: grid;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   -webkit-box-pack: start;
       -ms-flex-pack: start;
-          justify-content: flex-start;
+          justify-content:start;
 }
 
 .view-meta p {
@@ -5700,7 +5702,9 @@ tbody tr td:last-child {
 }
 
 .preview-slider li img {
-  width: 100%;
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
   border-radius: 8px;
 }
 

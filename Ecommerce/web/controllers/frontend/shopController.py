@@ -54,6 +54,9 @@ def stringFormatList(list):
         if type(x) == tuple:
             x = x[0]
         
+        if type(x) == int:
+            x = str(x)
+        
         x = "'" + x + "'"
             
         if len(string) == 0:
