@@ -6,13 +6,5 @@ import bcrypt
 
 # app = Flask(__name__)
 
-@DBConnection
-def customerlog(email,database):
-    
-     cursor = database.cursor()
-     cursor.execute("SELECT C_Password,CustomerID FROM customers WHERE C_Email = %s", (email,))
-         
-     customer = cursor.fetchone()
-     return customer
     
     

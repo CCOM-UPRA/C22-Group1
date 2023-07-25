@@ -250,24 +250,32 @@ var formattedPhoneNumber = phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$
 document.getElementById("phone").textContent = formattedPhoneNumber;
 
 // show the card info in the edit payment
-var selectedCard = document.getElementById('selectedCard');
-var cardNameInput = document.getElementById('cardName');
-var cardTypeInput = document.getElementById('cardType');
-var expirationDateInput = document.getElementById('expirationDate');
 
-    selectedCard.addEventListener('change', function() {
+document.addEventListener('DOMContentLoaded', function() {
+    var selectedCard = document.getElementById('selectedCard');
+    var cardNameInput = document.getElementById('cardName');
+    var cardTypeInput = document.getElementById('cardType');
+    var expirationDateInput = document.getElementById('expirationDate');
+    var card_id = document.getElementById('card_id');
+  
+    if (selectedCard && cardNameInput && cardTypeInput && expirationDateInput) {
+      selectedCard.addEventListener('change', function() {
         var selectedCardValue = selectedCard.value.trim();
         var index = cardData.findIndex(function(card) {
-            return card[3] == selectedCardValue;
+          return card[3] == selectedCardValue;
         });
-        
+  
         if (index >= 0) {
-            cardNameInput.value = cardData[index][1];
-            cardTypeInput.value = cardData[index][2];
-            expirationDateInput.value = cardData[index][5] + '-' + cardData[index][4];
+          cardNameInput.value = cardData[index][1];
+          cardTypeInput.value = cardData[index][2];
+          expirationDateInput.value = cardData[index][5] + '-' + cardData[index][4];
+          card_id.value = cardData[index][0];
         } else {
-            cardNameInput.value = '';
-            cardTypeInput.value = '';
-            expirationDateInput.value = '';
+          cardNameInput.value = '';
+          cardTypeInput.value = '';
+          expirationDateInput.value = '';
+          card_id.value = '';
         }
-    });
+      });
+    }
+  });

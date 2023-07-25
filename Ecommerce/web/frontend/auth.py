@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from ..models.frontend.loginModel import *
 import hashlib
 from ..dbConnection import *
-from ..models.authmodel import customerlog
+
 def login_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -26,13 +26,14 @@ def login():
         password = request.form['C_Password']
         if email_exists(email):
             customer = customerlog(email)
-            customerS = customer[2]
             db_password = customer[0]
             customerID = customer[1]
+            print(customer)
+            customerS = customer[2]
             if password == db_password:
                 if customerS == 'ADMIN':
                     session['customer'] = customerID
-                    return render_template('products.html')#redirect(url_for('back_views.admin_products'))
+                    return render_template('products.html')  #redirect(url_for('back_views.admin_products'))
                 elif customerS == 'ACTIVE':
                     session['customer'] = customerID
                     return redirect(url_for('views.shop'))
@@ -48,10 +49,6 @@ def login():
 
 
 
-@auth.route('/logout')
-def logout():
-   # logout_user()
-    return redirect(url_for('login'))
 
 
 @auth.route('/home')

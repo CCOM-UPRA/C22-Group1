@@ -22,6 +22,12 @@ views = Blueprint('views', __name__, template_folder='templates/')
 def clear():
     return redirect(url_for('views.shop'))
 
+# @views.route('/reports', methods=['GET', 'POST'])
+# def inv_rep():
+#     inventario = reports()
+    
+#     return render_template('inventory_report.html',reportes = inventario)
+
 
 @views.route('/shop', methods=['GET', 'POST'])
 def shop():
