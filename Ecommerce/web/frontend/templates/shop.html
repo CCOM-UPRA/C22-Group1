@@ -500,8 +500,9 @@
                         >
                       </h6>
                       <h6 class="product-price">
-                        <span>Price: {{product['price']}}.00</span>
+                        <span>Price: {{product['price']}}0</span>
                       </h6>
+                      {% if 'customer' in session%}
                       <button class="product-add" title="Add to Cart">
                         <i class="fas fa-shopping-basket"></i>
                         <span>add</span>
@@ -573,6 +574,7 @@
                           <input style="width: 30%" type="submit" value="Add" />
                         </form>
                       </div>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
@@ -580,49 +582,67 @@
                 <div class="modal fade" id="product-view-{{product['id']}}">
                   <div class="modal-dialog">
                     <div class="modal-content">
-                      <button
-                        class="modal-close icofont-close"
-                        data-bs-dismiss="modal"
-                      ></button>
-                      <div class="product-view">
-                        <div class="row">
-                          <div class="col-md-6 col-lg-6">
-                            <div class="view-gallery">
-                              <div class="view-label-group">
+                      <div class="card mb-3" style="width: 80%; left: 10%">
+                        <button
+                          class="modal-close icofont-close"
+                          data-bs-dismiss="modal"
+                        ></button>
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img
+                              src="static/images/product-images/{{product['image']}}"
+                              class="img-fluid rounded-start"
+                              alt="product"
+                              style="
+                                width: 100%;
+                                height: 100%;
+                                max-height: 500px;
+                                object-fit: contain;
+                                pointer-events: none;
+                              "
+                            />
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body" style="padding-left: 20%">
+                              <h5 class="card-title">
                                 <label class="view-label new"
                                   >{{product['stock']}} in stock</label
                                 >
-                              </div>
-                              <ul class="preview-slider">
-                                <li>
-                                  <img
-                                    src="static/images/product-images/{{product['image']}}"
-                                    alt="product"
-                                  />
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-lg-6">
-                            <div class="view-details">
-                              <h3 class="view-name">
-                                <a href="product-video.html"
-                                  >{{product['name']}}</a
+                              </h5>
+                              <h3 class="card-title">{{product['name']}}</h3>
+                              <h4 class="card-title">
+                                <span>Price: {{product['price']}}0</span>
+                              </h4>
+
+                              <p class="card-text">
+                                <span style="font-weight: bold">Brand:</span>
+                                {{product['brand']}}
+                              </p>
+
+                              <p class="card-text">
+                                <span style="font-weight: bold">Type:</span>
+                                {{product['type']}}
+                              </p>
+
+                              <p class="card-text">
+                                <span style="font-weight: bold">Mount:</span>
+                                {{product['mount']}}
+                              </p>
+                              <p class="card-text">
+                                <span style="font-weight: bold"
+                                  >Focal Distance:</span
                                 >
-                              </h3>
-                              <div class="view-meta">
-                                <p>Brand:<span>{{product['brand']}}</span></p>
-                                <br />
-                                <p>Type: {{product['type']}}</p>
-                                <br />
-                                <p>Mount: {{product['mount']}}</p>
-                              </div>
-                              <h3 class="view-price">
-                                <span>Price: {{product['price']}}.00</span>
-                              </h3>
-                              <p class="view-desc">
+                                {{product['focal_distance']}}
+                              </p>
+                              <p>
+                                <span style="font-weight: bold">Aperture:</span>
+                                {{product['aperture']}}
+                              </p>
+                              <p class="card-text">
                                 {{product['description']}}
                               </p>
+
+                              {% if 'customer' in session%}
                               <form
                                 action="{{url_for('views.addcartModal')}}"
                                 method="POST"
@@ -668,6 +688,7 @@
                                   </button>
                                 </div>
                               </form>
+                              {% endif %}
                             </div>
                           </div>
                         </div>
