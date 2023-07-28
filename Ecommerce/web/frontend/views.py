@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from functools import wraps
 from ..models.frontend.loginModel import *
 from ..controllers.frontend.shopController import *
+from ..models.frontend.profileModel import *
 
 
 def login_required(func):
@@ -85,6 +86,15 @@ def editinfo():
             update_payment(c_number, c_name, c_type, year, month,c_id) 
             flash('PAYMENT INFO EDITED', 'EDITED')
     return redirect(url_for('views.profile'))
+
+
+@views.route('/deletecard', methods=['GET', 'POST'])
+@login_required
+def deletecard():
+    c_number = request.form['selected_card']
+    delete_card(c_number)
+    flash('PAYMENT CARD DELETED', 'EDITED')
+    return redirect(url_for('views.profile')) 
 
 
 @views.route('/orders')

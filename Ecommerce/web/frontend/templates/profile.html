@@ -302,8 +302,9 @@
                             <div class="account-title">
                                 <h4>payment option</h4>
                                 <div>
-                                    <button data-bs-toggle="modal" data-bs-target="#payment-add2">Add payment info</button>
-                                    <button data-bs-toggle="modal" data-bs-target="#payment-add">edit payment info</button>
+                                    <button data-bs-toggle="modal" data-bs-target="#payment-add2">Add card info</button>
+                                    <button data-bs-toggle="modal" data-bs-target="#payment-delete">Delete card</button> 
+                                    <button data-bs-toggle="modal" data-bs-target="#payment-add">edit card info</button>
                                 </div>
                             </div>
                             <div class="account-content">
@@ -440,16 +441,21 @@
                             <h3>add payment info</h3>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Card Name</label>
-                            <input type="text" class="form-control" name="Card_Name" placeholder="Enther the card name">
-                        </div>
-                        <div class="form-group">
                             <label class="form-label">Card Number</label>
                             <input type="number" class="form-control" name="Card_Number" placeholder="Enther the card number">
                         </div>
                         <div class="form-group">
+                            <label class="form-label">Card Name</label>
+                            <input type="text" class="form-control" name="Card_Name" placeholder="Enther the card name">
+                        </div>
+                        <div class="form-group">
                             <label class="form-label">Card Type</label>
-                            <input class="form-control" name="card_type" type="text" placeholder="Enter the card type">
+                            <select class="form-control" name="card_type">
+                                <option value="" selected>Select a card</option>
+                                <option value="Visa">Visa</option>
+                                <option value="Mastercard">Mastercard</option>
+                                <option value="Debit">Debit</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Expiration Date (MM/YYYY)</label>
@@ -464,6 +470,31 @@
                             <input type="number" class="form-control" name="Card_zipcode" placeholder="Enther the card zipcode">
                         </div>
                         <button class="form-btn" type="submit">save card info</button>
+                        <input type="hidden" name="page" value="/profile">
+                    </form>
+                </div> 
+            </div> 
+        </div>
+
+        <!-- payment edit form -->
+        <div class="modal fade" id="payment-delete">
+            <div class="modal-dialog modal-dialog-centered"> 
+                <div class="modal-content">
+                    <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+                    <form class="modal-form" action="{{url_for('views.deletecard')}}" method="post">
+                        <div class="form-title">
+                            <h3>delete card info</h3>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Select Card:</label>
+                            <select class="form-control" name="selected_card" id="selectedCard">
+                                <option value="" selected>Select a card</option>
+                                {% for card in card %}
+                                <option class="card-number" value="{{ card[3]}}">{{ card[3]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button class="form-btn" type="submit">delete card info</button>
                         <input type="hidden" name="page" value="/profile">
                     </form>
                 </div> 
