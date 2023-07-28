@@ -5,6 +5,7 @@ from ..controllers.frontend.shopController import *
 from ..models.frontend.profileModel import *
 
 
+
 def login_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -21,6 +22,12 @@ views = Blueprint('views', __name__, template_folder='templates/')
 @views.route('/clear', methods=['GET', 'POST'])
 def clear():
     return redirect(url_for('views.shop'))
+
+# @views.route('/reports', methods=['GET', 'POST'])
+# def inv_rep():
+#     inventario = reports()
+    
+#     return render_template('inventory_report.html',reportes = inventario)
 
 
 @views.route('/shop', methods=['GET', 'POST'])
@@ -39,6 +46,7 @@ def shop():
                            Lenses=lenses,
                            aperture=aperture,
                            focal_distance=focalDistance)
+
 
 
 @views.route('/profile')

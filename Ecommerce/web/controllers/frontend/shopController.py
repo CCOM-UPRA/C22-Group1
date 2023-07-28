@@ -1,4 +1,5 @@
 from ...models.frontend.shopModel import *
+from ..backend.reportController import *
 from flask import session
 
 
@@ -24,6 +25,18 @@ def Telescopes():
         productsList.append(product)
 
     return productsList
+
+def reports():
+    reports = get_inventory_report()
+    inventario = []
+    for x in reports: {
+        'Telescope_Name':x[0],
+        'TelescopeID':x[1],
+        'Telescope_Stock':x[2]
+    }
+    inventario.append(reports)
+    
+    return inventario 
 
 
 

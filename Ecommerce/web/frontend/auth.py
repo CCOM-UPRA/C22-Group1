@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from ..models.frontend.loginModel import *
 from ..models.frontend.authModel import *
 import hashlib
+from ..dbConnection import *
 
 def login_required(func):
     @wraps(func)
@@ -22,7 +23,6 @@ def login():
         password = request.form['C_Password']
         if email_exists(email):
             customer = customerlog(email)
-            customerS = customer[2]
             db_password = customer[0]
             customerID = customer[1]
             customer_status = customer[2]
@@ -49,6 +49,11 @@ def login():
             return render_template('register.html')
             
     return render_template('login.html')
+
+
+@auth.route('/home')
+def home():
+    return render_template('shop.html')
 
 
 @auth.route('/logout')
@@ -100,6 +105,5 @@ def Cpassword():
             flash('Password successfully changed', 'error')
             return render_template('login.html')
         return redirect(url_for('auth.Cpassword'))
-       
     return render_template('change_password.html')
     
