@@ -4,22 +4,22 @@ from ...dbConnection import *
 @DBConnection
 def getProducts(minPrice, maxPrice, database):
     cursor = database.cursor()
-    cursor.execute('select * from telescopes where Telescope_Price between %s and %s', (minPrice, maxPrice,))
+    cursor.execute('select * from telescopes where Telescope_Price between %s and %s and Telescope_Status = %s', (minPrice, maxPrice, 'ACTIVE'))
     data = cursor.fetchall()
     return data
 
 @DBConnection
 def getProductsForSearchBar(minPrice, maxPrice, searchString, database):
     cursor = database.cursor()
-    cursor.execute('select * from telescopes where Telescope_Name like %s and Telescope_Price between %s and %s', (searchString, minPrice, maxPrice,))
+    cursor.execute('select * from telescopes where Telescope_Name like %s and Telescope_Price between %s and %s and Telescope_Status = %s', (searchString, minPrice, maxPrice, 'ACTIVE'))
     data = cursor.fetchall()
     return data
 
 @DBConnection
 def getFilteredProducts(brands, focal_distance, aperture, lens, mount, minPrice, maxPrice, database):
     cursor = database.cursor()
-    string = "select * from telescopes where Telescope_Brand in ({}) and Telescope_FD in ({}) and Telescope_Aperture in ({}) and Telescope_Type in ({}) and Telescope_Mount in ({}) and Telescope_Price between {} and {}"
-    string = string.format(brands, focal_distance, aperture, lens, mount, minPrice, maxPrice)
+    string = "select * from telescopes where Telescope_Brand in ({}) and Telescope_FD in ({}) and Telescope_Aperture in ({}) and Telescope_Type in ({}) and Telescope_Mount in ({}) and Telescope_Price between {} and {} and Telescope_Status = {}"
+    string = string.format(brands, focal_distance, aperture, lens, mount, minPrice, maxPrice, 'ACTIVE')
     cursor.execute(string)
     data = cursor.fetchall()
     return data

@@ -2,16 +2,16 @@ from ...dbConnection import *
 
 
 @DBConnection
-def order_info(id, database): 
+def order_info(id, orderId, database): 
     cursor = database.cursor()
-    cursor.execute('SELECT Order_ID, CustomerID, PaymentID, Order_Number, Order_Date, Arrival_Date, Order_Status, Street_number, Street_name, zipCode, C_City, C_State, Tracking_Number, Invoice_Number FROM orders WHERE CustomerID = %s', (id,))
+    cursor.execute('SELECT Order_ID, CustomerID, PaymentID, Order_Number, Order_Date, Arrival_Date, Order_Status, Street_number, Street_name, zipCode, C_City, C_State, Tracking_Number, Invoice_Number FROM orders WHERE CustomerID = %s and Order_ID = %s', (id,orderId,))
     result = cursor.fetchone()
     return result
 
 @DBConnection
-def order_update(id, user, number,card, database):
+def order_update(id, user, number,card, orderId, database):
     cursor = database.cursor()
-    cursor.execute('UPDATE orders SET Order_Number = %s, Order_Date = %s, Arrival_Date = %s, Order_Status = %s, Street_number = %s, Street_name = %s, zipCode = %s, C_City = %s, C_State = %s, Tracking_Number = %s, Invoice_Number = %s, PaymentID WHERE CustomerID = %s ', (number[0], number[1], number[2], number[3], user[5], user[6], user[7], user[8], user[9], number[4], number[5], id, card)) 
+    cursor.execute('UPDATE orders SET Order_Number = %s, Order_Date = %s,  Order_Status = %s, Street_number = %s, Street_name = %s, zipCode = %s, C_City = %s, C_State = %s, Invoice_Number = %s, PaymentID = %s WHERE CustomerID = %s and Order_ID = %s ', (number[0], number[1], number[3], user[5], user[6], user[7], user[8], user[9], number[5], card, id, orderId,)) 
     database.commit()
     
 @DBConnection
@@ -45,3 +45,9 @@ def getOrderbyStatus(id, status, database):
     cursor = database.cursor()
     cursor.execute('SELECT * from orders WHERE Order_Status = %s and CustomerID = %s', (status, id, ))
     return cursor.fetchall()
+
+@DBConnection
+def getCard(cardId, database):
+    cursor = database.cursor()
+    cursor.execute('SELECT * from payment where Payment_ID = %s', (cardId,))
+    return cursor.fetchone()

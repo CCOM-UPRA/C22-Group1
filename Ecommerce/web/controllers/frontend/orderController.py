@@ -19,7 +19,7 @@ def order_number():
     return number
 
 def getOrderItems():
-    orderId = session['cart']
+    orderId = session['lastOrder']
     products = GetCartData(orderId)
     productsList = []
     for x in products:
@@ -117,3 +117,7 @@ def getStatus(status):
         }
     OrderStatus.append(data)   
     return OrderStatus
+
+def getCardType():
+    card = getCard(session['lastCardUsed'])
+    return card[3]

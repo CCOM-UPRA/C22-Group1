@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, Flask
+from flask import Blueprint, render_template, request, redirect, url_for, session, Flask, flash
 from functools import wraps
 from ..models.frontend.loginModel import *
 from ..models.frontend.orderModel import *
@@ -26,13 +26,11 @@ def clear():
 
 @views.route('/shop')
 def shop():
+    
     cartProducts = []
     if 'customer' in session:
         if 'cart' not in session:
             Cart()
-        elif 'orderTerminated' in session:
-            session.pop('orderTerminated')
-            redirect(url_for('clearCart'))
         getCartTotal()
         cartProducts = getCartItems()
     
@@ -72,6 +70,12 @@ def filterOrders():
             session['filterStatus'] = selected
         
     return redirect(url_for('views.orders'))
+
+@views.route('clearError')
+def clearError():
+    if 'CartMaxError' in session:
+        session.pop('CartMaxError')
+    return redirect(url_for('views.shop'))
 
 
 @views.route('/filter', methods = ['GET', 'POST'])
@@ -120,6 +124,12 @@ def UpdatePriceRange():
             newMaxPrice = int(newMaxPrice)
             
         updatePriceRange(newMinPrice, newMaxPrice)
+    return redirect(url_for('views.shop'))
+
+@views.route('ResetPriceRange', methods = ['GET', 'POST'])
+def ResetPriceRange():
+    if request.method == 'POST':
+        setPriceRange()
     return redirect(url_for('views.shop'))
 
 @views.route('/profile')
@@ -222,6 +232,14 @@ def deletecart():
         deleteFromCart(productID)
     return redirect(url_for('views.shop'))
 
+@views.route('/deleteCheckout', methods = ['GET', 'POST'])
+@login_required
+def deleteCheckout():
+    if request.method == 'POST':
+        productID = request.form['itemId']
+        deleteFromCart(productID)
+    return redirect(url_for('views.checkout'))
+
 
 @views.route('/editcart', methods = ['GET', 'POST'])
 @login_required
@@ -230,29 +248,33 @@ def editcart():
         productId = request.form['id']
         newQuantity = int(request.form['cartQuantity'])
         updateCart(productId, newQuantity)
+        
     return redirect(url_for('views.shop'))
+
+@views.route('editCheckout', methods = ['GET', 'POST'])
+@login_required
+def editCheckout():
+    if request.method == 'POST':
+        productId = request.form['p_idModal']
+        newQuantity = int(request.form['quantity'])
+        updateCart(productId, newQuantity)
+        
+    return redirect(url_for('views.checkout'))
 
 
 @views.route('/checkout', methods=['GET','POST'])
 @login_required
 def checkout():
+    if int(session['cartTotalItems']) <= 0:
+        return redirect(url_for('views.shop'))
+    
     id = session.get('customer')
     user = user_info(id)
     cards = card_info(id)
-    order_update(id, user, order_number())
-    
-    orders = order_info(id)
 
-    
-    
-    cartProducts = []
-    if 'customer' in session:
-        if 'cart' not in session:
-            Cart()
-        if 'cartTotalItems' not in session:
-            getCartTotal()
-        cartProducts = getCartItems()
-        telescopes = Telescopes()
+    getCartTotal()
+    cartProducts = getCartItems()
+    telescopes = Telescopes()
     
     cardId = 'card'
     if 'cardId' in session:
@@ -272,33 +294,41 @@ def saveSelectedCard():
         cardId = request.form['cardId']
         if cardId != 'card':
             session['cardId'] = int(cardId)
+            
+        if 'cardError' in session:
+            session.pop('cardError')
     return redirect(url_for('views.checkout'))
 
+@views.route('procesOrder')
+def procesOrder():
+    if 'cardId' not in session:
+        session['cardError'] = True
+        return redirect(url_for('views.checkout'))
     
-@views.route('/changePayment', methods=['GET', 'POST'])
-@login_required
-def changePayment():
-    if request.method == 'POST':
-        selectedCard = request.form['selectedCard']
+    customer = user_info(session['customer'])
+    order_update(session['customer'], customer, order_number(), session['cardId'], session['cart'])
+    session['orderTotalItems'] = session['cartTotalItems']
+    session['orderTotalPrice'] = session['cartTotalPrice']
+    session['lastOrder'] = session['cart']
+    session['lastCardUsed'] = session['cardId']
+    return redirect(url_for('views.clearCart'))
     
 
 
 @views.route('/invoice', methods=['GET','POST'])
 @login_required
 def invoice():
-    session['orderTerminated'] = True
     id = session.get('customer')
     user = user_info(id)
-    cards = card_info(id) 
-    order_update(id, user_info(id), order_number(), session['cardId'])
-    orders = order_info(id)
+    cardType = getCardType()
+    orders = order_info(id, session['lastOrder'])
     orderProducts = getOrderItems()
     
     
     
     return render_template('invoice.html', 
                            user1=user,
-                           card = cards,
+                           card = cardType,
                            order = orders,
                            OrderItems = orderProducts
                           )
@@ -352,4 +382,5 @@ def clearCart():
         session.pop('cart')
         session.pop('cartTotalItems')
         session.pop('cartTotalPrice')
-    return redirect(url_for('views.shop'))
+        session.pop('cardId')
+    return redirect(url_for('views.invoice'))

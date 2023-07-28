@@ -92,18 +92,65 @@
         console.log(value);
       }
 
-      function getBrands() {
-        var markedCheckboxes = document.getElementsByName("brands");
-        for (var checkbox of markedCheckboxes) {
-          if (checkbox.checked) {
-            var input = document.getElementById("brandInput");
-            value = input.value;
-            value += checkbox.value;
-            input.value = value;
-          }
+      function checkMinValue() {
+        var input = document.getElementById("minPrice");
+        var string = input.value;
+        var regExp = /[a-zA-z]/g;
+
+        if (regExp.test(string)) {
+          string = string.slice(0, string.length - 1);
         }
+
+        console.log(string);
+
+        input.value = string;
+      }
+
+      function checkMaxValue() {
+        var input = document.getElementById("maxPrice");
+        var string = input.value;
+        var regExp = /[a-zA-z]/g;
+
+        if (regExp.test(string)) {
+          string = string.slice(0, string.length - 1);
+        }
+
+        console.log(string);
+
+        input.value = string;
+      }
+
+      function hideInput(productId) {
+        var form = document.getElementById("InputForm" + productId);
+        var add = document.getElementById("AddButton" + productId);
+
+        form.style.display = "none";
+        add.style.display = "block";
+      }
+
+      function showInput(productId) {
+        var form = document.getElementById("InputForm" + productId);
+        var add = document.getElementById("AddButton" + productId);
+
+        form.style.display = "block";
+        add.style.display = "none";
       }
     </script>
+
+    {% if 'CartMaxError' in session%}
+    <script>
+      window.onload = function () {
+        $("#error").modal("show");
+
+        setTimeout(function () {
+          $("#error").modal("hide");
+        }, 5000);
+
+        window.location.replace("{{url_for('views.clearError')}}");
+      };
+    </script>
+
+    {% endif %}
     <!--=====================================
                     CSS LINK PART END
         =======================================-->
@@ -225,7 +272,7 @@
             <div class="cart-action-group">
               <div class="product-action">
                 <form action="{{url_for('views.editcart')}}" method="POST">
-                  <button onclick="minus()">
+                  <button onclick="minus()" type="button">
                     <i class="icofont-minus"></i>
                   </button>
 
@@ -244,7 +291,7 @@
                     id="id"
                     value="{{item['id']}}"
                   />
-                  <button onclick="plus()">
+                  <button onclick="plus()" type="button">
                     <i class="icofont-plus"></i>
                   </button>
 
@@ -258,13 +305,22 @@
             <h6>Total Price - ${{item['price'] * item['quantity']}}</h6>
           </div>
         </li>
+
         {% endfor %} {% endif %}
       </ul>
       <div class="cart-footer">
+        {% if 'cartTotalItems' in session %} {% if session['cartTotalItems'] > 0
+        %}
         <a class="cart-checkout-btn" href="{{url_for('views.checkout')}}">
           <span class="checkout-label">Proceed to Checkout</span>
           <span class="checkout-price">${{session['cartTotalPrice']}}</span>
         </a>
+        {% else %}
+        <a class="cart-checkout-btn">
+          <span class="checkout-label">No items on cart</span>
+          <span class="checkout-price">${{session['cartTotalPrice']}}</span>
+        </a>
+        {% endif %} {% endif %}
       </div>
     </aside>
 
@@ -306,17 +362,24 @@
                     placeholder="Min - ${{session['minPrice']}}"
                     id="minPrice"
                     name="minPrice"
+                    onkeyup="checkMinValue()"
                   />
                   <input
                     type="text"
                     placeholder="Max - ${{session['maxPrice']}}"
                     id="maxPrice"
                     name="maxPrice"
+                    onkeyup="checkMaxValue()"
                   />
                 </div>
                 <button class="shop-widget-btn">
                   <i class="fas fa-search"></i>
                   <span>search</span>
+                </button>
+              </form>
+              <form action="{{url_for('views.ResetPriceRange')}}" method="POST">
+                <button class="shop-widget-btn" style="margin-top: 5px">
+                  <span>Reset</span>
                 </button>
               </form>
             </div>
@@ -340,12 +403,31 @@
                   {% for brand in brands %}
                   <li>
                     <div class="shop-widget-content">
+                      {% if 'filters' in session%} {% if brand in
+                      session['filters'][0]%}
+                      <input
+                        type="checkbox"
+                        id="{{brand}}"
+                        name="brand"
+                        value="{{brand}}"
+                        checked
+                      />
+                      {% else %}
                       <input
                         type="checkbox"
                         id="{{brand}}"
                         name="brand"
                         value="{{brand}}"
                       />
+                      {% endif %} {% else %}
+                      <input
+                        type="checkbox"
+                        id="{{brand}}"
+                        name="brand"
+                        value="{{brand}}"
+                      />
+                      {% endif %}
+
                       <label for="tag1">{{brand}}</label>
                     </div>
                   </li>
@@ -359,12 +441,30 @@
                   {% for focal in focal_distance %}
                   <li>
                     <div class="shop-widget-content">
+                      {% if 'filters' in session%} {% if focal in
+                      session['filters'][1]%}
+                      <input
+                        type="checkbox"
+                        id="{{focal}}"
+                        name="focal_distance"
+                        value="{{focal}}"
+                        checked
+                      />
+                      {% else %}
                       <input
                         type="checkbox"
                         id="{{focal}}"
                         name="focal_distance"
                         value="{{focal}}"
                       />
+                      {% endif %} {% else %}
+                      <input
+                        type="checkbox"
+                        id="{{focal}}"
+                        name="focal_distance"
+                        value="{{focal}}"
+                      />
+                      {% endif %}
                       <label for="tag1">{{focal}}mm</label>
                     </div>
                   </li>
@@ -378,12 +478,30 @@
                   {% for aper in aperture %}
                   <li>
                     <div class="shop-widget-content">
+                      {% if 'filters' in session %} {% if aper in
+                      session['filters'][2]%}
+                      <input
+                        type="checkbox"
+                        id="{{aper}}"
+                        name="aperture"
+                        value="{{aper}}"
+                        checked
+                      />
+                      {% else %}
                       <input
                         type="checkbox"
                         id="{{aper}}"
                         name="aperture"
                         value="{{aper}}"
                       />
+                      {% endif %} {% else %}
+                      <input
+                        type="checkbox"
+                        id="{{aper}}"
+                        name="aperture"
+                        value="{{aper}}"
+                      />
+                      {% endif %}
                       <label for="tag1">{{aper}}mm</label>
                     </div>
                   </li>
@@ -405,12 +523,30 @@
                   {% for Lens in Lenses %}
                   <li>
                     <div class="shop-widget-content">
+                      {% if 'filters' in session %} {% if Lens in
+                      session['filters'][3]%}
+                      <input
+                        type="checkbox"
+                        id="{{Lens}}"
+                        name="lens"
+                        value="{{Lens}}"
+                        checked
+                      />
+                      {% else %}
                       <input
                         type="checkbox"
                         id="{{Lens}}"
                         name="lens"
                         value="{{Lens}}"
                       />
+                      {% endif %} {% else %}
+                      <input
+                        type="checkbox"
+                        id="{{Lens}}"
+                        name="lens"
+                        value="{{Lens}}"
+                      />
+                      {% endif %}
                       <label for="tag1">{{Lens}}</label>
                     </div>
                   </li>
@@ -424,12 +560,30 @@
                   {% for mount in mounts %}
                   <li>
                     <div class="shop-widget-content">
+                      {% if 'filters' in session %} {% if mount in
+                      session['filters'][4]%}
+                      <input
+                        type="checkbox"
+                        id="tag3"
+                        name="mount"
+                        value="{{mount}}"
+                        checked
+                      />
+                      {% else %}
                       <input
                         type="checkbox"
                         id="tag3"
                         name="mount"
                         value="{{mount}}"
                       />
+                      {% endif %} {% else %}
+                      <input
+                        type="checkbox"
+                        id="tag3"
+                        name="mount"
+                        value="{{mount}}"
+                      />
+                      {% endif %}
                       <label for="tag1">{{mount}}</label>
                     </div>
                   </li>
@@ -503,7 +657,11 @@
                         <span>Price: {{product['price']}}0</span>
                       </h6>
                       {% if 'customer' in session%}
-                      <button class="product-add" title="Add to Cart">
+                      <button
+                        class="product-add"
+                        id="AddButton{{product['id']}}"
+                        onclick="showInput({{product['id']}})"
+                      >
                         <i class="fas fa-shopping-basket"></i>
                         <span>add</span>
                       </button>
@@ -511,6 +669,7 @@
                         <form
                           action="{{url_for('views.addcart')}}"
                           method="post"
+                          id="InputForm{{product['id']}}"
                         >
                           <input
                             style="width: 50%"
@@ -571,7 +730,15 @@
                             name="image"
                             value="{{product['image']}}"
                           />
-                          <input style="width: 30%" type="submit" value="Add" />
+                          <input type="submit" value="Add" id="Input" />
+                          <button
+                            class="cancelButton"
+                            id="Cancel"
+                            onclick="hideInput({{product['id']}})"
+                            type="button"
+                          >
+                            <span>Cancel</span>
+                          </button>
                         </form>
                       </div>
                       {% endif %}
@@ -696,7 +863,26 @@
                     </div>
                   </div>
                 </div>
-                {% endfor %}
+                {% endfor %} {% if 'CartMaxError' in session %}
+                <div class="modal fade" id="error">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="card" style="border-radius: 5px">
+                        <div class="card-body">
+                          <h5 class="card-title" style="text-align: center">
+                            Max items avaible :
+                            {{session['CartMaxError']['max']}}
+                          </h5>
+                          <p class="card-text">
+                            Only {{session['CartMaxError']['max']}} items
+                            avaible for product
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -824,30 +1010,6 @@
     <script src="{{url_for('static', filename='js/venobox.js')}}"></script>
     <script src="{{url_for('static', filename='js/slick.js')}}"></script>
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
-
-    <script>
-      function myFunc(e) {
-        e.preventDefault();
-      }
-    </script>
-
-    <script>
-      window.onload = function () {
-        document.getElementById("submit").onclick = function () {
-          document.getElementById("quantity").value =
-            document.getElementById("quantity1").value;
-        };
-      };
-    </script>
-
-    <script>
-      function onlyOne(checkbox) {
-        var checkboxes = document.getElementsByName("check");
-        checkboxes.forEach((item) => {
-          if (item !== checkbox) item.checked = false;
-        });
-      }
-    </script>
     <!--=====================================
                     JS LINK PART END
         =======================================-->

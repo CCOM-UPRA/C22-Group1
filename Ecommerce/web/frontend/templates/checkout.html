@@ -105,6 +105,18 @@
       }
     </script>
 
+    {% if 'cartErro' in session%}
+    <script>
+      window.onload = function () {
+        $("#cardError").modal("show");
+
+        setTimeout(function () {
+          $("#cardError").modal("hide");
+        }, 2000);
+      };
+    </script>
+    {% endif %}
+
     <!--=====================================
                     CSS LINK PART END
         =======================================-->
@@ -226,97 +238,156 @@
                             href="#"
                             title="Edit Amount"
                             data-bs-toggle="modal"
-                            data-bs-target="#product-view-{{key}}"
+                            data-bs-target="#product-view-{{item['id']}}"
                             ><i class="fas fa-edit"></i
                           ></a>
-                          <a class="trash" href="#" title="Remove Wishlist"
-                            ><i class="icofont-trash"></i
-                          ></a>
+
+                          <form
+                            action="{{url_for('views.deleteCheckout')}}"
+                            method="POST"
+                          >
+                            <button class="trash">
+                              <i class="icofont-trash"></i>
+                            </button>
+                            <input
+                              type="hidden"
+                              name="itemId"
+                              id="itemId"
+                              value="{{item['id']}}"
+                            />
+                          </form>
                         </td>
                       </tr>
 
-                      <div class="modal fade" id="product-view-{{key}}">
+                      <div class="modal fade" id="product-view-{{item['id']}}">
                         <div class="modal-dialog">
                           <div class="modal-content">
-                            <button
-                              class="modal-close icofont-close"
-                              data-bs-dismiss="modal"
-                            ></button>
-                            <div class="product-view">
-                              <div class="row">
-                                <div class="col-md-6 col-lg-6">
-                                  <div class="view-gallery">
-                                    <div class="view-label-group">
+                            <div
+                              class="card mb-3"
+                              style="width: 80%; left: 10%"
+                            >
+                              <button
+                                class="modal-close icofont-close"
+                                data-bs-dismiss="modal"
+                              ></button>
+                              <div class="row g-0">
+                                <div class="col-md-4">
+                                  <img
+                                    src="static/images/product-images/{{item['image']}}"
+                                    class="img-fluid rounded-start"
+                                    alt="product"
+                                    style="
+                                      width: 100%;
+                                      height: 100%;
+                                      max-height: 500px;
+                                      object-fit: contain;
+                                      pointer-events: none;
+                                    "
+                                  />
+                                </div>
+                                <div class="col-md-8">
+                                  <div
+                                    class="card-body"
+                                    style="padding-left: 20%"
+                                  >
+                                    <h5 class="card-title">
                                       <label class="view-label new"
                                         >{{item['stock']}} in stock</label
                                       >
-                                    </div>
-                                    <ul class="preview-slider">
-                                      <li>
-                                        <img
-                                          src="static/images/product-images/{{item['image']}}"
-                                          alt="product"
-                                        />
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                                <div class="col-md-6 col-lg-6">
-                                  <div class="view-details">
-                                    <h3 class="view-name">
-                                      <a href="product-video.html"
-                                        >{{item['name']}}</a
+                                    </h5>
+                                    <h3 class="card-title">{{item['name']}}</h3>
+                                    <h4 class="card-title">
+                                      <span>Price: {{item['price']}}0</span>
+                                    </h4>
+
+                                    <p class="card-text">
+                                      <span style="font-weight: bold"
+                                        >Brand:</span
                                       >
-                                    </h3>
-                                    <div class="view-meta">
-                                      <p>
-                                        Brand:<span>{{item['brand']}}</span>
-                                      </p>
-                                    </div>
-                                    <div class="view-meta">
-                                      <p>Type: {{item['type']}}</p>
-                                    </div>
-                                    <div class="view-meta">
-                                      <p>Mount: {{item['mount']}}</p>
-                                    </div>
-                                    <h3 class="view-price">
-                                      <del>${{item['cost']}}0</del>
-                                      <span>${{item['price']}}0</span>
-                                    </h3>
-                                    <p class="view-desc">{{item['desc']}}</p>
+                                      {{item['brand']}}
+                                    </p>
+
+                                    <p class="card-text">
+                                      <span style="font-weight: bold"
+                                        >Type:</span
+                                      >
+                                      {{item['type']}}
+                                    </p>
+
+                                    <p class="card-text">
+                                      <span style="font-weight: bold"
+                                        >Mount:</span
+                                      >
+                                      {{item['mount']}}
+                                    </p>
+                                    <p class="card-text">
+                                      <span style="font-weight: bold"
+                                        >Focal Distance:</span
+                                      >
+                                      {{item['focal_distance']}}
+                                    </p>
+                                    <p>
+                                      <span style="font-weight: bold"
+                                        >Aperture:</span
+                                      >
+                                      {{item['aperture']}}
+                                    </p>
+                                    <p class="card-text">
+                                      {{item['description']}}
+                                    </p>
+
+                                    {% if 'customer' in session%}
                                     <form
-                                      action="{{url_for('views.checkout')}}"
-                                      method="post"
+                                      action="{{url_for('views.editCheckout')}}"
+                                      method="POST"
                                     >
+                                      <input
+                                        type="hidden"
+                                        value="{{item['id']}}"
+                                        name="p_idModal"
+                                        id="p_idModal"
+                                      />
                                       <div class="view-add-group">
-                                        <input
-                                          style="width: 75%; text-align: center"
-                                          class="action-input"
-                                          title="Quantity Number"
-                                          type="number"
-                                          name="quantity"
-                                          value="{{item['quantity']}}"
-                                        />
-                                        <input
-                                          type="hidden"
-                                          id="p_id"
-                                          name="p_id"
-                                          value="{{key}}"
-                                        />
-                                        <input
-                                          type="hidden"
-                                          id="page"
-                                          name="page"
-                                          value="/checkout"
-                                        /><br />
-                                        <input
+                                        <button
+                                          class="product-add"
+                                          type="button"
+                                        >
+                                          <span>Tap to edit amount</span>
+                                        </button>
+                                        <div class="product-action">
+                                          <button
+                                            class="action-minus"
+                                            title="Quantity Minus"
+                                            type="button"
+                                          >
+                                            <i class="icofont-minus"></i>
+                                          </button>
+                                          <input
+                                            class="action-input"
+                                            title="Quantity Number"
+                                            type="text"
+                                            name="quantity"
+                                            value="{{item['quantity']}}"
+                                          />
+                                          <button
+                                            class="action-plus"
+                                            title="Quantity Plus"
+                                            type="button"
+                                          >
+                                            <i class="icofont-plus"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                      <div class="view-action-group">
+                                        <button
+                                          class="view-wish wish"
                                           type="submit"
-                                          name="submit"
-                                          id="submit"
-                                          value="Edit amount"
-                                        />
+                                        >
+                                          <span>Save</span>
+                                        </button>
                                       </div>
                                     </form>
+                                    {% endif %}
                                   </div>
                                 </div>
                               </div>
@@ -595,8 +666,23 @@
             </div>
           </div>
 
+          <div class="modal fade" id="cardError">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="card" style="border-radius: 5px">
+                  <div class="card-body">
+                    <h5 class="card-title" style="text-align: center">
+                      No payment selected
+                    </h5>
+                    <p class="card-text">Please select a payment method</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="checkout-proced">
-            <a href="{{url_for('views.invoice')}}" class="btn btn-inline"
+            <a href="{{url_for('views.procesOrder')}}" class="btn btn-inline"
               >proceed to checkout</a
             >
           </div>

@@ -1245,15 +1245,23 @@ button:focus {
 }
 
 .product-action input {
-  width: 100%;
+  width: 40%;
   font-size: 15px;
-  margin: 0px 5px;
-  padding: 6px 0px;
+  padding: 4px;
   border-radius: 6px;
   text-align: center;
   color: var(--white);
-  background: var(--primary);
+  background: var(--green);
   text-shadow: var(--primary-tshadow);
+}
+
+.product-action .cancelButton {
+  width: 40%;
+  background-color: var(--red);
+  color: var(--white);
+  padding: 4px;
+  border-radius: 6px;
+  margin-top: 5px;
 }
 
 .table-list {
@@ -1374,7 +1382,8 @@ tbody tr td:last-child {
   background: var(--white);
 }
 
-.table-action a i {
+.table-action a i,
+.table-action form button i{
   width: 35px;
   height: 35px;
   font-size: 16px;
@@ -5657,6 +5666,16 @@ tbody tr td:last-child {
   -ms-grid-columns: (minmax(200px, 1fr))[auto-fit];
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   position: relative;
+}
+
+.view-action-group button{
+  background-color: var(--green);
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  width: 60%;
+  justify-self: center;
+  color: var(--white);
 }
 
 .view-action-group a {

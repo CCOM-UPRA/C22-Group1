@@ -232,11 +232,19 @@ def addToCart(productId, productQuantity):
     if QuantityOnCart == 0:
         if productQuantity > maxQuantity:
             productQuantity = maxQuantity
+            session['CartMaxError'] = {
+                'id':productId,
+                'max':maxQuantity
+            }
         
         incertToCart(productId, cart, productQuantity)
     else:
         if (QuantityOnCart + productQuantity) > maxQuantity:
             productQuantity = maxQuantity
+            session['CartMaxError'] = {
+                'id':productId,
+                'max':maxQuantity
+            }
         else:
             productQuantity = productQuantity + QuantityOnCart
         
@@ -251,6 +259,9 @@ def deleteFromCart(productId):
 
 def updateCart(productId, newQuantity):
     
+    if 'CartMaxError' in session:
+        session.pop('CartMaxError')
+    
     if newQuantity <= 0:
         deleteFromCart(productId)
     else:
@@ -258,6 +269,11 @@ def updateCart(productId, newQuantity):
         QuantityOnCart = checkCartProducts(productId, cart)
         maxQuantity = checkMaxItemQuantity(productId)
         
-        if newQuantity < maxQuantity and newQuantity != QuantityOnCart:
+        if newQuantity <= maxQuantity and newQuantity != QuantityOnCart:
             updateCartItem(productId, cart, newQuantity)
+        else:
+            session['CartMaxError'] = {
+                'id':productId,
+                'max':maxQuantity
+            }
         
