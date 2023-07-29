@@ -121,3 +121,12 @@ def getStatus(status):
 def getCardType():
     card = getCard(session['lastCardUsed'])
     return card[3]
+
+def updateDataBaseProducts():
+    items = getOrderItems()
+    for item in items:
+        newStock = item['stock'] - item['quantity']
+        if newStock > 0:
+            updateProduct(item['id'], newStock)
+        else:
+            deactivateProduct(item['id'])

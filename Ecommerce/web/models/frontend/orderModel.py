@@ -51,3 +51,15 @@ def getCard(cardId, database):
     cursor = database.cursor()
     cursor.execute('SELECT * from payment where Payment_ID = %s', (cardId,))
     return cursor.fetchone()
+
+@DBConnection
+def updateProduct(productId, quantity, database):
+    cursor = database.cursor()
+    cursor.execute('UPDATE telescopes SET Telescope_Stock = %s WHERE TelescopeID = %s', (quantity, productId,))
+    database.commit()
+
+@DBConnection
+def deactivateProduct(productId, database):
+    cursor = database.cursor()
+    cursor.execute('UPDATE telescopes SET Telescope_Stock = %s, Telescope_Status = %s WHERE TelescopeID = %s', (0, 'INACTIVE', productId, ))
+    database.commit()

@@ -54,7 +54,7 @@ def edit_address(id, street_number, street_name, zipcode, c_city, c_state, datab
 @DBConnection
 def edit_phone(id, C_Phone, database): #edit number 
     cursor = database.cursor()
-    cursor.execute('UPDATE customers SET C_Phone = %s WHERE CustomerID = %s ', (C_Phone, id)) 
+    cursor.execute('UPDATE customers SET C_Phone = %s WHERE CustomerID = %s ', (C_Phone, id,))
     database.commit() 
     
     

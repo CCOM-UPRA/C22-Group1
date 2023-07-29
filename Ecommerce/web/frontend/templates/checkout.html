@@ -112,7 +112,7 @@
 
         setTimeout(function () {
           $("#cardError").modal("hide");
-        }, 2000);
+        }, 5000);
       };
     </script>
     {% endif %}
@@ -521,7 +521,12 @@
                 <button class="modal-close" data-bs-dismiss="modal">
                   <i class="icofont-close"></i>
                 </button>
-                <form class="modal-form">
+                <form
+                  name="form3"
+                  class="modal-form"
+                  action="{{url_for('views.editinfoCheckout')}}"
+                  method="post"
+                >
                   <div class="form-title">
                     <h3>Edit contact number</h3>
                   </div>
@@ -529,13 +534,16 @@
                     <label class="form-label">number</label>
                     <input
                       class="form-control"
-                      type="number"
-                      value="{{user1[10]}}"
+                      name="number"
+                      type="phone"
+                      value="{{user1[4]}}"
                     />
+                    <input type="hidden" name="form_name" value="form3" />
                   </div>
                   <button class="form-btn" type="submit">
                     save contact number
                   </button>
+                  <input type="hidden" name="page" value="/profile" />
                 </form>
               </div>
             </div>
@@ -551,7 +559,7 @@
                 <form
                   name="form2"
                   class="modal-form"
-                  action="{{url_for('views.editinfo')}}"
+                  action="{{url_for('views.editinfoCheckout')}}"
                   method="post"
                 >
                   <div class="form-title">
@@ -620,47 +628,70 @@
                 <button class="modal-close" data-bs-dismiss="modal">
                   <i class="icofont-close"></i>
                 </button>
-                <form class="modal-form">
+                <form
+                  class="modal-form"
+                  action="{{url_for('views.payment')}}"
+                  method="post"
+                >
                   <div class="form-title">
-                    <h3>edit payment info</h3>
+                    <h3>Add payment info</h3>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">card name</label>
+                    <label class="form-label">Card Name</label>
                     <input
-                      class="form-control"
                       type="text"
-                      value="{{user1[11]}}"
+                      class="form-control"
+                      name="Card_Name"
+                      placeholder="Enther the card name"
                     />
                   </div>
                   <div class="form-group">
-                    <label class="form-label">card number</label>
+                    <label class="form-label">Card Number</label>
                     <input
-                      class="form-control"
                       type="number"
-                      value="{{user1[13]}}"
+                      class="form-control"
+                      name="Card_Number"
+                      placeholder="Enther the card number"
                     />
                   </div>
                   <div class="form-group">
-                    <label class="form-label">card type</label>
+                    <label class="form-label">Card Type</label>
                     <input
                       class="form-control"
+                      name="card_type"
                       type="text"
-                      value="{{user1[12]}}"
+                      placeholder="Enter the card type"
                     />
                   </div>
                   <div class="form-group">
-                    <label class="form-label"
-                      >expiration date (MM/DD/YYYY)</label
-                    >
+                    <label class="form-label">Expiration Date (MM/YYYY)</label>
                     <input
+                      type="month"
                       class="form-control"
-                      type="date"
-                      value="{{user1[14]}}"
+                      name="Card_date"
+                      placeholder="Enther the expiration date"
                     />
                   </div>
-                  <button class="form-btn" type="submit">
-                    save payment info
-                  </button>
+                  <div class="form-group">
+                    <label class="form-label">Card CVV</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="Card_cvv"
+                      placeholder="Enther the card cvv"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Card zipcode</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="Card_zipcode"
+                      placeholder="Enther the card zipcode"
+                    />
+                  </div>
+                  <button class="form-btn" type="submit">save card info</button>
+                  <input type="hidden" name="page" value="/profile" />
                 </form>
               </div>
             </div>
