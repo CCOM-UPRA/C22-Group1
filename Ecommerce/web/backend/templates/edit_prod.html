@@ -74,19 +74,19 @@
                 <div class="header-content">
                     <div class="header-media-group">
                         <button class="header-user"><img src="static/images/user.png" alt="user"></button>
-                        <a href="{{url_for('products')}}"><img src="static/images/logo.png" alt="logo"></a>
+                        <a href="{{url_for('back_views.products')}}"><img src="static/images/logo.png" alt="logo"></a>
                         <button class="header-src"><i class="fas fa-search"></i></button>
                     </div>
 
-                    <a href="{{url_for('products')}}" class="header-logo">
-                        <img src="static/images/logo.png" alt="logo">
+                    <a href="{{url_for('back_views.products')}}" class="header-logo">
+                        <img src="../static/images/logo.png" alt="logo">
                     </a>
 
                     <ul class="dropdown">
                     <a class="navbar-link dropdown-arrow" href="#">My Account</a>
                                     <ul class="dropdown-position-list">
-                                        <li><a href="{{url_for('profile')}}">Account Info</a></li>
-                                        <li><a href="{{url_for('clear')}}">Logout</a></li>
+                                        <li><a href="{{url_for('views.profile')}}">Account Info</a></li>
+                                        <li><a href="{{url_for('back_auth.backlogout')}}">Logout</a></li>
                                     </ul>
                     </ul>
 
@@ -116,15 +116,14 @@
                         <div class="navbar-content">
                             <ul class="navbar-list">
                                 <li class="navbar-item dropdown">
-                                    <a class="navbar-link" href="{{url_for('products')}}">Products</a>
+                                    <a class="navbar-link" href="{{url_for('back_views.products')}}">Products</a>
+                                </li>
+                                <li class="navbar-item dropdown">
+                                    <a class="navbar-link active" href="{{url_for('back_views.reports')}}">Reports</a>
                                 </li>
 
                                 <li class="navbar-item dropdown">
-                                    <a class="navbar-link active" href="{{url_for('reports')}}">Reports</a>
-                                </li>
-
-                                <li class="navbar-item dropdown">
-                                    <a class="navbar-link" href="{{url_for('accounts')}}">Accounts</a>
+                                    <a class="navbar-link" href="{{url_for('back_views.accounts')}}">Accounts</a>
                                 </li>
                             </ul>
 
@@ -138,8 +137,6 @@
         =======================================-->
 
 
-
-
         <!--=====================================
                 PRODUCT DETAILS PART START
         =======================================-->
@@ -149,68 +146,85 @@
                 <div style='text-align: center'>
 
                         <br><br>
-                        <h2>{{prod[1]}}</h2>
+                        <h2 class="blanco">{{prod[0]['name']}}</h2>
                         <br>
 
                     </div>
-
+                
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="details-gallery">
                             <ul class="details-preview"> 
-                                <li><img src="../static/images/product-images/{{prod[8]}}" alt="product"></li>
+                                <li><img class="yimg2" src="../static/images/product-images/{{prod[0]['image']}}" alt="product"></li>
                             </ul>
-
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="details-content">
-                            <h3 class="details-name"><a href="#">Details</a></h3>
-                            <form action="{{url_for('editproduct')}}" method="post">
-                            <label for="name">Name: </label>
-                            <input type="text" id="name" title="Name of product" placeholder="Name"><br>
-
-                            <label for="brand">Brand: </label>
-                            <input type="text" id="brand" title="Brand of product" placeholder="Brand"><br>
-
-                            
-                            <label for="lens">Lens type: </label>
-                            <input type="text" id="lens" title="Mount of product" placeholder="Lens"><br>
-
-                            <label for="mount">Mount: </label>
-                            <input type="text" id="mount" title="Mount of product" placeholder="Mount"><br>
-
-                            <label for="focaldis">Focal Distance: </label>
-                            <input type="text" id="focaldis" title="Video Resolution of product" placeholder="FocalDistance">
-                            <br>
-
-                            <label for="price">Price in $: </label>
-                            <input type="number" id='price' value="Price"><br>
-
-                            <label for="stock">Stock: </label>
-                            <input type="number" id='stock' value="Amount"><br>
-
-
-                            <label for="desc">Description: </label>
-                            <input type="text" id='desc' title="Description" value="Description goes here...">
-                            <br>
-
-                            <label for="myfile">Select an image:</label>
-                            <input type="file" id="myfile" name="myfile" name="myfile">
-
-                            <p>Status:</p>
-                            {% if prod[9] == 'active' %}
-                                    <input type="radio" id="active" name="status" value="Active" checked>
-                                    <label for="active">Active</label><br>
-                                    <input type="radio" id="inactive" name="status" value="Inactive">
-                                    <label for="inactive">Inactive</label><br>
-                            {% else %}
-                                    <input type="radio" id="act1" name="status" value="Active">
-                                    <label for="act1">Active</label><br>
-                                    <input type="radio" id="inact1" name="status" value="Inactive" checked>
-                                    <label for="inact1">Inactive</label><br>
-                            {% endif %}
-
+                        <div class="details-content ycenter">
+                        <h3 class="details-name"><a href="#">Details</a></h3>
+                        <div class= "split">
+                            <form action="{{url_for('back_views.edit_prod')}}" method="POST">
+                            <div class="">
+                                <label class="form-label" for="name">Name: </label>
+                                <input class="form-control" type="text" id="name" name="t_Name" title="Name of product" value="{{prod[0]['name']}}">
+                            </div>
+                            <div class="">
+                                <label class="form-label" for="brand">Brand: </label>
+                                <input class="form-control" type="text" id="brand" name="t_Brand" title="Brand of product" value="{{prod[0]['brand']}}">
+                            </div>
+                            <div class="">
+                                <label class="form-label" for="lens">Lens type: </label>
+                                <input class="form-control" type="text" id="lens" name="t_Lens" title="Lens of product" value="{{prod[0]['type']}}">
+                            </div>
+                            <div class="">
+                                <label class="form-label" for="mount">Mount: </label>
+                                <input class="form-control" type="text" id="mount" name="t_Mount" title="Mount of product" value="{{prod[0]['mount']}}">
+                            </div>
+                            <div class="">
+                                <label class="form-label" for="aperture">aperture: </label>
+                                <input class="form-control" type="text" id="aperture" name="t_aperture" title="Aperture of product" value="{{prod[0]['aperture']}}">
+                            </div>
+                            <div class="">
+                                <label class="form-label" for="focaldis">Focal Distance: </label>
+                                <input class="form-control" type="text" id="focaldis" name="t_Focal" title="Video Resolution of product" value="{{prod[0]['focal_distance']}}">
+                            <div class="">
+                                <label class="form-label" for="price">Price in $: </label>
+                                <input class="form-control" type="number" id='price' name="t_Price" value="{{prod[0]['price']}}">
+                            </div>
+                            <div class="">
+                                <label class="form-label" for="cost">cost in $: </label>
+                                <input class="form-control" type="number" id='cost' name="t_cost" value="{{prod[0]['cost']}}">
+                            </div>
+                            <div class="">
+                                <label class="form-label" for="stock">Stock: </label>
+                                <input class="form-control" type="number" id='stock' name="t_Stock" value="{{prod[0]['stock']}}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="desc">Description: </label>
+                                <textarea class="form-control" id="desc" name="t_Description" title="Description">{{prod[0]['description']}}</textarea>
+                            </div>
+                            <div class="">
+                                <label class="form-label" for="myfile">Select an image:</label>
+                                <input class="form-control" type="file" id="myfile" name="myfile" value="">
+                            </div>
+                                <input type="hidden" name="prodId" value="{{pid}}">
+                                <input type="hidden" name="edit" value="edit">
+                                <input type="hidden" name="oldimg" value="{{prod[0]['image']}}">
+                            <div class="">
+                                <p>Status:</p>
+                                {% if prod[0]['status'] == 'ACTIVE' %}
+                                        <input type="radio" id="active" name="status" value="ACTIVE" checked>
+                                        <label for="active">ACTIVE</label><br>
+                                        <input type="radio" id="inactive" name="status" value="INACTIVE">
+                                        <label for="inactive">INACTIVE</label><br>
+                                {% else %}
+                                        <input type="radio" id="act1" name="status" value="ACTIVE">
+                                        <label for="act1">ACTIVE</label><br>
+                                        <input type="radio" id="inact1" name="status" value="INACTIVE" checked>
+                                        <label for="inact1">INACTIVE</label><br>
+                                {% endif %}
+                            </div>
+                        </div>
 
                             <div class="details-add-group">
                                 <button class="product-add" title="Save changes">
@@ -239,7 +253,7 @@
                     <div class="col-sm-6 col-xl-3">
                         <div class="footer-widget">
                             <a class="footer-logo" href="#">
-                                <img src="static/images/logo.png" alt="logo">
+                                <img src="../static/images/logo.png" alt="logo">
                             </a>
                             <p class="footer-desc">This e-commerce template has been created for the sole purpose of aiding the students for the Databases course</p>
 

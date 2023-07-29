@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from ..models.frontend.loginModel import *
+from ..models.frontend.authModel import *
 import hashlib
+from ..dbConnection import *
 
 def login_required(func):
     @wraps(func)
@@ -23,14 +25,35 @@ def login():
             customer = customerlog(email)
             db_password = customer[0]
             customerID = customer[1]
+            customer_status = customer[2]
             if password == db_password:
-                session['customer'] = customerID
-                return redirect(url_for('views.shop'))
+                
+                if customer_status == 'ACTIVE':
+                    session['customer'] = customerID
+                    return redirect(url_for('views.shop'))
+                
+                elif customer_status == 'INACTIVE':
+                    flash('ACCOUNT IS INACTIVE. CONTACT AN ADMINISTRATOR', 'ERROR')
+                    return redirect(url_for('auth.login'))
+                
+                elif customer_status == 'ADMIN':
+                    session['admin'] = customerID
+                    return redirect(url_for('back_views.products'))
+                
             else:
-                return 'Password dont match!'
+                flash('PASSWORD IS INCORRRECT', 'ERROR')
+                return redirect(url_for('auth.login'))
+            
         else:
+            flash('CREATE AN ACCOUNT IF YOU WANT TO USE THE STORE', 'ERROR')
             return render_template('register.html')
+            
     return render_template('login.html')
+
+
+@auth.route('/home')
+def home():
+    return render_template('shop.html')
 
 
 @auth.route('/logout')
@@ -52,13 +75,16 @@ def register():
         pass2 = request.form['C_password2']
         
         if not fname or not lname or not email or not pass1 or not pass2:
-            return 'fill all the blanks'
+            flash('fill all the blanks', 'ERROR')
+            return redirect(url_for('auth.register'))
         
         if pass1 != pass2:
-            return 'Password dont match!'
+            flash('Password dont match!', 'ERROR')
+            return redirect(url_for('auth.register'))
         
         if email_exists(email):
-            return 'Email already exists!'
+            flash('Email already exists', 'ERROR')
+            return redirect(url_for('auth.register'))
         pass1_hash = hashlib.sha256(pass1.encode()).hexdigest()
         insert_user(fname, lname, email, pass1)
         session['customer'] = ID_Email(email)[0]
@@ -67,6 +93,20 @@ def register():
     return render_template('register.html')
 
 
-@auth.route('/password')
-def change_password():
-    pass
+@auth.route('/Cpassword', methods=['GET', 'POST'])
+def Cpassword(): 
+    if request.method == 'POST':
+        email = request.form['C_email']
+        pass1 = request.form['pass_n']
+        pass2 = request.form['pass_n1']
+        print(email,pass1,pass2)
+        if email_exists(email):
+            if pass1 != pass2:
+                flash('Password dont match!', 'ERROR')
+                return redirect(url_for('auth.Cpassword'))
+            reset_password(email, pass2) 
+            flash('Password successfully changed', 'error')
+            return render_template('login.html')
+        return redirect(url_for('auth.Cpassword'))
+    return render_template('change_password.html')
+    

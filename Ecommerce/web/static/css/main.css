@@ -2707,7 +2707,7 @@ tbody tr td:last-child {
   }
   .product-add i,
   .standard-wish i {
-    display: none;
+    display: "visible";
   }
   .standard-action input {
     height: 38px;
@@ -2742,7 +2742,7 @@ tbody tr td:last-child {
   }
   .product-add i,
   .standard-wish i {
-    display: none;
+    display: "visible";
   }
   .standard-action input {
     height: 38px;
@@ -6953,6 +6953,9 @@ tbody tr td:last-child {
   color: white;
   text-transform: capitalize;
 }
+.purple{
+  background: var(--primary);
+}
 
 .l{
   font-size: large;
@@ -6980,4 +6983,23 @@ tbody tr td:last-child {
 }
 .nose2{
   width: 25%;
+}
+
+.ycenter{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.yimg{
+  height: 400px;
+  object-fit: scale-down;
+}
+.yimg2{
+  height: 650px;
+  object-fit:scale-down;
+}
+.yimg3{
+  height: 250px;
+  object-fit:scale-down;
 }

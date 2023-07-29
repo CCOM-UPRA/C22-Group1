@@ -90,7 +90,7 @@
         <div class="row justify-content-center">
           <div class="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
             <div class="user-form-logo">
-              <a href="index.html"
+              <a href="{{url_for('auth.login')}}"
                 ><img
                   src="{{url_for('static', filename='images/logo.png')}}"
                   alt="logo"
@@ -100,8 +100,14 @@
               <div class="user-form-title">
                 <h2 class="SetTextColor">welcome!</h2>
                 <p>Use your credentials to access</p>
-              </div>
-
+                {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    {% for message in messages %}
+                      <h2 style="color: red">{{ message }}</h2>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+              </div>  
               <div style="padding: 0px 30%" class="user-form-group">
                 <form
                   class="user-form"
@@ -131,7 +137,7 @@
                     <p>
                       Forgot your password?
                       <a
-                        href="{{url_for('auth.change_password')}}"
+                        href="{{url_for('auth.Cpassword')}}"
                         class="SetTextColor"
                       >
                         reset here</a

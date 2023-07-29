@@ -28,7 +28,7 @@
         =======================================-->
 
     <!-- WEBPAGE TITLE -->
-    <title>Shop 4 Column - Nebula</title>
+    <title>Products Tab - Nebula</title>
 
     <!--=====================================
                     CSS LINK PART START
@@ -87,43 +87,38 @@
                     HEADER PART START
         =======================================-->
 
-    <header class="header-part">
-      <div class="container">
-        <div class="header-content">
-          <div class="header-media-group">
-            <button class="header-user">
-              <img src="static/images/user.png" alt="user" />
-            </button>
-            <a href="#"><img src="static/images/logo.png" alt="logo" /></a>
-            <button class="header-src"><i class="fas fa-search"></i></button>
-          </div>
+      <header class="header-part">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-media-group">
+                    <button class="header-user"><img src="../static/images/user.png" alt="user"></button>
+                    <a href="{{url_for('back_views.products')}}"><img src="../static/images/logo.png" alt="logo"></a>
+                    <button class="header-src"><i class="fas fa-search"></i></button>
+                </div>
 
-          <a href="#" class="header-logo">
-            <img src="static/images/logo.png" alt="logo" />
-          </a>
-          <!--                    <a href="{{url_for('back_views.profile')}}" class="header-widget" title="My Account">-->
-          <!--                        <img src="static/images/user.png" alt="user">-->
-          <!--                        <span>My Account</span>-->
-          <!--                    </a>-->
-          <ul class="dropdown">
-            <a class="navbar-link dropdown-arrow" href="#">My Account</a>
-            <ul class="dropdown-position-list">
-              <li>
-                <a href="{{url_for('back_views.profile')}}">Account Info</a>
-              </li>
-              <li><a href="{{url_for('back_views.clear')}}">Logout</a></li>
-            </ul>
-          </ul>
+                <a href="{{url_for('back_views.products')}}" class="header-logo">
+                    <img src="../static/images/logo.png" alt="logo">
+                </a>
+                <ul class="dropdown">
+                <a class="navbar-link dropdown-arrow" href="#">My Account</a>
+                                <ul class="dropdown-position-list">
+                                    <li><a href="{{url_for('views.profile')}}">Account Info</a></li>
+                                    <li><a href="{{url_for('back_auth.backlogout')}}">Logout</a></li>
+                                </ul>
+                </ul>
 
-          <form class="header-form">
-            <input type="text" placeholder="Search anything..." />
-            <button><i class="fas fa-search"></i></button>
-          </form>
+                <form class="header-form">
+                    <input type="text" placeholder="Search anything...">
+                    <button><i class="fas fa-search"></i></button>
+                </form>
 
-          <div class="header-widget-group"></div>
+                <div class="header-widget-group">
+
+
+                </div>
+            </div>
         </div>
-      </div>
-    </header>
+      </header>
     <!--=====================================
                     HEADER PART END
         =======================================-->
@@ -184,6 +179,20 @@
                     BANNER PART END
         =======================================-->
 
+        {% with messages = get_flashed_messages(category_filter='succes') %}
+            {% if messages %}
+                <div class="inner-section profile-part">
+                    <div class="container">
+                        <div>
+                            {% for message in messages %}
+                                <h2 style="color: white; text-align: center;">{{ message }}</h2>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+
     <!--=====================================
                     SHOP PART START
         =======================================-->
@@ -200,44 +209,46 @@
                   <div class="product-media">
                     <a
                       class="product-image"
-                      href="static/images/product-images/{{product[8]}}"
+                      href="../static/images/product-images/{{product['image']}}" 
                     >
-                      <img
-                        src="static/images/product-images/{{product[8]}}"
+                      <img class="yimg3"
+                        src="../static/images/product-images/{{product['image']}}"
+                        
                         alt="product"
                       />
                     </a>
                     <div class="product-widget">
                       <a
                         title="Product View"
-                        href="{{url_for('product', prod=product[0])}}"
+                        href="#"
                         class="fas fa-eye"
+                        data-bs-toggle="modal"
+                        data-bs-target="#product-view-{{product['id']}}"
                       ></a>
                     </div>
                   </div>
+                  
                   <div class="product-content">
                     <h6 class="product-name">
                       <a
-                        href="{{url_for('back_views.product', prod=product[0])}}"
-                        >{{product[1]}}</a
+                        data-bs-toggle="modal"
+                        data-bs-target="#product-view-{{product['id']}}"
+                        >{{product['name']}}</a
                       >
                     </h6>
-                    <h6 class="product-name">
-                      <a>{{product[2]}}</a>
-                    </h6>
                     <h6 class="product-price">
-                      <span>${{product[11]}}</span>
+                      <span>${{product['price']}}</span>
                     </h6>
                     <h6 class="product-name">
-                      <a>{{product[9]}} in stock</a>
+                      <a>{{product['stock']}} in stock</a>
                     </h6>
                     <h6 class="product-name">
-                      <a>Status: {{product[10]}}</a>
+                      <a>Status: {{product['status']}} </a>
                     </h6>
 
                     <div class="product-action">
                       <form
-                        action="{{url_for('back_views.product', prod=product) }}"
+                        action="{{url_for('back_views.products') }}"
                         method="post"
                       >
                         <input
@@ -253,71 +264,64 @@
                           type="hidden"
                           id="p_id"
                           name="p_id"
-                          value="{{product[0]}}"
+                          value="{{product['id']}}"
                         />
                         <input
                           type="hidden"
                           id="name"
                           name="name"
-                          value="{{product[1]}}"
+                          value="{{product['name']}}"
                         />
                         <input
                           type="hidden"
                           id="price"
                           name="price"
-                          value="{{product[10]}}"
+                          value="{{product['price']}}"
                         />
                         <input
                           type="hidden"
                           id="cost"
                           name="cost"
-                          value="{{product[11]}}"
+                          value="{{product['cost']}}"
                         />
                         <input
                           type="hidden"
                           id="stock"
                           name="stock"
-                          value="{{product[8]}}"
+                          value="{{product['stock']}}"
                         />
                         <input
                           type="hidden"
                           id="brand"
                           name="brand"
-                          value="{{product[2]}}"
+                          value="{{product['brand']}}"
                         />
                         <input
                           type="hidden"
-                          id="wifi"
-                          name="wifi"
-                          value="{{product[4]}}"
-                        />
-                        <input
-                          type="hidden"
-                          id="videores"
-                          name="videores"
-                          value="{{product[5]}}"
+                          id="mount"
+                          name="mount"
+                          value="{{product['mount']}}"
                         />
                         <input
                           type="hidden"
                           id="desc"
                           name="desc"
-                          value="{{product[3]}}"
+                          value="{{product[description]}}"
                         />
                         <input
                           type="hidden"
                           id="image"
                           name="image"
-                          value="{{product[7]}}"
+                          value="{{product['image']}}"
                         />
                         <input style="width: 30%" type="submit" value="Add" />
-                        <button class="action">View</button>
                       </form>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div class="modal fade" id="product-view-{{product[0]}}">
+              <div class="modal fade" id="product-view-{{product['id']}}">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <button
@@ -330,13 +334,13 @@
                           <div class="view-gallery">
                             <div class="view-label-group">
                               <label class="view-label new"
-                                >{{product[8]}} in stock</label
+                                >{{product['stock']}} in stock</label
                               >
                             </div>
                             <ul class="preview-slider">
                               <li>
-                                <img
-                                  src="static/images/product-images/{{product[7]}}"
+                                <img class="yimg"
+                                  src="../static/images/product-images/{{product['image']}}"
                                   alt="product"
                                 />
                               </li>
@@ -346,24 +350,36 @@
                         <div class="col-md-6 col-lg-6">
                           <div class="view-details">
                             <h3 class="view-name">
-                              <a href="product-video.html">{{product[1]}}</a>
+                              <a href="">{{product['name']}}</a>
                             </h3>
                             <div class="view-meta">
-                              <p>Brand:<span>{{product[2]}}</span></p>
+                              <p>Brand:<span>{{product['brand']}}</span></p>
                               <br />
-                              <p>Wi-fi: {{product[4]}}</p>
+                              <p>Type:{{product['type']}}</p>
                               <br />
-                              <p>Video Res: {{product[5]}}</p>
+                              <p>Mount: {{product['mount']}}</p>
+                              <br />
+                            </div>
+                            <div class="view-meta">
+                              <p>Focal Distant:<span> {{product['focal_distance']}}</span></p>
+                              <br />
+                              <p>Aperture: {{product['aperture']}}</p>
+                              <br />
                             </div>
                             <h3 class="view-price">
-                              <span>Price: {{product[10]}}</span>
+                              <span>Price: {{product['price']}}</span>
                             </h3>
                             <p class="view-desc">
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit non tempora magni repudiandae sint suscipit
-                              tempore quis maxime explicabo veniam eos
-                              reprehenderit fuga
+                              {{product['description']}}
                             </p>
+                            <div class="view-action-group">
+                              <form action="{{url_for('back_views.edit_prod')}}" method="post">
+                                <input type="hidden" name="prodId" value="{{product['id']}}">
+                                <input type="hidden" name="edit" value="noedit">
+                                <button class="form-btn" type="submit">Edit Product</button>
+                                <input type="hidden" name="page" value="/accounts">
+                              </form>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -380,7 +396,7 @@
     <!--=====================================
                     SHOP PART END
         =======================================-->
-
+      
     <!--=====================================
                      FOOTER PART START
         =======================================-->
@@ -390,7 +406,7 @@
           <div class="col-sm-6 col-xl-3">
             <div class="footer-widget">
               <a class="footer-logo" href="#">
-                <img src="static/images/logo.png" alt="logo" />
+                <img src="../static/images/logo.png" alt="logo" />
               </a>
               <p class="footer-desc">
                 This e-commerce template has been created for the sole purpose

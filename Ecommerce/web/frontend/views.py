@@ -4,6 +4,8 @@ from ..models.frontend.loginModel import *
 from ..models.frontend.orderModel import *
 from ..controllers.frontend.shopController import *
 from ..controllers.frontend.orderController import *
+from ..models.frontend.profileModel import *
+
 
 
 def login_required(func):
@@ -22,6 +24,12 @@ views = Blueprint('views', __name__, template_folder='templates/')
 @views.route('/clear', methods=['GET', 'POST'])
 def clear():
     return redirect(url_for('views.shop'))
+
+# @views.route('/reports', methods=['GET', 'POST'])
+# def inv_rep():
+#     inventario = reports()
+    
+#     return render_template('inventory_report.html',reportes = inventario)
 
 
 @views.route('/shop')
@@ -132,6 +140,7 @@ def ResetPriceRange():
         setPriceRange()
     return redirect(url_for('views.shop'))
 
+
 @views.route('/profile')
 @login_required
 def profile():
@@ -154,6 +163,7 @@ def editinfo():
             lname = request.form['C_lname']
             email = request.form['C_email']
             edit_prof(id, fname ,lname ,email)
+            flash('ACCOUNT INFO EDITED', 'EDITED')
         elif form_name == 'form2':
             Street_name = request.form['aline2']
             Street_number = request.form['aline1']
@@ -161,16 +171,20 @@ def editinfo():
             state = request.form['state']
             zipcode = request.form['zipcode']
             edit_address(id, Street_number, Street_name, zipcode, city, state)
+            flash('ADDRESS INFO EDITED', 'EDITED')
         elif form_name == 'form3':
             number = request.form['number']
             edit_phone(id,number)
+            flash('PHONE NUMBER EDITED', 'EDITED')
         elif form_name == 'form4':
             c_number = request.form['selected_card']
             c_name = request.form['card_name']
             c_type = request.form['card_type']
             c_date = request.form['date']
             year,month = c_date.split('-')
-            update_payment(c_number, c_name, c_type, year, month) 
+            c_id = request.form['card_id']
+            update_payment(c_number, c_name, c_type, year, month,c_id) 
+            flash('PAYMENT INFO EDITED', 'EDITED')
     return redirect(url_for('views.profile'))
 
 @views.route('/editinfoCheckout', methods=['GET', 'POST'])
@@ -203,8 +217,16 @@ def editinfoCheckout():
             update_payment(c_number, c_name, c_type, year, month) 
     return redirect(url_for('views.checkout'))
 
+@views.route('/deletecard', methods=['GET', 'POST'])
+@login_required
+def deletecard():
+    c_number = request.form['selected_card']
+    delete_card(c_number)
+    flash('PAYMENT CARD DELETED', 'EDITED')
+    return redirect(url_for('views.profile')) 
 
-@views.route('/orders', methods=['GET','POST'])
+
+@views.route('/orders')
 @login_required
 def orders():
     cartProducts = []
@@ -378,6 +400,7 @@ def payment():
         Ccvv = request.form['Card_cvv']
         Czipcode = request.form['Card_zipcode']
         insert_card(id, Cname, Ctype, Cnumber, month, year, Ccvv, Czipcode)
+        flash('NEW PAYMENTH INFO ADDED', 'ADDED')
     return redirect(url_for('views.profile'))
 
 @views.route('/paymentCheckout', methods=['GET', 'POST'])
@@ -407,20 +430,21 @@ def change_password():
     
     
     if old != password:
-        error_message = "La contraseña no coincide con la antigua."
-        return redirect(url_for('views.profile', error_message=error_message))
+        flash('The password you entered is not the old one you had', 'error')
+        return redirect(url_for('views.profile'))
     
     if old == password2:
-        error_message = "La contraseña es la misma que la que tienes anteriomente."
-        return redirect(url_for('views.profile', error_message=error_message))
+        flash('Your new password is the same as the old one.', 'error')
+        return redirect(url_for('views.profile'))
     
     if password2 != password3:
-        error_message =" la contraseña no coinciden."
-        return redirect(url_for('views.profile', error_message=error_message))
+        flash('Your new password and the confirmation dont match', 'error')
+        return redirect(url_for('views.profile'))
     
     update_password(id, password2) 
     success_message = "Contraseña actualizada con éxito."
-    return redirect(url_for('views.profile', success_message=success_message))
+    flash('Password updates', 'ADDED')
+    return redirect(url_for('views.profile'))
 
 @views.route('clearCart')
 def clearCart():

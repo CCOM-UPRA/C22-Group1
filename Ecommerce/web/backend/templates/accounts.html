@@ -22,13 +22,13 @@
         =======================================-->
 
         <!-- WEBPAGE TITLE -->
-        <title>Product Tab - Nebula</title>
+        <title>Accounts Tab - Nebula</title>
 
         <!--=====================================
                     CSS LINK PART START
         =======================================-->
          <!-- FAVICON -->
-        <link rel="icon" href="{{url_for('static', filename='images/favicon.png')}}">
+        <link rel="icon" href="{{url_for('static', filename='images/logo.png')}}">
 
         <!-- FONTS -->
          <link rel="stylesheet" href="{{url_for('static', filename='fonts/flaticon/flaticon.css')}}">
@@ -72,22 +72,18 @@
                 <div class="header-content">
                     <div class="header-media-group">
                         <button class="header-user"><img src="static/images/user.png" alt="user"></button>
-                        <a href="{{url_for('products')}}"><img src="static/images/logo.png" alt="logo"></a>
+                        <a href="{{url_for('back_views.products')}}"><img src="../static/images/logo.png" alt="logo"></a>
                         <button class="header-src"><i class="fas fa-search"></i></button>
                     </div>
 
-                    <a href="{{url_for('products')}}" class="header-logo">
-                        <img src="static/images/logo.png" alt="logo">
+                    <a href="{{url_for('back_views.products')}}" class="header-logo">
+                        <img src="../static/images/logo.png" alt="logo">
                     </a>
-<!--                    <a href="{{url_for('profile')}}" class="header-widget" title="My Account">-->
-<!--                        <img src="static/images/user.png" alt="user">-->
-<!--                        <span>My Account</span>-->
-<!--                    </a>-->
                     <ul class="dropdown">
                     <a class="navbar-link dropdown-arrow" href="#">My Account</a>
                                     <ul class="dropdown-position-list">
-                                        <li><a href="{{url_for('profile')}}">Account Info</a></li>
-                                        <li><a href="{{url_for('clear')}}">Logout</a></li>
+                                        <li><a href="{{url_for('views.profile')}}">Account Info</a></li>
+                                        <li><a href="{{url_for('back_auth.backlogout')}}">Logout</a></li>
                                     </ul>
                     </ul>
 
@@ -117,15 +113,15 @@
                         <div class="navbar-content">
                             <ul class="navbar-list">
                                <li class="navbar-item dropdown">
-                                    <a class="navbar-link" href="{{url_for('products')}}">Products</a>
+                                    <a class="navbar-link" href="{{url_for('back_views.products')}}">Products</a>
                                 </li>
 
                                 <li class="navbar-item dropdown">
-                                    <a class="navbar-link active" href="{{url_for('reports')}}">Reports</a>
+                                    <a class="navbar-link active" href="{{url_for('back_views.reports')}}">Reports</a>
                                 </li>
 
                                 <li class="navbar-item dropdown">
-                                    <a class="navbar-link" href="{{url_for('accounts')}}">Accounts</a>
+                                    <a class="navbar-link" href="{{url_for('back_views.accounts')}}">Accounts</a>
                                 </li>
                             </ul>
 
@@ -146,16 +142,27 @@
                 <h2>Accounts</h2>
             </div>
 
-            <div style='padding: 0 40%' class="view-add-group">
-                   <form action="{{url_for('createaccount')}}">
-                       <button style="" class="product-add">Add account</button>
-                   </form>
+            <div style='padding: 0 40%' class="view-add-group">   
+                <button class="product-add" data-bs-toggle="modal" data-bs-target="#addaccount"  title="add Amount">Add account</button>
             </div>
         </section>
         <!--=====================================
                     BANNER PART END
         =======================================-->
 
+        {% with messages = get_flashed_messages(category_filter='succes') %}
+            {% if messages %}
+                <div class="inner-section profile-part">
+                    <div class="container">
+                        <div>
+                            {% for message in messages %}
+                                <h2 style="color: white; text-align: center;">{{ message }}</h2>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
 
         <!--=====================================
                 PRODUCT DETAILS PART START
@@ -173,32 +180,30 @@
                             </div>
                             <div class="account-content">
                             <div class="table-scroll">
-                            <table class="table-list">
+                            <table class="table-list" id="usersContainer">
                                 <thead>
                                     <tr>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Phone Number</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Password</th>
                                         <th scope="col">Email</th>
+                                        <th scope="col">Phone Number</th>
                                         <th scope="col">Status</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for key, acc in accounts.items() %}
+                                {% for u in user %}
                                 <tr>
-                                        <td class="table-name"><h6>{{acc['c_first_name']}}</h6></td>
-                                        <td class="table-name"><h6>{{acc['c_last_name']}}</h6></td>
-                                        <td class="table-price"><h6>{{acc['c_phone_number']}}</h6></td>
-                                        <td class="table-brand"><h6>{{acc['c_email']}}</h6></td>
-                                         <td class="table-brand"><h6>{{acc['c_status']}}</h6></td>
+                                        <td class="table-name"><h6>{{u['name']}} {{u['Lname']}}</h6></td>
+                                        <td class="table-brand"><h6>{{u['pass']}}</h6></td>
+                                        <td class="table-brand"><h6>{{u['Email']}}</h6></td>
+                                        <td class="table-brand"><h6>{{u['phone']}}</h6></td>
+                                        <td class="table-brand"><h6>{{u['status']}}</h6></td>
                                         <td class="table-action">
-                                            <a class="view" href="{{url_for('editaccount', acc=key)}}" title="Edit Amount"><i class="fas fa-edit"></i></a>
+                                            <button class="view" data-bs-toggle="modal" data-bs-target="#editaccount" data-id="{{(u['id'])}}" title="Edit Amount" onclick="populateFormFields({{u['id']}})"><i class="fas fa-edit"></i></button>
                                         </td>
                                     </tr>
                                 {% endfor %}
-
-
                                 </tbody>
                             </table>
                             </div>
@@ -214,8 +219,93 @@
                 PRODUCT DETAILS PART END
         =======================================-->
 
+        <!--=====================================
+                EDDIT ACCOUNT
+        =======================================-->
 
+        <div class="modal fade" id="editaccount">
+            <div class="modal-dialog modal-dialog-centered"> 
+                <div class="modal-content">
+                    <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+                    <form class="modal-form" action="{{url_for('back_views.edit_accounts')}}" method="POST">
+                        <div class="form-title">
+                            <h3>edit account info</h3>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-control" name="F_Name" id='A_Name'>
+                            <input type="hidden" class="form-control" name="A_id" id='A_id'>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" name="L_Name" id='A_LName'>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="text" class="form-control" name="Password" id='A_password'>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input class="form-control" name="Email" type="text" id='A_Email'>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone number</label>
+                            <input type="text" class="form-control" name="Phone" id='A_phone'>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Select Status</label>
+                            <select class="form-control" name="selected_status" id="A_status">
+                                <option value="" selected>Select a status</option>
+                                <option value="ACTIVE" selected>ACTIVE</option>
+                                <option value="INACTIVE" selected>INACTIVE</option>
+                                <option value="ADMIN" selected>ADMIN</option>
+                            </select>
+                        </div>
+                        <button class="form-btn" type="submit">Save account info</button>
+                        <input type="hidden" name="page" value="/accounts">
+                    </form>
+                </div> 
+            </div> 
+        </div>
+        
+        <!--=====================================
+                ADD ACCOUNT
+        =======================================-->
 
+        <div class="modal fade" id="addaccount">
+            <div class="modal-dialog modal-dialog-centered"> 
+                <div class="modal-content">
+                    <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+                    <form class="modal-form" action="{{url_for('back_views.add_accounts')}}" method="post">
+                        <div class="form-title">
+                            <h3>add account</h3>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-control" name="F_Name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" name="L_Name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="text" class="form-control" name="Password">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">confirm Password</label>
+                            <input type="text" class="form-control" name="Password2">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input class="form-control" name="Email" type="text">
+                        </div>
+                        <button class="form-btn" type="submit">Save account info</button>
+                        <input type="hidden" name="page" value="/profile">
+                    </form>
+                </div> 
+            </div> 
+        </div>
 
          <!--=====================================
                      FOOTER PART START
@@ -305,15 +395,10 @@
         <script src="{{url_for('static', filename='js/accordion.js')}}"></script>
         <script src="{{url_for('static', filename='js/venobox.js')}}"></script>
         <script src="{{url_for('static', filename='js/slick.js')}}"></script>
+        <script> var users = JSON.parse('{{ user | tojson | safe }}');</script>
         <script src="{{url_for('static', filename='js/main.js')}}"></script>
         <!--=====================================
                     JS LINK PART END
         =======================================-->
     </body>
 </html>
-
-
-
-
-
-

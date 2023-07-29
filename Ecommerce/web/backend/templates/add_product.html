@@ -28,7 +28,7 @@
                     CSS LINK PART START
         =======================================-->
          <!-- FAVICON -->
-        <link rel="icon" href="{{url_for('static', filename='images/favicon.png')}}">
+        <link rel="icon" href="{{url_for('static', filename='images/logo.png')}}">
 
         <!-- FONTS -->
          <link rel="stylesheet" href="{{url_for('static', filename='fonts/flaticon/flaticon.css')}}">
@@ -75,20 +75,20 @@
             <div class="container">
                 <div class="header-content">
                     <div class="header-media-group">
-                        <button class="header-user"><img src="static/images/user.png" alt="user"></button>
-                        <a href="{{url_for('products')}}"><img src="static/images/logo.png" alt="logo"></a>
+                        <button class="header-user"><img src="../static/images/user.png" alt="user"></button>
+                        <a href="{{url_for('back_views.products')}}"><img src="../static/images/logo.png" alt="logo"></a>
                         <button class="header-src"><i class="fas fa-search"></i></button>
                     </div>
 
-                    <a href="{{url_for('products')}}" class="header-logo">
-                        <img src="static/images/logo.png" alt="logo">
+                    <a href="{{url_for('back_views.products')}}" class="header-logo">
+                        <img src="../static/images/logo.png" alt="logo">
                     </a>
 
                     <ul class="dropdown">
                     <a class="navbar-link dropdown-arrow" href="#">My Account</a>
                                     <ul class="dropdown-position-list">
-                                        <li><a href="{{url_for('profile')}}">Account Info</a></li>
-                                        <li><a href="{{url_for('clear')}}">Logout</a></li>
+                                        <li><a href="{{url_for('views.profile')}}">Account Info</a></li>
+                                        <li><a href="{{url_for('back_auth.backlogout')}}">Logout</a></li>
                                     </ul>
                     </ul>
 
@@ -118,15 +118,15 @@
                         <div class="navbar-content">
                             <ul class="navbar-list">
                                 <li class="navbar-item dropdown">
-                                    <a class="navbar-link" href="{{url_for('products')}}">Products</a>
+                                    <a class="navbar-link" href="{{url_for('back_views.products')}}">Products</a>
                                 </li>
 
                                 <li class="navbar-item dropdown">
-                                    <a class="navbar-link active" href="{{url_for('reports')}}">Reports</a>
+                                    <a class="navbar-link active" href="{{url_for('back_views.reports')}}">Reports</a>
                                 </li>
 
                                 <li class="navbar-item dropdown">
-                                    <a class="navbar-link" href="{{url_for('accounts')}}">Accounts</a>
+                                    <a class="navbar-link" href="{{url_for('back_views.accounts')}}">Accounts</a>
                                 </li>
                             </ul>
 
@@ -151,62 +151,84 @@
                 <div style='text-align: center'>
 
                         <br><br>
-                        <h2>Product Name</h2>
-                        <br>
+                        <h2 class= "blanco ycenter">Product Name</h2>
+                        <br><br>
 
                     </div>
 
-                <div class="row">
+                <div class="row ycenter">
                     <div class="col-lg-6">
-                        <div class="details-gallery">
-                            <ul class="details-preview">
-                                <li><img src="static/images/product-placeholder.png" alt="product"></li>
-                            </ul>
-
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="details-content">
+                        <div class="details-content ycenter">
                             <h3 class="details-name"><a href="#">Details</a></h3>
-                            <form action="{{url_for('editproduct')}}" method="post">
-                            <label for="name">Name: </label>
-                            <input type="text" id="name" title="Name of product" placeholder="Name"><br>
+                            <div class= "split">
+                                
+                                <form action="{{url_for('back_views.addproduct')}}" method="post">
+                                <div class="form-group">
+                                    <label class="form-label" for="name">Name: </label>
+                                    <input class="form-control" type="text" id="name" title="Name of product" name ="t_Name" placeholder="Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="brand">Brand: </label>
+                                    <input class="form-control" type="text" id="brand" title="" name ="t_Brand" placeholder="Brand">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="lens">Lens type:</label>
+                                    <select class="form-control" name="t_Lens" id="Lens">
+                                        <option value="" selected>Select a Lens</option>
+                                        <option value="Reflector">Reflector</option>
+                                        <option value="Refractor">Refractor</option>
+                                        <option value="Catadioptric">Catadioptric</option>Equatorial
+                                        <option value="Equatorial">Equatorial</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="mount">Mount:</label>
+                                    <select class="form-control" name="t_Mount" id="mount">
+                                        <option value="" selected>Select a Mount</option>
+                                        <option value="Altazimuth">Altazimuth</option>
+                                        <option value="Equatorial">Equatorial</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="focaldis">Focal Distance: </label>
+                                    <input class="form-control" type="text" id="focaldis" title="Video Resolution of product" name ="t_Focal" placeholder="FocalDistance">
+                                </div>
+                                <div class="form-group">
+                                    <label for="aperture">Aperture: </label>
+                                    <input class="form-control" type="text" id="aperture" title="Video Resolution of product" name ="t_aperture" placeholder="aperture">
+                                </div>
+                            
+                            
+                                <div class="form-group">
+                                    <label for="price">Price in $: </label>
+                                    <input class="form-control" type="number" id='price' name ="t_Price" value="Price"><br>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cost">cost in $: </label>
+                                    <input class="form-control" type="number" id='cost' name ="t_cost" value="cost"><br>
+                                </div>
+                                <div class="form-group">
+                                    <label for="stock">Stock: </label>
+                                    <input class="form-control" type="number" id='stock' name ="t_Stock" value="Amount"><br>
+                                </div>
+                                <div class="form-group">
+                                    <label for="desc">Description: </label>
+                                    <input class="form-control" type="text" id='desc' title="Description" name ="t_Description" placeholder="Description goes here...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="myfile">Select an image:</label>
+                                    <input class="form-control" type="file" id="myfile" name="myfile">
+                                </div>
+                                <div class="form-group">
+                                    <p>Status:</p>
 
-                            <label for="brand">Brand: </label>
-                            <input type="text" id="brand" title="Brand of product" placeholder="Brand"><br>
-
-                            <label for="lens">Lens type: </label>
-                            <input type="text" id="lens" title="Mount of product" placeholder="Lens"><br>
-
-                            <label for="mount">Mount: </label>
-                            <input type="text" id="mount" title="Mount of product" placeholder="Mount"><br>
-
-                            <label for="focaldis">Focal Distance: </label>
-                            <input type="text" id="focaldis" title="Video Resolution of product" placeholder="FocalDistance">
-                            <br>
-                            <label for="price">Price in $: </label>
-                            <input type="number" id='price' value="Price"><br>
-
-                            <label for="stock">Stock: </label>
-                            <input type="number" id='stock' value="Amount"><br>
-
-
-                            <label for="desc">Description: </label>
-                            <input type="text" id='desc' title="Description" value="Description goes here...">
-                            <br>
-
-                            <label for="myfile">Select an image:</label>
-                            <input type="file" id="myfile" name="myfile">
-
-                            <p>Status:</p>
-
-                                    <input type="radio" id="active" name="status" value="Active" checked>
-                                    <label for="active">Active</label><br>
-                                    <input type="radio" id="inactive" name="status" value="Inactive">
-                                    <label for="inactive">Inactive</label><br>
-
-
-                            <div class="details-add-group">
+                                        <input type="radio" id="active" name="status" value="ACTIVE" checked>
+                                        <label for="active">ACTIVE</label><br>
+                                        <input type="radio" id="inactive" name="status" value="INACTIVE">
+                                        <label for="inactive">INACTIVE</label><br>
+                                </div>
+                            </div>
+                                <div class="details-add-group">
                                 <button class="product-add" title="Save changes">
                                     <span>Add Product</span>
                                 </button>
