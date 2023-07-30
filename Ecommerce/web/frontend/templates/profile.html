@@ -279,15 +279,7 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="account-card">
-              <div class="account-title">
-                <h4>Your Profile</h4>
-                <button data-bs-toggle="modal" data-bs-target="#PasswordC">
-                  Change Password
-                </button>
-                <button data-bs-toggle="modal" data-bs-target="#profile-edit">
-                  edit info
-                </button>
-              </div>
+
               <div class="account-content">
                 <div class="row">
                     <div class="col-lg-12">
@@ -319,57 +311,6 @@
                                             <p class="profile-card contact active">{{user1[2]}}</p>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-4">
-                    <div class="form-group">
-                      <label class="form-label">last name</label>
-                      <p class="form-control">{{user1[1]}}</p>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="account-card">
-                            <div class="account-title">
-                                <h4>billing address</h4>
-                                <button data-bs-toggle="modal" data-bs-target="#address-add">edit address</button>
-                            </div>
-                            <div class="account-content">
-                                <div class="row">
-                                    <div class="col-md-6 col-lg-4 alert fade show">
-                                        <div class="profile-card address active">
-                                            <p>{{user1[5]}}</p><br>
-                                            <p>{{user1[6]}}</p><br>
-                                            <p>{{user1[8]}}, {{user1[9]}} &nbsp {{user1[7]}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div id = "payment-card" class="account-card mb-0">
-                            <div class="account-title">
-                                <h4>payment option</h4>
-                                <div>
-                                    <button data-bs-toggle="modal" data-bs-target="#payment-add2">Add card info</button>
-                                    <button data-bs-toggle="modal" data-bs-target="#payment-delete">Delete card</button> 
-                                    <button data-bs-toggle="modal" data-bs-target="#payment-add">edit card info</button>
-                                </div>
-                            </div>
-                            <div class="account-content">
-                                <div class="row">
-                                    {% for c in card %}
-                                    <div class="col-md-6 col-lg-4 alert fade show">
-                                        <div class="payment-card active">
-                                            <h2>{{c[1]}}</h2>
-                                            <p>{{c[2]}} </p>
-                                            <h5 class="card-number">{{c[3]}}</h5>
-                                            <h6>{{c[4]}} / {{c[5]}}</h6>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -426,12 +367,14 @@
             <div id="payment-card" class="account-card mb-0">
               <div class="account-title">
                 <h4>payment option</h4>
+                <div>
                 <button data-bs-toggle="modal" data-bs-target="#payment-add2">
                   Add payment info
                 </button>
                 <button data-bs-toggle="modal" data-bs-target="#payment-add">
                   edit payment info
                 </button>
+                </div>
               </div>
               <div class="account-content">
                 <div class="row">
@@ -567,7 +510,7 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">Card Number</label>
-                            <input type="number" class="form-control" name="Card_Number" placeholder="Enther the card number">
+                            <input type="number" class="form-control" name="Card_Number" placeholder="Enter the card number">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Card Name</label>
@@ -1081,7 +1024,7 @@
     <script src="{{url_for('static', filename='js/venobox.js')}}"></script>
     <script src="{{url_for('static', filename='js/slick.js')}}"></script>
     <script>
-      var cardData = JSON.parse("{{ card | tojson | safe }}");
+      var cardData = JSON.parse('{{ card | tojson | safe }}');
     </script>
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
 

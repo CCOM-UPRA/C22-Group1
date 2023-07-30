@@ -252,7 +252,8 @@ if (phoneNumberElement) {
   phoneNumberElement.textContent = formattedPhoneNumber;
 }
 
-// show the card info in the edit payment
+
+// show the card info in the edit pay ment
 document.addEventListener('DOMContentLoaded', function() {
     var selectedCard = document.getElementById('selectedCard');
     var cardNameInput = document.getElementById('cardName');

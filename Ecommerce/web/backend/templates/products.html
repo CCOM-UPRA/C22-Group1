@@ -324,62 +324,112 @@
               <div class="modal fade" id="product-view-{{product['id']}}">
                 <div class="modal-dialog">
                   <div class="modal-content">
-                    <button
-                      class="modal-close icofont-close"
-                      data-bs-dismiss="modal"
-                    ></button>
-                    <div class="product-view">
-                      <div class="row">
-                        <div class="col-md-6 col-lg-6">
-                          <div class="view-gallery">
-                            <div class="view-label-group">
+                    <div class="card mb-3" style="width: 80%; left: 10%">
+                      <button
+                        class="modal-close icofont-close"
+                        data-bs-dismiss="modal"
+                      ></button>
+                      <div class="row g-0">
+                        <div class="col-md-4">
+                          <img
+                            src="../static/images/product-images/{{product['image']}}"
+                            class="img-fluid rounded-start"
+                            alt="product"
+                            style="
+                              width: 100%;
+                              height: 100%;
+                              max-height: 500px;
+                              object-fit: contain;
+                              pointer-events: none;
+                            "
+                          />
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body" style="padding-left: 20%">
+                            <h5 class="card-title">
                               <label class="view-label new"
                                 >{{product['stock']}} in stock</label
                               >
-                            </div>
-                            <ul class="preview-slider">
-                              <li>
-                                <img class="yimg"
-                                  src="../static/images/product-images/{{product['image']}}"
-                                  alt="product"
-                                />
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                          <div class="view-details">
-                            <h3 class="view-name">
-                              <a href="">{{product['name']}}</a>
-                            </h3>
-                            <div class="view-meta">
-                              <p>Brand:<span>{{product['brand']}}</span></p>
-                              <br />
-                              <p>Type:{{product['type']}}</p>
-                              <br />
-                              <p>Mount: {{product['mount']}}</p>
-                              <br />
-                            </div>
-                            <div class="view-meta">
-                              <p>Focal Distant:<span> {{product['focal_distance']}}</span></p>
-                              <br />
-                              <p>Aperture: {{product['aperture']}}</p>
-                              <br />
-                            </div>
-                            <h3 class="view-price">
-                              <span>Price: {{product['price']}}</span>
-                            </h3>
-                            <p class="view-desc">
+                            </h5>
+                            <h3 class="card-title">{{product['name']}}</h3>
+                            <h4 class="card-title">
+                              <span>Price: {{product['price']}}0</span>
+                            </h4>
+
+                            <p class="card-text">
+                              <span style="font-weight: bold">Brand:</span>
+                              {{product['brand']}}
+                            </p>
+
+                            <p class="card-text">
+                              <span style="font-weight: bold">Type:</span>
+                              {{product['type']}}
+                            </p>
+
+                            <p class="card-text">
+                              <span style="font-weight: bold">Mount:</span>
+                              {{product['mount']}}
+                            </p>
+                            <p class="card-text">
+                              <span style="font-weight: bold"
+                                >Focal Distance:</span
+                              >
+                              {{product['focal_distance']}}
+                            </p>
+                            <p>
+                              <span style="font-weight: bold">Aperture:</span>
+                              {{product['aperture']}}
+                            </p>
+                            <p class="card-text">
                               {{product['description']}}
                             </p>
-                            <div class="view-action-group">
-                              <form action="{{url_for('back_views.edit_prod')}}" method="post">
-                                <input type="hidden" name="prodId" value="{{product['id']}}">
-                                <input type="hidden" name="edit" value="noedit">
-                                <button class="form-btn" type="submit">Edit Product</button>
-                                <input type="hidden" name="page" value="/accounts">
-                              </form>
-                            </div>
+
+                            {% if 'admin' in session%}
+                            <form
+                              action="{{url_for('back_views.edit_prod')}}"
+                              method="POST"
+                            >
+                              <input
+                                type="hidden"
+                                value="{{product['id']}}"
+                                name="p_idModal"
+                                id="p_idModal"
+                              />
+                              <div class="view-add-group">
+                                <div class="product-action">
+                                  <button
+                                    class="action-minus"
+                                    title="Quantity Minus"
+                                    type="button"
+                                  >
+                                    <i class="icofont-minus"></i>
+                                  </button>
+                                  <input
+                                    class="action-input"
+                                    title="Quantity Number"
+                                    type="text"
+                                    name="quantity"
+                                    value="1"
+                                  />
+                                  <button
+                                    class="action-plus"
+                                    title="Quantity Plus"
+                                    type="button"
+                                  >
+                                    <i class="icofont-plus"></i>
+                                  </button>
+                                </div>
+                              </div>
+                              <div class="view-action-group">
+                                <form action="{{url_for('back_views.edit_prod')}}" method="post">
+                                  <input type="hidden" name="prodId" value="{{product['id']}}">
+                                  <input type="hidden" name="edit" value="noedit">
+                                  <button class="form-btn" type="submit">Edit Product</button>
+                                  <input type="hidden" name="page" value="/accounts">
+                                </form>
+                              </div>
+                            </form>
+                            {% endif %}
                           </div>
                         </div>
                       </div>

@@ -147,6 +147,7 @@ def profile():
     id = session.get('customer')
     user = user_info(id)
     cards = card_info(id)
+    print(cards)
     return render_template('profile.html', 
                            user1=user,
                            card = cards)
