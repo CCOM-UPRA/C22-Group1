@@ -79,6 +79,40 @@
     />
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <script>
+      function minus() {
+        var input = document.getElementById("cartQuantity");
+        var value = Number(input.value);
+        value -= 1;
+        input.value = value;
+        console.log(value);
+      }
+
+      function plus() {
+        var input = document.getElementById("cartQuantity");
+        var value = Number(input.value);
+        value += 1;
+        input.value = value;
+        console.log(value);
+      }
+    </script>
+
+    {% if 'CartMaxError' in session%}
+    <script>
+      window.onload = function () {
+        $("#error").modal("show");
+
+        setTimeout(function () {
+          $("#error").modal("hide");
+        }, 5000);
+
+        setTimeout(function () {
+          window.location.href = `{{url_for('views.clearError', Origin = "orders")}}`;
+        }, 6000);
+      };
+    </script>
+    {% endif %}
     <!--=====================================
                     CSS LINK PART END
         =======================================-->
@@ -100,7 +134,9 @@
             <a href="{{url_for('views.shop')}}"
               ><img src="static/images/logo.png" alt="logo"
             /></a>
-            <button class="header-src"><i class="fas fa-search"></i></button>
+            <button class="header-src">
+              <i class="fas fa-search" style="visibility: hidden"></i>
+            </button>
           </div>
 
           <a href="{{url_for('views.shop')}}" class="header-logo">
@@ -115,7 +151,7 @@
             </ul>
           </ul>
 
-          <form class="header-form">
+          <form class="header-form" style="visibility: hidden">
             <input type="text" placeholder="Search anything..." />
             <button><i class="fas fa-search"></i></button>
           </form>
@@ -209,6 +245,105 @@
       </div>
     </aside>
 
+    <aside class="cart-sidebar">
+      <div class="cart-header">
+        <div class="cart-total">
+          <i class="fas fa-shopping-basket"></i>
+          <span>total item ({{session['cartTotalItems']}})</span>
+        </div>
+        <button class="cart-close"><i class="icofont-close"></i></button>
+      </div>
+      <ul class="cart-list">
+        {% if 'cart' in session %} {% for item in CartItems %}
+        <li class="cart-item">
+          <div class="cart-media">
+            <a href="#"
+              ><img
+                src="static/images/product-images/{{item['image']}}"
+                alt="product"
+            /></a>
+            <form action="{{url_for('views.deletecart')}}" method="POST">
+              <button class="cart-delete">
+                <i class="far fa-trash-alt"></i>
+              </button>
+              <input
+                type="hidden"
+                name="itemId"
+                id="itemId"
+                value="{{item['id']}}"
+              />
+
+              <input type="hidden" name="Origin" id="Origin" value="orders" />
+            </form>
+          </div>
+          <div class="cart-info-group">
+            <div class="cart-info">
+              <h6><a href="product-single.html">{{item['name']}}</a></h6>
+              <p>Unit Price - {{item['price']}}</p>
+            </div>
+
+            <div class="cart-action-group">
+              <div class="product-action">
+                <form action="{{url_for('views.editcart')}}" method="POST">
+                  <button onclick="minus()" type="button">
+                    <i class="icofont-minus"></i>
+                  </button>
+
+                  <input
+                    type="hidden"
+                    name="Origin"
+                    id="Origin"
+                    value="orders"
+                  />
+
+                  <input
+                    class="action-input"
+                    title="Quantity-Number"
+                    type="text"
+                    name="cartQuantity"
+                    id="cartQuantity"
+                    value="{{item['quantity']}}"
+                  />
+
+                  <input
+                    type="hidden"
+                    name="id"
+                    id="id"
+                    value="{{item['id']}}"
+                  />
+                  <button onclick="plus()" type="button">
+                    <i class="icofont-plus"></i>
+                  </button>
+
+                  <button class="action">
+                    <i class="icofont-save">Save</i>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <h6>Total Price - ${{item['price'] * item['quantity']}}</h6>
+          </div>
+        </li>
+
+        {% endfor %} {% endif %}
+      </ul>
+      <div class="cart-footer">
+        {% if 'cartTotalItems' in session %} {% if session['cartTotalItems'] > 0
+        %}
+        <a class="cart-checkout-btn" href="{{url_for('views.checkout')}}">
+          <span class="checkout-label">Proceed to Checkout</span>
+          <span class="checkout-price">${{session['cartTotalPrice']}}</span>
+        </a>
+        {% else %}
+        <a class="cart-checkout-btn">
+          <span class="checkout-label">No items on cart</span>
+          <span class="checkout-price">${{session['cartTotalPrice']}}</span>
+        </a>
+        {% endif %} {% endif %}
+      </div>
+    </aside>
+
     <!--=====================================
                     CART SIDEBAR PART END
         =======================================-->
@@ -246,12 +381,17 @@
               <div class="filter-short">
                 <label class="form-label">Filter By:</label>
                 <form action="{{url_for('views.filterOrders')}}" method="POST">
-                  <select class="form-select" onchange="this.form.submit()" name="status">
-                    <option value="all" selected>all orders</option>
-                    <option value="recieved">received orders</option>
-                    <option value="processed">processed orders</option>
-                    <option value="shipped">shipped orders</option>
-                    <option value="delivered">delivered orders</option>
+                  <select
+                    class="form-select"
+                    onchange="this.form.submit()"
+                    name="status"
+                  >
+                    {% for type in orderType %} {% if orderType.index(type) == 0
+                    %}
+                    <option value="{{type}}" selected>{{type}} orders</option>
+                    {% else %}
+                    <option value="{{type}}">{{type}} orders</option>
+                    {% endif %} {% endfor %}
                   </select>
                 </form>
               </div>
@@ -290,8 +430,8 @@
                           <span>order delivered</span>
                         </li>
                       </ul>
-                        {% elif order['Order'][6] == 'Processed' %}
-                        <ul class="order-track-list">
+                      {% elif order['Order'][6] == 'Processed' %}
+                      <ul class="order-track-list">
                         <li class="order-track-item active">
                           <i class="icofont-close"></i>
                           <span>order received</span>
@@ -309,8 +449,8 @@
                           <span>order delivered</span>
                         </li>
                       </ul>
-                        {% elif order['Order'][6] == 'Shipped' %}
-                        <ul class="order-track-list">
+                      {% elif order['Order'][6] == 'Shipped' %}
+                      <ul class="order-track-list">
                         <li class="order-track-item active">
                           <i class="icofont-close"></i>
                           <span>order received</span>
@@ -328,8 +468,8 @@
                           <span>order delivered</span>
                         </li>
                       </ul>
-                        {% elif order['Order'][6] == 'Delivered' %}
-                        <ul class="order-track-list">
+                      {% elif order['Order'][6] == 'Delivered' %}
+                      <ul class="order-track-list">
                         <li class="order-track-item active">
                           <i class="icofont-close"></i>
                           <span>order received</span>
@@ -400,7 +540,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          {% for item in order['Items']  %}
+                          {% for item in order['Items'] %}
                           <tr>
                             <td class="table-image">
                               <img
@@ -432,7 +572,25 @@
                 </div>
               </div>
             </div>
-            {%endfor%}
+            {%endfor%} {% if 'CartMaxError' in session %}
+            <div class="modal fade" id="error">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="card" style="border-radius: 5px">
+                    <div class="card-body">
+                      <h5 class="card-title" style="text-align: center">
+                        Max items avaible : {{session['CartMaxError']['max']}}
+                      </h5>
+                      <p class="card-text">
+                        Only {{session['CartMaxError']['max']}} items avaible
+                        for product
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
           </div>
         </div>
       </div>

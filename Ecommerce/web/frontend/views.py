@@ -77,13 +77,20 @@ def filterOrders():
         else:
             session['filterStatus'] = selected
         
+        session['lastSelectOrderType'] = selected
+        
     return redirect(url_for('views.orders'))
 
-@views.route('clearError')
-def clearError():
+@views.route('/clearError/<Origin>')
+def clearError(Origin):
     if 'CartMaxError' in session:
         session.pop('CartMaxError')
-    return redirect(url_for('views.shop'))
+        if Origin == 'shop':
+            return redirect(url_for('views.shop'))
+        elif Origin == 'profile':
+            return redirect(url_for('views.profile'))
+        elif Origin == 'orders':
+            return redirect(url_for('views.orders'))
 
 
 @views.route('/filter', methods = ['GET', 'POST'])
@@ -144,13 +151,20 @@ def ResetPriceRange():
 @views.route('/profile')
 @login_required
 def profile():
+    
+    if 'cart' not in session:
+        Cart()
+    getCartTotal()
+    cartProducts = getCartItems()
+    
     id = session.get('customer')
     user = user_info(id)
     cards = card_info(id)
     print(cards)
     return render_template('profile.html', 
                            user1=user,
-                           card = cards)
+                           card = cards,
+                           CartItems = cartProducts)
 
 
 @views.route('/editinfo', methods=['GET', 'POST'])
@@ -238,6 +252,14 @@ def orders():
         cartProducts = getCartItems()
         telescopes = Telescopes()
         
+    orderType = ['all', 'recived', 'processed', 'shipped', 'delivered']
+    
+    if 'lastSelectOrderType' in session:
+        lastType = session['lastSelectOrderType']
+        index = orderType.index(lastType)
+        orderType.pop(index)
+        orderType.insert(0, lastType)
+        
     id = session.get('customer')
     user = user_info(id)
 
@@ -253,6 +275,7 @@ def orders():
                            CartItems = cartProducts,
                            totalOrders = totalOrders,
                            Orders = allOrders,
+                           orderType = orderType
                            )
 
 
@@ -282,8 +305,15 @@ def addcartModal():
 def deletecart():
     if request.method == 'POST':
         productID = request.form['itemId']
+        Origin = request.form['Origin']
         deleteFromCart(productID)
-    return redirect(url_for('views.shop'))
+        
+        if Origin == 'shop':
+            return redirect(url_for('views.shop'))
+        elif Origin == 'profile':
+            return redirect(url_for('views.profile'))
+        elif Origin == 'orders':
+            return redirect(url_for('views.orders'))
 
 @views.route('/deleteCheckout', methods = ['GET', 'POST'])
 @login_required
@@ -299,10 +329,16 @@ def deleteCheckout():
 def editcart():
     if request.method == 'POST':
         productId = request.form['id']
+        Origin = request.form['Origin']
         newQuantity = int(request.form['cartQuantity'])
         updateCart(productId, newQuantity)
         
-    return redirect(url_for('views.shop'))
+        if Origin == 'shop':
+            return redirect(url_for('views.shop'))
+        elif Origin == 'profile':
+            return redirect(url_for('views.profile'))
+        elif Origin == 'orders':
+            return redirect(url_for('views.orders'))
 
 @views.route('editCheckout', methods = ['GET', 'POST'])
 @login_required

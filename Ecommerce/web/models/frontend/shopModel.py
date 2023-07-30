@@ -56,7 +56,7 @@ def getFocal_Distance(database):
 @DBConnection
 def getAperture(database):
     cursor = database.cursor()
-    cursor.execute('select DISTINCT Telescope_Aperture from telescopes')
+    cursor.execute('select DISTINCT Telescope_Aperture from telescopes order by Telescope_Aperture ASC')
     return cursor.fetchall()
 
 

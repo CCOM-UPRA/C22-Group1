@@ -147,7 +147,7 @@
         }, 5000);
 
         setTimeout(function () {
-          window.location.href = "{{url_for('views.clearError')}}";
+          window.location.href = `{{url_for('views.clearError', Origin = "shop")}}`;
         }, 6000);
       };
     </script>
@@ -263,6 +263,8 @@
                 id="itemId"
                 value="{{item['id']}}"
               />
+
+              <input type="hidden" name="Origin" id="Origin" value="shop" />
             </form>
           </div>
           <div class="cart-info-group">
@@ -277,6 +279,8 @@
                   <button onclick="minus()" type="button">
                     <i class="icofont-minus"></i>
                   </button>
+
+                  <input type="hidden" name="Origin" id="Origin" value="shop" />
 
                   <input
                     class="action-input"
