@@ -105,15 +105,18 @@
       }
     </script>
 
-    {% if 'cartErro' in session%}
+    {% if 'cardError' in session%}
     <script>
       window.onload = function () {
         $("#cardError").modal("show");
 
         setTimeout(function () {
           $("#cardError").modal("hide");
+          redirect();
         }, 5000);
       };
+
+      window.location.href = "{{url_for('views.clearError')}}";
     </script>
     {% endif %}
 

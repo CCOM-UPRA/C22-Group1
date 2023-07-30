@@ -146,7 +146,9 @@
           $("#error").modal("hide");
         }, 5000);
 
-        window.location.replace("{{url_for('views.clearError')}}");
+        setTimeout(function () {
+          window.location.href = "{{url_for('views.clearError')}}";
+        }, 6000);
       };
     </script>
 
@@ -1015,4 +1017,3 @@
         =======================================-->
   </body>
 </html>
-      

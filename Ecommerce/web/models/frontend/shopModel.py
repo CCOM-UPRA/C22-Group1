@@ -18,8 +18,8 @@ def getProductsForSearchBar(minPrice, maxPrice, searchString, database):
 @DBConnection
 def getFilteredProducts(brands, focal_distance, aperture, lens, mount, minPrice, maxPrice, database):
     cursor = database.cursor()
-    string = "select * from telescopes where Telescope_Brand in ({}) and Telescope_FD in ({}) and Telescope_Aperture in ({}) and Telescope_Type in ({}) and Telescope_Mount in ({}) and Telescope_Price between {} and {} and Telescope_Status = {}"
-    string = string.format(brands, focal_distance, aperture, lens, mount, minPrice, maxPrice, 'ACTIVE')
+    string = "select * from telescopes where Telescope_Brand in ({}) and Telescope_FD in ({}) and Telescope_Aperture in ({}) and Telescope_Type in ({}) and Telescope_Mount in ({}) and Telescope_Price between {} and {} and Telescope_Status = 'ACTIVE'"
+    string = string.format(brands, focal_distance, aperture, lens, mount, minPrice, maxPrice)
     cursor.execute(string)
     data = cursor.fetchall()
     return data
