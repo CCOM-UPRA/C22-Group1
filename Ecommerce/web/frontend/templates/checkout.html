@@ -34,10 +34,7 @@
                     CSS LINK PART START
         =======================================-->
     <!-- FAVICON -->
-    <link
-      rel="icon"
-      href="{{url_for('static', filename='images/favicon.png')}}"
-    />
+    <link rel="icon" href="{{url_for('static', filename='images/logo.png')}}" />
 
     <!-- FONTS -->
     <link
@@ -141,7 +138,9 @@
             <a href="{{url_for('views.shop')}}"
               ><img src="static/images/logo.png" alt="logo"
             /></a>
-            <button class="header-src"><i class="fas fa-search"></i></button>
+            <button class="header-src" style="visibility: hidden">
+              <i class="fas fa-search"></i>
+            </button>
           </div>
 
           <a href="{{url_for('views.shop')}}" class="header-logo">
@@ -157,7 +156,7 @@
             </ul>
           </ul>
 
-          <form class="header-form">
+          <form class="header-form" style="visibility: hidden">
             <input type="text" placeholder="Search anything..." />
             <button><i class="fas fa-search"></i></button>
           </form>
@@ -485,7 +484,7 @@
               </div>
               <div class="account-content">
                 <div class="row">
-                  {% for c in card %}
+                  {% if 'NoCards' not in session %} {% for c in card %}
                   <div class="col-md-6 col-lg-4 alert fade show">
                     {% if cardId == c[0]%}
                     <div class="payment-card active" data-card-id="{{c[0]}}">
@@ -511,7 +510,15 @@
                     </div>
                     {% endif %}
                   </div>
-                  {% endfor %}
+                  {% endfor %} {% else %}
+
+                  <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="payment-card">
+                      <h3>Please Add a card</h3>
+                    </div>
+                  </div>
+
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -715,11 +722,17 @@
             </div>
           </div>
 
-          <div class="checkout-proced">
+          {% if 'UserIncomplete' in session %}
+          <div class="checkout-proced" style="margin-top: 5px">
+            <a class="btn btn-inline">Please complete all the information</a>
+          </div>
+          {% else %}
+          <div class="checkout-proced" style="margin-top: 5px">
             <a href="{{url_for('views.procesOrder')}}" class="btn btn-inline"
               >proceed to checkout</a
             >
           </div>
+          {% endif %}
         </div>
       </div>
     </section>

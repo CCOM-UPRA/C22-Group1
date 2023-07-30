@@ -4056,12 +4056,12 @@ tbody tr td:last-child {
 }
 
 .header-logo {
-  margin-right: 50px;
+  margin-right: 30px;
 }
 
 .header-logo img {
   width: auto;
-  height: 45px;
+  height: 100px;
   transition: all linear .3s;
   -webkit-transition: all linear .3s;
   -moz-transition: all linear .3s;

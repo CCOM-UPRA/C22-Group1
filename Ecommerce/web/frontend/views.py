@@ -360,6 +360,20 @@ def checkout():
     id = session.get('customer')
     user = user_info(id)
     cards = card_info(id)
+    
+    if '' in user:
+        session['UserIncomplete'] = True
+    else:
+        if 'UserIncomplete' in session:
+            session.pop('UserIncomplete')
+    
+    if len(cards) == 0:
+        session['NoCards'] = True
+    else:
+        if 'NoCards' in session:
+            session.pop('NoCards')
+    
+    print(user)
 
     getCartTotal()
     cartProducts = getCartItems()
