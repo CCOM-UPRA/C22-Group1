@@ -89,7 +89,7 @@ def register():
         insert_user(fname, lname, email, pass1)
         session['customer'] = ID_Email(email)[0]
         
-        return render_template('shop.html')
+        return redirect(url_for('views.shop'))
     return render_template('register.html')
 
 
