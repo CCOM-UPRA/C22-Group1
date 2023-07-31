@@ -80,18 +80,6 @@
             <a href="{{url_for('back_views.products')}}" class="header-logo">
                 <img src="../static/images/logo.png" alt="logo">
             </a>
-            <ul class="dropdown">
-                <a class="navbar-link dropdown-arrow" href="#">My Account</a>
-                <ul class="dropdown-position-list">
-                    <li><a href="{{url_for('back_views.profile')}}">Account Info</a></li>
-                    <li><a href="{{url_for('back_views.clear')}}">Logout</a></li>
-                </ul>
-            </ul>
-
-            <form class="header-form">
-                <input type="text" placeholder="Search anything...">
-                <button><i class="fas fa-search"></i></button>
-            </form>
 
             <div class="header-widget-group">
             </div>
@@ -121,6 +109,13 @@
 
                         <li class="navbar-item dropdown">
                             <a class="navbar-link" href="{{url_for('back_views.accounts')}}">Accounts</a>
+                        </li>
+                        <li class="navbar-item dropdown">
+                            <a
+                                class="navbar-link"
+                                href="{{url_for('back_auth.backlogout')}}"
+                                >Logout</a
+                            >
                         </li>
                     </ul>
 
