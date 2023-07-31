@@ -4,6 +4,8 @@ from flask import session
 
 
 def Telescopes():
+    if 'minPrice' not in session:
+        setPriceRange()
     products = getProducts(session['minPrice'], session['maxPrice'])
     productsList = []
     for x in products:

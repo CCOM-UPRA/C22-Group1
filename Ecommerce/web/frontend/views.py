@@ -44,7 +44,7 @@ def shop():
             Cart()
         getCartTotal()
         cartProducts = getCartItems()
-    
+        
     if 'minPrice' not in session:
         setPriceRange()
     

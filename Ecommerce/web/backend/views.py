@@ -5,6 +5,7 @@ from ..controllers.frontend.shopController import *
 from ..models.backend.productModel import *
 from ..controllers.backend.productsController import *
 from ..models.backend.reportmodel import *
+from ..controllers.backend.orderController import *
 import datetime
 
 
@@ -273,3 +274,21 @@ def reports():
 @views.route('/profile')
 def profile():
     return render_template('profile2.html', user1 = [])
+
+@views.route('/viewOrders')
+def viewOrders():
+    orders = getAllOrdersItems()
+    return render_template("ordersviews.html", orders = orders)
+
+@views.route('editOrder', methods = ['GET', 'POST'])
+def editOrder():
+    if request.method == 'POST':
+        date = request.form['Arrival-date']
+        prevDate = request.form['PrevArrival']
+        status = request.form['Order-status']
+        prevStatus = request.form['PrevStatus']
+        tracking = request.form['TrackingNumber']
+        id = request.form['OrderId']
+        
+        orderUpdate(id, date, prevDate, status, prevStatus, tracking)
+    return redirect(url_for('back_views.viewOrders'))

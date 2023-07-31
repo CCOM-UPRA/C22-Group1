@@ -159,6 +159,13 @@
                 <li class="navbar-item dropdown">
                   <a
                     class="navbar-link"
+                    href="{{url_for('back_views.viewOrders')}}"
+                    >Orders</a
+                  >
+                </li>
+                <li class="navbar-item dropdown">
+                  <a
+                    class="navbar-link"
                     href="{{url_for('back_auth.backlogout')}}"
                     >Logout</a
                   >
@@ -216,9 +223,9 @@
                             name="report_day"
                             type="date"
                           />
-                          <input type="hidden" name="form_name" value="form1">
+                          <input type="hidden" name="form_name" value="form1" />
                           <div class="details-add-group">
-                            <button class="product-add" >
+                            <button class="product-add">
                               <span>See Report</span>
                             </button>
                           </div>
@@ -235,11 +242,15 @@
                         >
                           <label for="week">Report by week</label>
                           <br />
-                          <input id="report_week" name="report_week" type="week"/>
-                          <input type="hidden" name="form_name" value="form2">
+                          <input
+                            id="report_week"
+                            name="report_week"
+                            type="week"
+                          />
+                          <input type="hidden" name="form_name" value="form2" />
                           <div class="details-add-group">
                             <button class="product-add">
-                              <span>See Report</span> 
+                              <span>See Report</span>
                             </button>
                           </div>
                         </form>
@@ -256,7 +267,7 @@
                           <label for="month">Report by month</label>
                           <br />
                           <input id="month" name="report_month" type="month" />
-                          <input type="hidden" name="form_name" value="form3">
+                          <input type="hidden" name="form_name" value="form3" />
                           <div class="details-add-group">
                             <button class="product-add" type="submit">
                               <span>See Report</span>
@@ -279,84 +290,96 @@
                   <div class="col-lg-4">
                     <ul class="orderlist-details">
                       <li>
-                        <form action="{{ url_for('back_views.reports') }}" method="POST">
+                        <form
+                          action="{{ url_for('back_views.reports') }}"
+                          method="POST"
+                        >
                           <label for="day1">Report by day</label>
                           <br />
-                          <input type="hidden" name="form_name" value="form6">
+                          <input type="hidden" name="form_name" value="form6" />
                           <input id="day1" name="day_report" type="date" />
-                          
+
                           <label for="products">Choose a product:</label>
-                  
+
                           <select id="products" name="products">
-                              {% for product in products %}
-                              <option value="{{ product[0] }}">
-                                  {{ product[0] }}
-                              </option>
-                              {% endfor %}
+                            {% for product in products %}
+                            <option value="{{ product[0] }}">
+                              {{ product[0] }}
+                            </option>
+                            {% endfor %}
                           </select>
-                  
+
                           <div class="details-add-group">
-                              <button class="product-add" type="submit">
-                                  <span>See Report</span>
-                              </button>
+                            <button class="product-add" type="submit">
+                              <span>See Report</span>
+                            </button>
                           </div>
-                      </form>
+                        </form>
                       </li>
                     </ul>
                   </div>
                   <div class="col-lg-4">
                     <ul class="orderlist-details">
                       <li>
-                        <form action="{{ url_for('back_views.reports') }}" method="POST">
+                        <form
+                          action="{{ url_for('back_views.reports') }}"
+                          method="POST"
+                        >
                           <label for="day1">Report by week</label>
                           <br />
-                          
-                          <input id="week_report" name="week_report" type="week"/>
-                          <input type="hidden" name="form_name" value="form7">
+
+                          <input
+                            id="week_report"
+                            name="week_report"
+                            type="week"
+                          />
+                          <input type="hidden" name="form_name" value="form7" />
                           <label for="products">Choose a product:</label>
-                      
+
                           <select id="products" name="products">
-                              {% for product in products %}
-                              <option value="{{ product[0] }}">
-                                  {{ product[0] }}
-                              </option>
-                              {% endfor %}
+                            {% for product in products %}
+                            <option value="{{ product[0] }}">
+                              {{ product[0] }}
+                            </option>
+                            {% endfor %}
                           </select>
-                      
+
                           <div class="details-add-group">
-                              <button class="product-add" type="submit">
-                                  <span>See Report</span>
-                              </button>
+                            <button class="product-add" type="submit">
+                              <span>See Report</span>
+                            </button>
                           </div>
-                      </form>
+                        </form>
                       </li>
                     </ul>
                   </div>
                   <div class="col-lg-4">
                     <ul class="orderlist-details">
                       <li>
-                        
-                        <form action="{{ url_for('back_views.reports') }}" method="POST">
+                        <form
+                          action="{{ url_for('back_views.reports') }}"
+                          method="POST"
+                        >
                           <label for="day1">Report by monthly</label>
                           <br />
                           <input id="month" name="month_report" type="month" />
-                          <input type="hidden" name="form_name" value="form8">
+                          <input type="hidden" name="form_name" value="form8" />
                           <label for="products">Choose a product:</label>
-                  
+
                           <select id="products" name="products">
-                              {% for product in products %}
-                              <option value="{{ product[0] }}">
-                                  {{ product[0] }}
-                              </option>
-                              {% endfor %}
+                            {% for product in products %}
+                            <option value="{{ product[0] }}">
+                              {{ product[0] }}
+                            </option>
+                            {% endfor %}
                           </select>
-                  
+
                           <div class="details-add-group">
-                              <button class="product-add" type="submit">
-                                  <span>See Report</span>
-                              </button>
+                            <button class="product-add" type="submit">
+                              <span>See Report</span>
+                            </button>
                           </div>
-                      </form>
+                        </form>
                       </li>
                     </ul>
                   </div>
@@ -380,7 +403,11 @@
                           <p>Report for all inventory</p>
                           <br />
                           <div class="details-add-group">
-                            <input type="hidden" name="form_name" value="form5">
+                            <input
+                              type="hidden"
+                              name="form_name"
+                              value="form5"
+                            />
                             <button class="product-add" type="submit">
                               <span>See Report</span>
                             </button>
@@ -414,7 +441,11 @@
                           <p>Report for Earnings</p>
                           <br />
                           <div class="details-add-group">
-                            <input type="hidden" name="form_name" value="form9">
+                            <input
+                              type="hidden"
+                              name="form_name"
+                              value="form9"
+                            />
                             <button class="product-add" type="submit">
                               <span>See Report</span>
                             </button>
@@ -426,15 +457,9 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
-
-        
-
-
-      
     </section>
 
     <!--=====================================

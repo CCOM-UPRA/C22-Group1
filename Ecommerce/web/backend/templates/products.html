@@ -87,25 +87,26 @@
                     HEADER PART START
         =======================================-->
 
-      <header class="header-part">
-        <div class="container">
-            <div class="header-content">
-                <div class="header-media-group">
-                    <button class="header-user"><img src="../static/images/user.png" alt="user"></button>
-                    <a href="{{url_for('back_views.products')}}"><img src="../static/images/logo.png" alt="logo"></a>
-                    <button class="header-src"><i class="fas fa-search"></i></button>
-                </div>
+    <header class="header-part">
+      <div class="container">
+        <div class="header-content">
+          <div class="header-media-group">
+            <button class="header-user">
+              <img src="../static/images/user.png" alt="user" />
+            </button>
+            <a href="{{url_for('back_views.products')}}"
+              ><img src="../static/images/logo.png" alt="logo"
+            /></a>
+            <button class="header-src"><i class="fas fa-search"></i></button>
+          </div>
 
-                <a href="{{url_for('back_views.products')}}" class="header-logo">
-                    <img src="../static/images/logo.png" alt="logo">
-                </a>
-                <div class="header-widget-group">
-
-
-                </div>
-            </div>
+          <a href="{{url_for('back_views.products')}}" class="header-logo">
+            <img src="../static/images/logo.png" alt="logo" />
+          </a>
+          <div class="header-widget-group"></div>
         </div>
-      </header>
+      </div>
+    </header>
     <!--=====================================
                     HEADER PART END
         =======================================-->
@@ -136,6 +137,13 @@
                     class="navbar-link"
                     href="{{url_for('back_views.accounts')}}"
                     >Accounts</a
+                  >
+                </li>
+                <li class="navbar-item dropdown">
+                  <a
+                    class="navbar-link"
+                    href="{{url_for('back_views.viewOrders')}}"
+                    >Orders</a
                   >
                 </li>
                 <li class="navbar-item dropdown">
@@ -173,19 +181,18 @@
                     BANNER PART END
         =======================================-->
 
-        {% with messages = get_flashed_messages(category_filter='succes') %}
-            {% if messages %}
-                <div class="inner-section profile-part">
-                    <div class="container">
-                        <div>
-                            {% for message in messages %}
-                                <h2 style="color: white; text-align: center;">{{ message }}</h2>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-        {% endwith %}
+    {% with messages = get_flashed_messages(category_filter='succes') %} {% if
+    messages %}
+    <div class="inner-section profile-part">
+      <div class="container">
+        <div>
+          {% for message in messages %}
+          <h2 style="color: white; text-align: center">{{ message }}</h2>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %} {% endwith %}
 
     <!--=====================================
                     SHOP PART START
@@ -203,11 +210,11 @@
                   <div class="product-media">
                     <a
                       class="product-image"
-                      href="../static/images/product-images/{{product['image']}}" 
+                      href="../static/images/product-images/{{product['image']}}"
                     >
-                      <img class="yimg3"
+                      <img
+                        class="yimg3"
                         src="../static/images/product-images/{{product['image']}}"
-                        
                         alt="product"
                       />
                     </a>
@@ -221,7 +228,7 @@
                       ></a>
                     </div>
                   </div>
-                  
+
                   <div class="product-content">
                     <h6 class="product-name">
                       <a
@@ -374,9 +381,7 @@
                               <span style="font-weight: bold">Aperture:</span>
                               {{product['aperture']}}
                             </p>
-                            <p class="card-text">
-                              {{product['description']}}
-                            </p>
+                            <p class="card-text">{{product['description']}}</p>
 
                             {% if 'admin' in session%}
                             <form
@@ -415,11 +420,28 @@
                                 </div>
                               </div>
                               <div class="view-action-group">
-                                <form action="{{url_for('back_views.edit_prod')}}" method="post">
-                                  <input type="hidden" name="prodId" value="{{product['id']}}">
-                                  <input type="hidden" name="edit" value="noedit">
-                                  <button class="form-btn" type="submit">Edit Product</button>
-                                  <input type="hidden" name="page" value="/accounts">
+                                <form
+                                  action="{{url_for('back_views.edit_prod')}}"
+                                  method="post"
+                                >
+                                  <input
+                                    type="hidden"
+                                    name="prodId"
+                                    value="{{product['id']}}"
+                                  />
+                                  <input
+                                    type="hidden"
+                                    name="edit"
+                                    value="noedit"
+                                  />
+                                  <button class="form-btn" type="submit">
+                                    Edit Product
+                                  </button>
+                                  <input
+                                    type="hidden"
+                                    name="page"
+                                    value="/accounts"
+                                  />
                                 </form>
                               </div>
                             </form>
@@ -440,7 +462,7 @@
     <!--=====================================
                     SHOP PART END
         =======================================-->
-      
+
     <!--=====================================
                      FOOTER PART START
         =======================================-->

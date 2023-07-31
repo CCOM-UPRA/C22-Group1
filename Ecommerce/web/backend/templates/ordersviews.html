@@ -28,7 +28,7 @@
         =======================================-->
 
     <!-- WEBPAGE TITLE -->
-    <title>Product Tab - Nebula</title>
+    <title>Accounts Tab - Nebula</title>
 
     <!--=====================================
                     CSS LINK PART START
@@ -48,6 +48,10 @@
     <link
       rel="stylesheet"
       href="{{url_for('static', filename='fonts/fontawesome/fontawesome.min.css')}}"
+    />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
     />
 
     <!-- VENDOR -->
@@ -73,39 +77,43 @@
       rel="stylesheet"
       href="{{url_for('static', filename='css/main.css')}}"
     />
-    <link
-      rel="stylesheet"
-      href="{{url_for('static', filename='css/product-details.css')}}"
-    />
+
     <link
       rel="stylesheet"
       href="{{url_for('static', filename='css/checkout.css')}}"
     />
 
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"
+    />
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
     <!--=====================================
                     CSS LINK PART END
         =======================================-->
-    <style>
-      input {
-        border: 1px solid #000;
-      }
-    </style>
   </head>
   <body>
     <div class="backdrop"></div>
     <a class="backtop fas fa-arrow-up" href="#"></a>
 
     <!--=====================================
-        HEADER PART START
-=======================================-->
+                    HEADER PART START
+        =======================================-->
 
     <header class="header-part">
       <div class="container">
         <div class="header-content">
           <div class="header-media-group">
             <button class="header-user">
-              <img src="../static/images/user.png" alt="user" />
+              <img src="static/images/user.png" alt="user" />
             </button>
             <a href="{{url_for('back_views.products')}}"
               ><img src="../static/images/logo.png" alt="logo"
@@ -122,12 +130,12 @@
       </div>
     </header>
     <!--=====================================
-        HEADER PART END
-=======================================-->
+                    HEADER PART END
+        =======================================-->
 
     <!--=====================================
-        NAVBAR PART START
-=======================================-->
+                    NAVBAR PART START
+        =======================================-->
     <nav class="navbar-part">
       <div class="container">
         <div class="row">
@@ -160,13 +168,6 @@
                 <li class="navbar-item dropdown">
                   <a
                     class="navbar-link"
-                    href="{{url_for('back_views.viewOrders')}}"
-                    >Orders</a
-                  >
-                </li>
-                <li class="navbar-item dropdown">
-                  <a
-                    class="navbar-link"
                     href="{{url_for('back_auth.backlogout')}}"
                     >Logout</a
                   >
@@ -178,69 +179,170 @@
       </div>
     </nav>
     <!--=====================================
-        NAVBAR PART END
-=======================================-->
+                    NAVBAR PART END
+        =======================================-->
 
     <!--=====================================
-    PRODUCT DETAILS PART START
-=======================================-->
+                    BANNER PART START
+        =======================================-->
+    <section class="inner-section single-banner">
+      <div class="container">
+        <h2>Orders</h2>
+      </div>
+    </section>
+    <!--=====================================
+                    BANNER PART END
+        =======================================-->
+
+    {% with messages = get_flashed_messages(category_filter='succes') %} {% if
+    messages %}
+    <div class="inner-section profile-part">
+      <div class="container">
+        <div>
+          {% for message in messages %}
+          <h2 style="color: white; text-align: center">{{ message }}</h2>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %} {% endwith %}
+
+    <!--=====================================
+                PRODUCT DETAILS PART START
+        =======================================-->
     <section class="inner-section checkout-part">
       <div class="container">
-        <div style="text-align: center">
-          <br /><br />
-          <h2 class="blanco">Inventory Report</h2>
-        </div>
-
         <div class="row">
           <div class="col-lg-12">
             <div class="account-card">
               <div class="account-title"></div>
               <div class="account-content">
                 <div class="table-scroll">
-                  <table class="table-list">
-                    {% if inventory_data %}
+                  <table class="table" id="usersContainer">
                     <thead>
                       <tr>
-                        <th scope="col">Telescope Name</th>
-                        <th scope="col">Telescope ID</th>
-                        <th scope="col">Stock</th>
+                        <th scope="col">Customer email</th>
+                        <th scope="col">Order Number</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Order Arrival</th>
+                        <th scope="col">Order Status</th>
+                        <th scope="col">Total Products</th>
+                        <th scope="col">Total Price</th>
+                        <th scope="col">Edit</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {% for entry in inventory_data %}
-
+                      {% for order in orders %}
                       <tr>
-                        <td>{{ entry[0]}}</td>
-                        <td>{{ entry[1]}}</td>
-                        <td>{{ entry[2] }}</td>
+                        <td class="table-brand">
+                          <h6>{{order['Email']}}</h6>
+                        </td>
+                        <td class="table-brand">
+                          <h6>{{order['order'][3]}}</h6>
+                        </td>
+                        <td class="table-brand">
+                          <h6>{{order['order'][4]}}</h6>
+                        </td>
+                        <td class="table-brand">
+                          <h6>{{order['order'][5]}}</h6>
+                        </td>
+                        <td class="table-brand">
+                          <h6>{{order['order'][6]}}</h6>
+                        </td>
+
+                        <td class="table-brand">
+                          <h6>{{order['TotalItems']}}</h6>
+                        </td>
+                        <td class="table-brand">
+                          <h6>{{order['TotalPrice']}}.00</h6>
+                        </td>
+                        <td class="table-action">
+                          <button
+                            class="view"
+                            data-bs-toggle="modal"
+                            data-bs-target="#order-edit{{order['order'][0]}}"
+                            data-id=""
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                        </td>
                       </tr>
                       {% endfor %}
                     </tbody>
-                    {% else %}
-
-                    <tbody>
-                      <tr>
-                        <td colspan="4">No sales report available.</td>
-                      </tr>
-                    </tbody>
-                    {% endif %}
                   </table>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div style="padding: 0 40%" class="view-add-group">
-          <form action="{{url_for('back_views.reports')}}">
-            <button style="" class="product-add">Return</button>
+    {% for order in orders %}
+    <div class="modal fade" id="order-edit{{order['order'][0]}}">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <button class="modal-close" data-bs-dismiss="modal">
+            <i class="icofont-close"></i>
+          </button>
+          <form
+            class="modal-form"
+            method="post"
+            action="{{url_for('back_views.editOrder')}}"
+          >
+            <input type="hidden" name="Origin" id="Origin" value="checkout" />
+            <div class="form-title">
+              <h3>Edit Order : {{order['order'][3]}}</h3>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Arrival Date</label>
+              <input
+                type="date"
+                class="form-control"
+                name="Arrival-date"
+                id="Datepicker"
+                placeholder="Enter date"
+              />
+              <input
+                type="hidden"
+                name="PrevArrival"
+                value="{{order['order'][5]}}"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <input
+                type="text"
+                class="form-control"
+                name="Order-status"
+                placeholder="{{order['order'][6]}}"
+              />
+              <input
+                type="hidden"
+                value="{{order['order'][6]}}"
+                name="PrevStatus"
+              />
+              <input
+                type="hidden"
+                value="{{order['order'][0]}}"
+                name="OrderId"
+              />
+              <input
+                type="hidden"
+                value="{{order['order'][12]}}"
+                name="TrackingNumber"
+              />
+            </div>
+            <button class="form-btn" type="submit">Save Order Info</button>
+            <input type="hidden" name="page" value="/profile" />
           </form>
         </div>
       </div>
-    </section>
+    </div>
+    {% endfor %}
     <!--=====================================
-    PRODUCT DETAILS PART END
-=======================================-->
+                PRODUCT DETAILS PART END
+        =======================================-->
 
     <!--=====================================
                      FOOTER PART START
@@ -250,7 +352,7 @@
         <div class="row">
           <div class="col-sm-6 col-xl-3">
             <div class="footer-widget">
-              <a class="footer-logo" href="#">
+              <a class="footer-logo">
                 <img src="images/logo.png" alt="logo" />
               </a>
               <p class="footer-desc">
@@ -335,6 +437,8 @@
                     JS LINK PART START
         =======================================-->
     <!-- VENDOR -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="{{url_for('static', filename='vendor/bootstrap/jquery-1.12.4.min.js')}}"></script>
     <script src="{{url_for('static', filename='vendor/bootstrap/popper.min.js')}}"></script>
     <script src="{{url_for('static', filename='vendor/bootstrap/bootstrap.min.js')}}"></script>
@@ -342,6 +446,22 @@
     <script src="{{url_for('static', filename='vendor/niceselect/nice-select.min.js')}}"></script>
     <script src="{{url_for('static', filename='vendor/slickslider/slick.min.js')}}"></script>
     <script src="{{url_for('static', filename='vendor/venobox/venobox.min.js')}}"></script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- CUSTOM -->
     <script src="{{url_for('static', filename='js/nice-select.js')}}"></script>
