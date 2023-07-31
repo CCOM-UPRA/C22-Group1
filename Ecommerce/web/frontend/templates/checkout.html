@@ -111,9 +111,11 @@
           $("#cardError").modal("hide");
           redirect();
         }, 5000);
-      };
 
-      window.location.href = "{{url_for('views.clearError')}}";
+        setTimeout(function () {
+          window.location.href = `{{url_for('views.clearError', Origin = "checkout")}}`;
+        }, 6000);
+      };
     </script>
     {% endif %}
 
@@ -643,6 +645,12 @@
                   action="{{url_for('views.payment')}}"
                   method="post"
                 >
+                  <input
+                    type="hidden"
+                    name="Origin"
+                    id="Origin"
+                    value="checkout"
+                  />
                   <div class="form-title">
                     <h3>Add payment info</h3>
                   </div>

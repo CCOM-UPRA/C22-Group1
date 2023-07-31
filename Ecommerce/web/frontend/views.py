@@ -35,6 +35,9 @@ def clear():
 @views.route('/shop')
 def shop():
     
+    if 'cardId' in session:
+        session.pop('cardId')
+    
     cartProducts = []
     if 'customer' in session:
         if 'cart' not in session:
@@ -85,12 +88,17 @@ def filterOrders():
 def clearError(Origin):
     if 'CartMaxError' in session:
         session.pop('CartMaxError')
-        if Origin == 'shop':
-            return redirect(url_for('views.shop'))
-        elif Origin == 'profile':
-            return redirect(url_for('views.profile'))
-        elif Origin == 'orders':
-            return redirect(url_for('views.orders'))
+    if 'cardError' in session:
+        session.pop('cardError')
+    
+    if Origin == 'shop':
+        return redirect(url_for('views.shop'))
+    elif Origin == 'profile':
+        return redirect(url_for('views.profile'))
+    elif Origin == 'orders':
+        return redirect(url_for('views.orders'))
+    elif Origin == 'checkout':
+        return redirect(url_for('views.checkout'))
 
 
 @views.route('/filter', methods = ['GET', 'POST'])
@@ -449,9 +457,18 @@ def payment():
         year,month = Cdate.split('-')
         Ccvv = request.form['Card_cvv']
         Czipcode = request.form['Card_zipcode']
+        Origin = request.form['Origin']
         insert_card(id, Cname, Ctype, Cnumber, month, year, Ccvv, Czipcode)
         flash('NEW PAYMENTH INFO ADDED', 'ADDED')
-    return redirect(url_for('views.profile'))
+        
+        if Origin == 'shop':
+            return redirect(url_for('views.shop'))
+        elif Origin == 'profile':
+            return redirect(url_for('views.profile'))
+        elif Origin == 'orders':
+            return redirect(url_for('views.orders'))
+        elif Origin == 'checkout':
+            return redirect(url_for('views.checkout'))
 
 @views.route('/paymentCheckout', methods=['GET', 'POST'])
 @login_required
