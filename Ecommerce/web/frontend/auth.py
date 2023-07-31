@@ -57,11 +57,8 @@ def home():
 
 
 @auth.route('/logout')
-def logout():
-    session.pop('customer')
-    session.pop('cart')
-    session.pop('cartTotalItems')
-    session.pop('cartTotalPrice')
+def logout():    
+    session.clear()
     return render_template('/login.html')
 
 

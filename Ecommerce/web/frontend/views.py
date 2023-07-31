@@ -35,6 +35,9 @@ def clear():
 @views.route('/shop')
 def shop():
     
+    if 'cardId' in session:
+        session.pop('cardId')
+    
     cartProducts = []
     if 'customer' in session:
         if 'cart' not in session:
