@@ -601,19 +601,14 @@
             </div>
             <div class="form-group">
               <label class="form-label">Select Card:</label>
-              <select
-                class="form-control"
-                name="selected_card"
-                id="selectedCard"
-              >
+              <select class="form-control" name="selected_card" id="selectedCard">
                 <option value="" selected>Select a card</option>
                 {% for card in card %}
-                <option class="card-number" value="{{ card[3] }}">
-                  {{ card[3] }}
-                </option>
+                <option class="card-number" value="{{ card[3] }}"> {{ card[3] }}</option>
                 {% endfor %}
               </select>
             </div>
+            
             <div class="form-group">
               <label class="form-label">card name</label>
               <input
@@ -900,72 +895,7 @@
     </div>
 
     <!-- payment edit form -->
-    <div class="modal fade" id="payment-add">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <button class="modal-close" data-bs-dismiss="modal">
-            <i class="icofont-close"></i>
-          </button>
-          <form
-            class="modal-form"
-            action="{{url_for('views.editinfo')}}"
-            method="post"
-          >
-            <div class="form-title">
-              <h3>edit payment info</h3>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Select Card:</label>
-              <select
-                class="form-control"
-                name="selected_card"
-                id="selectedCard"
-              >
-                <option value="" selected>Select a card</option>
-                {% for card in card %}
-                <option class="card-number" value="{{ card[3] }}">
-                  {{ card[3] }}
-                </option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">card name</label>
-              <input
-                class="form-control"
-                name="card_name"
-                id="cardName"
-                type="text"
-                value=""
-              />
-            </div>
-            <div class="form-group">
-              <label class="form-label">card type</label>
-              <input
-                class="form-control"
-                name="card_type"
-                id="cardType"
-                type="text"
-                value=""
-              />
-            </div>
-            <div class="form-group">
-              <label class="form-label">expiration date (MM/YYYY)</label>
-              <input
-                class="form-control"
-                name="date"
-                id="expirationDate"
-                type="month"
-                value=""
-              />
-              <input type="hidden" name="form_name" value="form4" />
-            </div>
-            <button class="form-btn" type="submit">save payment info</button>
-            <input type="hidden" name="page" value="/profile" />
-          </form>
-        </div>
-      </div>
-    </div>
+    
 
     <div class="modal fade" id="payment-add2">
       <div class="modal-dialog modal-dialog-centered">
@@ -1260,7 +1190,7 @@
     <script src="{{url_for('static', filename='js/venobox.js')}}"></script>
     <script src="{{url_for('static', filename='js/slick.js')}}"></script>
     <script>
-      var cardData = JSON.parse("{{ card | tojson | safe }}");
+      var cardData = JSON.parse('{{ card | tojson | safe }}');
     </script>
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
 
