@@ -111,9 +111,11 @@
           $("#cardError").modal("hide");
           redirect();
         }, 5000);
-      };
 
-      window.location.href = `{{url_for('views.clearError', Origin = "checkout")}}`;
+        setTimeout(function () {
+          window.location.href = `{{url_for('views.clearError', Origin = "checkout")}}`;
+        }, 6000);
+      };
     </script>
     {% endif %}
 
