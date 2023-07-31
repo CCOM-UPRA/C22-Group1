@@ -452,9 +452,18 @@ def payment():
         year,month = Cdate.split('-')
         Ccvv = request.form['Card_cvv']
         Czipcode = request.form['Card_zipcode']
+        Origin = request.form['Origin']
         insert_card(id, Cname, Ctype, Cnumber, month, year, Ccvv, Czipcode)
         flash('NEW PAYMENTH INFO ADDED', 'ADDED')
-    return redirect(url_for('views.profile'))
+        
+        if Origin == 'shop':
+            return redirect(url_for('views.shop'))
+        elif Origin == 'profile':
+            return redirect(url_for('views.profile'))
+        elif Origin == 'orders':
+            return redirect(url_for('views.orders'))
+        elif Origin == 'checkout':
+            return redirect(url_for('views.checkout'))
 
 @views.route('/paymentCheckout', methods=['GET', 'POST'])
 @login_required
