@@ -91,6 +91,8 @@ def clearError(Origin):
             return redirect(url_for('views.profile'))
         elif Origin == 'orders':
             return redirect(url_for('views.orders'))
+        elif Origin == 'checkout':
+            return redirect(url_for('views.checkout'))
 
 
 @views.route('/filter', methods = ['GET', 'POST'])
