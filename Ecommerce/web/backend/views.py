@@ -261,6 +261,11 @@ def reports():
                 return render_template('report.html', message="No products available")
         
             return render_template('report.html', report=result)
+        
+        
+        elif form_name == 'form9':
+            result = earningreport()    
+            return render_template('earningsreport.html', result=result)  
             
     return render_template('reports.html',products=products)
 

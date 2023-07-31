@@ -126,3 +126,13 @@ def get_sales_report_by_product(product, database):
     result = cursor.fetchall()
     return result
 
+@DBConnection 
+def earningreport(database):
+    cursor = database.cursor()
+    cursor.execute('''
+    SELECT Telescope_Name,Telescope_Price,Telescope_Cost,(Telescope_Price - Telescope_Cost) AS Earning
+    FROM telescopes 
+                   ''')
+    result = cursor.fetchall()
+    return result
+

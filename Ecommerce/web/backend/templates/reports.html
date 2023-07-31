@@ -397,9 +397,44 @@
                 </div>
               </div>
             </div>
+
+            <div class="orderlist">
+              <div class="orderlist-head">
+                <h5>Earning Report</h5>
+              </div>
+              <div class="orderlist-body">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <ul class="orderlist-details">
+                      <li>
+                        <form
+                          action="{{url_for('back_views.reports')}}"
+                          method="POST"
+                        >
+                          <p>Report for Earnings</p>
+                          <br />
+                          <div class="details-add-group">
+                            <input type="hidden" name="form_name" value="form9">
+                            <button class="product-add" type="submit">
+                              <span>See Report</span>
+                            </button>
+                          </div>
+                        </form>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
+
+        
+
+
+      
     </section>
 
     <!--=====================================
