@@ -85,14 +85,17 @@ def filterOrders():
 def clearError(Origin):
     if 'CartMaxError' in session:
         session.pop('CartMaxError')
-        if Origin == 'shop':
-            return redirect(url_for('views.shop'))
-        elif Origin == 'profile':
-            return redirect(url_for('views.profile'))
-        elif Origin == 'orders':
-            return redirect(url_for('views.orders'))
-        elif Origin == 'checkout':
-            return redirect(url_for('views.checkout'))
+    if 'cardError' in session:
+        session.pop('cardError')
+    
+    if Origin == 'shop':
+        return redirect(url_for('views.shop'))
+    elif Origin == 'profile':
+        return redirect(url_for('views.profile'))
+    elif Origin == 'orders':
+        return redirect(url_for('views.orders'))
+    elif Origin == 'checkout':
+        return redirect(url_for('views.checkout'))
 
 
 @views.route('/filter', methods = ['GET', 'POST'])
