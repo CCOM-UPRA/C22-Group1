@@ -253,14 +253,13 @@ def deletecard():
 @login_required
 def orders():
     cartProducts = []
-    if 'customer' in session:
-        if 'cart' not in session:
-            Cart()
-        getCartTotal()
-        cartProducts = getCartItems()
-        telescopes = Telescopes()
+    if 'cart' not in session:
+        Cart()
+    getCartTotal()
+    cartProducts = getCartItems()
+    telescopes = Telescopes()
         
-    orderType = ['all', 'recived', 'processed', 'shipped', 'delivered']
+    orderType = ['all', 'received', 'processed', 'shipped', 'delivered']
     
     if 'lastSelectOrderType' in session:
         lastType = session['lastSelectOrderType']
