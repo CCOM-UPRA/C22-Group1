@@ -101,7 +101,7 @@ def getAllOrdersItems():
                 'Order':order,
                 'Items':getOrderItensByID(order[0]),
                 'TotalPrice':OrderTotal,
-                'TotalItems':TotalItems
+                'TotalItems':TotalItems,
                 }
             AllOrdersItems.append(OrderData)
     return AllOrdersItems
