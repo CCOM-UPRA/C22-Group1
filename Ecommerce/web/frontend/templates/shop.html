@@ -76,16 +76,16 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script>
-      function minus() {
-        var input = document.getElementById("cartQuantity");
+      function minus(id) {
+        var input = document.getElementById("cartQuantity" + id);
         var value = Number(input.value);
         value -= 1;
         input.value = value;
         console.log(value);
       }
 
-      function plus() {
-        var input = document.getElementById("cartQuantity");
+      function plus(id) {
+        var input = document.getElementById("cartQuantity" + id);
         var value = Number(input.value);
         value += 1;
         input.value = value;
@@ -276,7 +276,7 @@
             <div class="cart-action-group">
               <div class="product-action">
                 <form action="{{url_for('views.editcart')}}" method="POST">
-                  <button onclick="minus()" type="button">
+                  <button onclick="minus({{item['id']}})" type="button">
                     <i class="icofont-minus"></i>
                   </button>
 
@@ -287,7 +287,7 @@
                     title="Quantity-Number"
                     type="text"
                     name="cartQuantity"
-                    id="cartQuantity"
+                    id="cartQuantity{{item['id']}}"
                     value="{{item['quantity']}}"
                   />
 
@@ -297,7 +297,7 @@
                     id="id"
                     value="{{item['id']}}"
                   />
-                  <button onclick="plus()" type="button">
+                  <button onclick="plus({{item['id']}})" type="button">
                     <i class="icofont-plus"></i>
                   </button>
 
