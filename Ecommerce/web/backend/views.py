@@ -288,6 +288,7 @@ def profile():
 def viewOrders():
     orders = getAllOrdersItems()
     orderType = ['all', 'received', 'processed', 'shipped', 'delivered']
+    orderType2 = ['Received', 'Processed', 'Shipped', 'Delivered']
     
     if 'BacklastSelectOrderType' in session:
         lastType = session['BacklastSelectOrderType']
@@ -299,7 +300,8 @@ def viewOrders():
     return render_template("ordersviews.html", 
                            orders = orders, 
                            totalOrders = order_count, 
-                           orderType = orderType)
+                           orderType = orderType,
+                           orderType2 = orderType2)
 
 @views.route('editOrder', methods = ['GET', 'POST'])
 def editOrder():

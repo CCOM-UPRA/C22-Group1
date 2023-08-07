@@ -341,12 +341,17 @@
             </div>
             <div class="form-group">
               <label class="form-label">Status</label>
-              <input
-                type="text"
-                class="form-control"
-                name="Order-status"
-                placeholder="{{order['order'][6]}}"
-              />
+              <select
+                  class="form-select"
+                  name="status"
+                >
+                  {% for type in orderType2 %} {% if type == order['order'][6]
+                  %}
+                  <option value="{{type}}" selected>{{type}} order</option>
+                  {% else %}
+                  <option value="{{type}}">{{type}} order</option>
+                  {% endif %} {% endfor %}
+                </select>
               <input
                 type="hidden"
                 value="{{order['order'][6]}}"
