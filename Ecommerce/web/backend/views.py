@@ -287,7 +287,19 @@ def profile():
 @views.route('/viewOrders')
 def viewOrders():
     orders = getAllOrdersItems()
-    return render_template("ordersviews.html", orders = orders)
+    orderType = ['all', 'received', 'processed', 'shipped', 'delivered']
+    
+    if 'BacklastSelectOrderType' in session:
+        lastType = session['BacklastSelectOrderType']
+        index = orderType.index(lastType)
+        orderType.pop(index)
+        orderType.insert(0, lastType)
+    
+    order_count = getOrderCount()
+    return render_template("ordersviews.html", 
+                           orders = orders, 
+                           totalOrders = order_count, 
+                           orderType = orderType)
 
 @views.route('editOrder', methods = ['GET', 'POST'])
 def editOrder():
@@ -300,4 +312,19 @@ def editOrder():
         id = request.form['OrderId']
         
         orderUpdate(id, date, prevDate, status, prevStatus, tracking)
+    return redirect(url_for('back_views.viewOrders'))
+
+@views.route('/filterOrders', methods = ['GET','POST'])
+def filterOrders():
+    if request.method == 'POST':
+        selected = request.form['status']
+
+        if selected == 'all':
+            if 'BackfilterStatus' in session:
+                session.pop('BackfilterStatus')
+        else:
+            session['BackfilterStatus'] = selected
+        
+        session['BacklastSelectOrderType'] = selected
+        
     return redirect(url_for('back_views.viewOrders'))

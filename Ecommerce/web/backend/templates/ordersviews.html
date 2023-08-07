@@ -82,6 +82,10 @@
       rel="stylesheet"
       href="{{url_for('static', filename='css/checkout.css')}}"
     />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/orderlist.css')}}"
+    />
 
     <link
       rel="stylesheet"
@@ -190,6 +194,8 @@
         <h2>Orders</h2>
       </div>
     </section>
+
+    
     <!--=====================================
                     BANNER PART END
         =======================================-->
@@ -212,6 +218,30 @@
         =======================================-->
     <section class="inner-section checkout-part">
       <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="orderlist-filter">
+              <h5>total orders <span>- {{totalOrders}}</span></h5>
+              <div class="filter-short">
+                <label class="form-label">Filter By:</label>
+                <form action="{{url_for('back_views.filterOrders')}}" method="POST">
+                  <select
+                    class="form-select"
+                    onchange="this.form.submit()"
+                    name="status"
+                  >
+                    {% for type in orderType %} {% if orderType.index(type) == 0
+                    %}
+                    <option value="{{type}}" selected>{{type}} orders</option>
+                    {% else %}
+                    <option value="{{type}}">{{type}} orders</option>
+                    {% endif %} {% endfor %}
+                  </select>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-lg-12">
             <div class="account-card">
