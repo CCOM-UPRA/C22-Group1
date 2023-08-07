@@ -26,7 +26,8 @@ def login():
             db_password = customer[0]
             customerID = customer[1]
             customer_status = customer[2]
-            if password == db_password:
+            password_hash = hashlib.sha256(password.encode()).hexdigest()
+            if password_hash == db_password:
                 
                 if customer_status == 'ACTIVE':
                     session['customer'] = customerID
@@ -82,7 +83,8 @@ def register():
         if email_exists(email):
             flash('Email already exists', 'ERROR')
             return redirect(url_for('auth.register'))
-        insert_user(fname, lname, email, pass2)
+        password_hash = hashlib.sha256(pass2.data.encode()).hexdigest()
+        insert_user(fname, lname, email, password_hash)
         session['customer'] = ID_Email(email)[0]
         
         return redirect(url_for('views.shop'))
@@ -99,7 +101,8 @@ def Cpassword():
             if pass1 != pass2:
                 flash('Password dont match!', 'ERROR')
                 return redirect(url_for('auth.Cpassword'))
-            reset_password(email, pass2) 
+            password_hash = hashlib.sha256(pass2.data.encode()).hexdigest()
+            reset_password(email, password_hash) 
             flash('Password successfully changed', 'error')
             return render_template('login.html')
         return redirect(url_for('auth.Cpassword'))

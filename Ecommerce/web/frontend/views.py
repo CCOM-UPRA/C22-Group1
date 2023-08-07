@@ -5,6 +5,7 @@ from ..models.frontend.orderModel import *
 from ..controllers.frontend.shopController import *
 from ..controllers.frontend.orderController import *
 from ..models.frontend.profileModel import *
+import hashlib
 
 
 
@@ -495,20 +496,23 @@ def change_password():
     password2 = request.form['pass_n']
     password3 = request.form['pass_n1']
     
+    password_hash = hashlib.sha256(password.encode()).hexdigest()
+    password2_hash = hashlib.sha256(password2.encode()).hexdigest()
+    password3_hash = hashlib.sha256(password3.encode()).hexdigest()
     
-    if old != password:
+    if old != password_hash:
         flash('The password you entered is not the old one you had', 'error')
         return redirect(url_for('views.profile'))
     
-    if old == password2:
+    if old == password2_hash:
         flash('Your new password is the same as the old one.', 'error')
         return redirect(url_for('views.profile'))
     
-    if password2 != password3:
+    if password2_hash != password3_hash:
         flash('Your new password and the confirmation dont match', 'error')
         return redirect(url_for('views.profile'))
     
-    update_password(id, password2) 
+    update_password(id, password2_hash) 
     success_message = "Contraseña actualizada con éxito."
     flash('Password updates', 'ADDED')
     return redirect(url_for('views.profile'))

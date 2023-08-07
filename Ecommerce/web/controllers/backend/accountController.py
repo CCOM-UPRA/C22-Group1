@@ -1,6 +1,7 @@
 from ...models.backend.accountModel import *
 from ...models.frontend.loginModel import *
 from ...models.frontend.authModel import *
+import hashlib
 
 def UsersList():
     users = all_accounts()
