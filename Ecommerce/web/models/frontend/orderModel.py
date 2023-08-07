@@ -11,7 +11,7 @@ def order_info(id, orderId, database):
 @DBConnection
 def order_update(id, user, number,card, orderId, database):
     cursor = database.cursor()
-    cursor.execute('UPDATE orders SET Order_Number = %s, Order_Date = %s,  Order_Status = %s, Street_number = %s, Street_name = %s, zipCode = %s, C_City = %s, C_State = %s, Invoice_Number = %s, PaymentID = %s WHERE CustomerID = %s and Order_ID = %s ', (number[0], number[1], number[3], user[5], user[6], user[7], user[8], user[9], number[5], card, id, orderId,)) 
+    cursor.execute('UPDATE orders SET Order_Number = %s, Order_Date = %s,  Order_Status = %s, Arrival_Date = %s, Street_number = %s, Street_name = %s, zipCode = %s, C_City = %s, C_State = %s, Tracking_NUmber = %s, Invoice_Number = %s, PaymentID = %s WHERE CustomerID = %s and Order_ID = %s ', (number[0], number[1], number[3],number[2], user[5], user[6], user[7], user[8], user[9], number[4], number[5], card, id, orderId,)) 
     database.commit()
     
 @DBConnection
