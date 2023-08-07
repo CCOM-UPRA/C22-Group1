@@ -56,6 +56,17 @@
             }
 
         </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var hashElements = document.querySelectorAll('.hash-cell');
+    
+                hashElements.forEach(function(element) {
+                    var fullHash = element.textContent;
+                    var halfHash = fullHash.substring(0, fullHash.length / 2);
+                    element.textContent = halfHash;
+                });
+            });
+        </script>
 
     </head>
     <body>
@@ -147,9 +158,7 @@
             <div style='padding: 0 40%' class="view-add-group">   
                 <button class="product-add" data-bs-toggle="modal" data-bs-target="#addaccount"  title="add Amount">Add account</button>
             </div>
-            <form action="{{url_for('back_auth.encript')}}" method="post">
-                <button type="submit">encriptar</button>
-            </form>
+
         </section>
         <!--=====================================
                     BANNER PART END
@@ -199,7 +208,7 @@
                             </div>
                             <div class="account-content">
                             <div class="table-scroll">
-                            <table class="table-list" id="usersContainer">
+                            <table class="table" id="usersContainer">
                                 <thead>
                                     <tr>
                                         <th scope="col">Name</th>
@@ -213,8 +222,8 @@
                                 <tbody>
                                 {% for u in user %}
                                 <tr>
-                                        <td class="table-name"><h6>{{u['name']}} {{u['Lname']}}</h6></td>
-                                        <td class="table-brand"><h6>{{u['pass']}}</h6></td>
+                                        <td class="table-name "><h6>{{u['name']}} {{u['Lname']}}</h6></td>
+                                        <td class="hash-cell"><h6>{{u['pass']}}</h6></td>
                                         <td class="table-brand"><h6>{{u['Email']}}</h6></td>
                                         <td class="table-brand"><h6>{{u['phone']}}</h6></td>
                                         <td class="table-brand"><h6>{{u['status']}}</h6></td>
@@ -261,7 +270,11 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">Password</label>
-                            <input type="text" class="form-control" name="Password" id='A_password'>
+                            <input type="text" class="form-control" name="Password">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="hidden" class="form-control" name="oldPassword" id='A_password'>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Email</label>

@@ -7,6 +7,7 @@ from ..controllers.backend.productsController import *
 from ..models.backend.reportmodel import *
 from ..controllers.backend.orderController import *
 import datetime
+import hashlib
 
 
 def login_required(func):
@@ -105,13 +106,20 @@ def edit_accounts():
         fname = request.form['F_Name']
         lname = request.form['L_Name']
         pass1 = request.form['Password']
+        old = request.form['oldPassword']
         email = request.form['Email']
         phone = request.form['Phone']
         status = request.form['selected_status']
         id = request.form['A_id']
-        if(fname != '' and lname != '' and pass1 != '' and email != '' and status != '' and id != ''):
-            update_account(fname, lname, pass1, email, phone, status, id)
-            flash('The account have been edited ', 'succes')
+        if(fname != '' and lname != '' and email != '' and status != '' and id != ''):
+            if(pass1 != ''):
+                password_hash = hashlib.sha256(pass1.encode()).hexdigest()
+                update_account(fname, lname, password_hash, email, phone, status, id)
+                flash('The account have been edited new ', 'succes')
+            else:
+                update_account(fname, lname, old, email, phone, status, id)
+                flash('The account have been edited old ', 'succes')
+        
     return redirect(url_for('back_views.accounts'))
 
 
@@ -132,7 +140,8 @@ def add_accounts():
                 flash('Email already exists!', 'error')
             else:
                 flash('The New Account Have Been Added', 'succes')
-                insert_user(fname, lname, email, pass1)
+                password_hash = hashlib.sha256(pass2.data.encode()).hexdigest()
+                insert_user(fname, lname, email, password_hash)
         else:
             flash('Fill all the blanks', 'error')
     return redirect(url_for('back_views.accounts'))
