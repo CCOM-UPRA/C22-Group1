@@ -205,6 +205,7 @@
                         <th scope="col">Telescope Price</th>
                         <th scope="col">Telescope Cost</th>
                         <th scope="col">Earnings</th>
+                        
                       </tr>
                     </thead>
                     <tbody>
@@ -215,8 +216,36 @@
                         <td>${{ entry[1]}}0</td>
                         <td>${{ entry[2]}}0</td>
                         <td>${{ entry[3]}}0</td>
+                        
                       </tr>
                       {% endfor %}
+                    </tbody>
+                    {% else %}
+
+                    <tbody>
+                      <tr>
+                        <td colspan="4">No earning report available.</td>
+                      </tr>
+                    </tbody>
+                    {% endif %}
+                  </table>
+
+                  <table class="table-list">
+                    {% if earning %}
+                    <thead>
+                      <tr>
+                        
+                        <th scope="col">Total Earnings</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+
+                      <tr>
+                        <td>{{ earning}}</td>
+                        
+                      </tr>
+                      
                     </tbody>
                     {% else %}
 

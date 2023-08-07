@@ -7,11 +7,20 @@ import sqlite3
 def get_sales_report_by_month(report_month_start, report_month_end, database):
     cursor = database.cursor()
     cursor.execute('''
-        SELECT Order_Date, Telescope_Name, Product_Quantity, Product_Price
-        FROM orders
-        JOIN contains ON orders.Order_ID = contains.OrderID
-        JOIN telescopes ON telescopes.TelescopeID = contains.TelescopeID
-        WHERE Order_Date >= %s AND Order_Date <= %s
+        SELECT
+            Order_Date,
+            Telescope_Name,
+            Product_Quantity,
+            Product_Price,
+            (Product_Price - Telescope_Cost) AS Earnings
+        FROM
+            orders
+        JOIN
+            contains ON orders.Order_ID = contains.OrderID
+        JOIN
+            telescopes ON telescopes.TelescopeID = contains.TelescopeID
+        WHERE
+            Order_Date >= %s AND Order_Date <= %s
     ''', (report_month_start, report_month_end))
     result = cursor.fetchall()
     return result
@@ -21,11 +30,20 @@ def get_sales_report_by_month(report_month_start, report_month_end, database):
 def get_sales_report_by_week(report_week_start, report_week_end, database):
     cursor = database.cursor()
     cursor.execute('''
-        SELECT Order_Date, Telescope_Name, Product_Quantity, Product_Price
-        FROM orders 
-        JOIN contains ON orders.Order_ID = contains.OrderID
-        JOIN telescopes ON telescopes.TelescopeID = contains.TelescopeID
-        WHERE Order_Date >= %s AND Order_Date <= %s
+        SELECT
+            Order_Date,
+            Telescope_Name,
+            Product_Quantity,
+            Product_Price,
+            (Product_Price - Telescope_Cost) AS Earnings
+        FROM
+            orders
+        JOIN
+            contains ON orders.Order_ID = contains.OrderID
+        JOIN
+            telescopes ON telescopes.TelescopeID = contains.TelescopeID
+        WHERE
+            Order_Date >= %s AND Order_Date <= %s
     ''', (report_week_start, report_week_end))
     result = cursor.fetchall()
     return result
@@ -36,11 +54,20 @@ def get_sales_report_by_week(report_week_start, report_week_end, database):
 def get_sales_report_by_day(report_day,database):
     cursor = database.cursor()
     cursor.execute('''
-        SELECT Order_Date, Telescope_Name, Product_Quantity, Product_Price
-        FROM orders 
-        JOIN contains ON orders.Order_ID = contains.OrderID
-        JOIN telescopes ON telescopes.TelescopeID = contains.TelescopeID
-        WHERE Order_Date = %s
+         SELECT
+            Order_Date,
+            Telescope_Name,
+            Product_Quantity,
+            Product_Price,
+            (Product_Price - Telescope_Cost) AS Earnings
+        FROM
+            orders
+        JOIN
+            contains ON orders.Order_ID = contains.OrderID
+        JOIN
+            telescopes ON telescopes.TelescopeID = contains.TelescopeID
+        WHERE
+            Order_Date = %s
     ''', (report_day,))
     result = cursor.fetchall()
     return result
@@ -78,11 +105,20 @@ def prod_name(database):
 def get_prodid(product,date, database):
     cursor = database.cursor()
     cursor.execute('''
-        SELECT Order_Date, Telescope_Name, Product_Quantity, Product_Price
-        FROM orders 
-        JOIN contains ON orders.Order_ID = contains.OrderID
-        JOIN telescopes ON telescopes.TelescopeID = contains.TelescopeID
-        WHERE Telescope_Name = %s AND Order_Date = %s
+        SELECT
+            Order_Date,
+            Telescope_Name,
+            Product_Quantity,
+            Product_Price,
+            (Product_Price - Telescope_Cost) AS Earnings
+        FROM
+            orders
+        JOIN
+            contains ON orders.Order_ID = contains.OrderID
+        JOIN
+            telescopes ON telescopes.TelescopeID = contains.TelescopeID
+        WHERE
+            Telescope_Name = %s AND Order_Date = %s
     ''', (product,date,))
     result = cursor.fetchall()
     return result
@@ -91,11 +127,20 @@ def get_prodid(product,date, database):
 def sales_report_by_week(product,report_week_start, report_week_end, database):
     cursor = database.cursor()
     cursor.execute('''
-        SELECT Order_Date, Telescope_Name, Product_Quantity, Product_Price
-        FROM orders 
-        JOIN contains ON orders.Order_ID = contains.OrderID
-        JOIN telescopes ON telescopes.TelescopeID = contains.TelescopeID
-        WHERE Telescope_Name = %s AND Order_Date >= %s AND Order_Date <= %s
+         SELECT
+            Order_Date,
+            Telescope_Name,
+            Product_Quantity,
+            Product_Price,
+            (Product_Price - Telescope_Cost) AS Earnings
+        FROM
+            orders
+        JOIN
+            contains ON orders.Order_ID = contains.OrderID
+        JOIN
+            telescopes ON telescopes.TelescopeID = contains.TelescopeID
+        WHERE
+            Telescope_Name = %s AND Order_Date >= %s AND Order_Date <= %s
     ''', (product,report_week_start, report_week_end,))
     result = cursor.fetchall()
     return result
@@ -104,11 +149,20 @@ def sales_report_by_week(product,report_week_start, report_week_end, database):
 def sales_report_by_month(product, year, month, database):
     cursor = database.cursor()
     cursor.execute('''
-        SELECT Order_Date, Telescope_Name, Product_Quantity, Product_Price
-        FROM orders 
-        JOIN contains ON orders.Order_ID = contains.OrderID
-        JOIN telescopes ON telescopes.TelescopeID = contains.TelescopeID
-        WHERE Telescope_Name = %s AND YEAR(Order_Date) = %s AND MONTH(Order_Date) = %s
+        SELECT
+            Order_Date,
+            Telescope_Name,
+            Product_Quantity,
+            Product_Price,
+            (Product_Price - Telescope_Cost) AS Earnings
+        FROM
+            orders
+        JOIN
+            contains ON orders.Order_ID = contains.OrderID
+        JOIN
+            telescopes ON telescopes.TelescopeID = contains.TelescopeID
+        WHERE
+            Telescope_Name = %s AND YEAR(Order_Date) = %s AND MONTH(Order_Date) = %s
     ''', (product,year, month,))
     result = cursor.fetchall()
     return result
@@ -130,9 +184,25 @@ def get_sales_report_by_product(product, database):
 def earningreport(database):
     cursor = database.cursor()
     cursor.execute('''
-    SELECT Telescope_Name,Telescope_Price,Telescope_Cost,(Telescope_Price - Telescope_Cost) AS Earning
-    FROM telescopes 
+    SELECT
+        t.Telescope_Name,
+        c.Product_Price,
+         t.Telescope_Cost,
+        (c.Product_Price - t.Telescope_Cost) AS Earnings
+        
+    FROM
+        telescopes t
+    JOIN
+        contains c ON t.TelescopeID = c.TelescopeID
                    ''')
     result = cursor.fetchall()
     return result
 
+@DBConnection 
+def totalearningreport(database):
+    cursor = database.cursor()
+    cursor.execute('''
+    SELECT SUM((c.Product_Price - t.Telescope_Cost)) AS Earnings FROM telescopes t JOIN contains c ON t.TelescopeID = c.TelescopeID
+                   ''')
+    result = cursor.fetchone()
+    return result[0]

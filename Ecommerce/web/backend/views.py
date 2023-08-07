@@ -275,7 +275,8 @@ def reports():
         
         elif form_name == 'form9':
             result = earningreport()    
-            return render_template('earningsreport.html', result=result)  
+            earning = totalearningreport()
+            return render_template('earningsreport.html', result=result,earning = earning)  
             
     return render_template('reports.html',products=products)
 
