@@ -201,19 +201,24 @@
                     {% if report %}
                     <thead>
                       <tr>
+                        <th scope="col">Order Number </th>
                         <th scope="col">Order Date</th>
                         <th scope="col">Telescope Name</th>
                         <th scope="col">Product Quantity</th>
                         <th scope="col">Product Price</th>
+                        <th scope="col">Sales Earning per product</th>
                       </tr>
                     </thead>
                     <tbody>
                       {% for entry in report %}
                       <tr>
-                        <td>{{ entry[0]}}</td>
+                        <td>#{{ entry[0]}}</td>
                         <td>{{ entry[1]}}</td>
                         <td>{{ entry[2]}}</td>
-                        <td>${{ entry[3]}}</td>
+                        <td>{{ entry[3]}}</td>
+                        <td>${{ entry[4]}}</td>
+                        <td>${{ entry[5]}}</td>
+
                       </tr>
                       {% endfor %}
                     </tbody>

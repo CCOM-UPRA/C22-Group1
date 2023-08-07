@@ -25,3 +25,10 @@ def getProdID(id, database):
     cursor.execute('select * FROM telescopes WHERE TelescopeID = %s',(id,))
     data = cursor.fetchall()
     return data
+
+@DBConnection
+def backgetProducts(database):
+    cursor = database.cursor()
+    cursor.execute('select * from telescopes')
+    return cursor
+

@@ -7,6 +7,7 @@ from ..controllers.backend.productsController import *
 from ..models.backend.reportmodel import *
 from ..controllers.backend.orderController import *
 import datetime
+import hashlib
 
 
 def login_required(func):
@@ -29,7 +30,8 @@ def clear():
 @views.route('/products')
 @login_required
 def products():
-    products = Telescopes()
+    products = back_Telescope()
+    print(products)
     return render_template('products.html', products = products)
 
 
@@ -104,13 +106,20 @@ def edit_accounts():
         fname = request.form['F_Name']
         lname = request.form['L_Name']
         pass1 = request.form['Password']
+        old = request.form['oldPassword']
         email = request.form['Email']
         phone = request.form['Phone']
         status = request.form['selected_status']
         id = request.form['A_id']
-        if(fname != '' and lname != '' and pass1 != '' and email != '' and status != '' and id != ''):
-            update_account(fname, lname, pass1, email, phone, status, id)
-            flash('The account have been edited ', 'succes')
+        if(fname != '' and lname != '' and email != '' and status != '' and id != ''):
+            if(pass1 != ''):
+                password_hash = hashlib.sha256(pass1.encode()).hexdigest()
+                update_account(fname, lname, password_hash, email, phone, status, id)
+                flash('The account have been edited new ', 'succes')
+            else:
+                update_account(fname, lname, old, email, phone, status, id)
+                flash('The account have been edited old ', 'succes')
+        
     return redirect(url_for('back_views.accounts'))
 
 
@@ -123,9 +132,18 @@ def add_accounts():
         email = request.form['Email']
         pass1 = request.form['Password']
         pass2 = request.form['Password2']
+        
         if(fname != '' and lname != '' and pass1 != '' and pass2 !='' and email != ''):
-            addaccount(fname,lname,email,pass1,pass2)
-            flash('The new account have been added', 'succes')
+            if pass1 != pass2:
+                flash('Password dont match', 'error')
+            elif email_exists(email):
+                flash('Email already exists!', 'error')
+            else:
+                flash('The New Account Have Been Added', 'succes')
+                password_hash = hashlib.sha256(pass2.data.encode()).hexdigest()
+                insert_user(fname, lname, email, password_hash)
+        else:
+            flash('Fill all the blanks', 'error')
     return redirect(url_for('back_views.accounts'))
 
     
@@ -266,7 +284,8 @@ def reports():
         
         elif form_name == 'form9':
             result = earningreport()    
-            return render_template('earningsreport.html', result=result)  
+            earning = totalearningreport()
+            return render_template('earningsreport.html', result=result,earning = earning)  
             
     return render_template('reports.html',products=products)
 
@@ -278,7 +297,21 @@ def profile():
 @views.route('/viewOrders')
 def viewOrders():
     orders = getAllOrdersItems()
-    return render_template("ordersviews.html", orders = orders)
+    orderType = ['all', 'received', 'processed', 'shipped', 'delivered']
+    orderType2 = ['Received', 'Processed', 'Shipped', 'Delivered']
+    
+    if 'BacklastSelectOrderType' in session:
+        lastType = session['BacklastSelectOrderType']
+        index = orderType.index(lastType)
+        orderType.pop(index)
+        orderType.insert(0, lastType)
+    
+    order_count = getOrderCount()
+    return render_template("ordersviews.html", 
+                           orders = orders, 
+                           totalOrders = order_count, 
+                           orderType = orderType,
+                           orderType2 = orderType2)
 
 @views.route('editOrder', methods = ['GET', 'POST'])
 def editOrder():
@@ -291,4 +324,19 @@ def editOrder():
         id = request.form['OrderId']
         
         orderUpdate(id, date, prevDate, status, prevStatus, tracking)
+    return redirect(url_for('back_views.viewOrders'))
+
+@views.route('/filterOrders', methods = ['GET','POST'])
+def filterOrders():
+    if request.method == 'POST':
+        selected = request.form['status']
+
+        if selected == 'all':
+            if 'BackfilterStatus' in session:
+                session.pop('BackfilterStatus')
+        else:
+            session['BackfilterStatus'] = selected
+        
+        session['BacklastSelectOrderType'] = selected
+        
     return redirect(url_for('back_views.viewOrders'))

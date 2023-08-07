@@ -1,10 +1,14 @@
 from ...models.backend.ordersModel import *
 from ..frontend.orderController import getOrderItensByID
 import time, random
+from flask import session
 
 def getAllOrdersItems():
     
-    AllOrders = getAllOrders()
+    if 'BackfilterStatus' in session:
+        AllOrders = getAllOrdersByStatus(session['BackfilterStatus'])
+    else:
+        AllOrders = getAllOrders()
     Totals = getTotalOrder()
     users = getAllUsers()
     AllOrdersItems = []
@@ -45,3 +49,10 @@ def orderUpdate(id, arrival,prevArrival, status, prevStatus, tracking):
     
     if arrival != prevArrival and arrival != "":
         updateArrival(id, arrival)
+
+def getOrderCount():
+    count = orderCount()[0]
+    if count == None:
+        count = 0
+    
+    return count

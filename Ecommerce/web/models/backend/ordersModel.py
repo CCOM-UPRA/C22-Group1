@@ -7,6 +7,12 @@ def getAllOrders(database):
     return cursor.fetchall()
 
 @DBConnection
+def getAllOrdersByStatus(status, database):
+    cursor = database.cursor()
+    cursor.execute('SELECT * FROM orders WHERE Order_Status = %s', (status,))
+    return cursor.fetchall()
+
+@DBConnection
 def getTotalOrder(database):
     cursor = database.cursor()
     cursor.execute('SELECT * from (SELECT ALL CustomerID, contains.OrderID, sum(Product_Quantity) as Total_Products, sum(Product_Price*Product_Quantity) as Total_Price from orders join contains on contains.OrderID = orders.Order_ID group by contains.OrderID) as Orders_data')
@@ -35,3 +41,9 @@ def setTracking(id, tracking, database):
     cursor = database.cursor()
     cursor.execute('UPDATE orders set Tracking_Number = %s where Order_ID = %s', (tracking, id,))
     database.commit()
+
+@DBConnection
+def orderCount(database):
+    cursor = database.cursor()
+    cursor.execute('SELECT COUNT(Order_ID) from orders')
+    return cursor.fetchone()
