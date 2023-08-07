@@ -8,6 +8,7 @@ def get_sales_report_by_month(report_month_start, report_month_end, database):
     cursor = database.cursor()
     cursor.execute('''
         SELECT
+            Order_Number,
             Order_Date,
             Telescope_Name,
             Product_Quantity,
@@ -31,6 +32,7 @@ def get_sales_report_by_week(report_week_start, report_week_end, database):
     cursor = database.cursor()
     cursor.execute('''
         SELECT
+            Order_Number,
             Order_Date,
             Telescope_Name,
             Product_Quantity,
@@ -55,6 +57,7 @@ def get_sales_report_by_day(report_day,database):
     cursor = database.cursor()
     cursor.execute('''
          SELECT
+            Order_Number,
             Order_Date,
             Telescope_Name,
             Product_Quantity,
@@ -106,6 +109,7 @@ def get_prodid(product,date, database):
     cursor = database.cursor()
     cursor.execute('''
         SELECT
+            Order_Number,
             Order_Date,
             Telescope_Name,
             Product_Quantity,
@@ -128,6 +132,7 @@ def sales_report_by_week(product,report_week_start, report_week_end, database):
     cursor = database.cursor()
     cursor.execute('''
          SELECT
+            Order_Number,
             Order_Date,
             Telescope_Name,
             Product_Quantity,
@@ -150,6 +155,7 @@ def sales_report_by_month(product, year, month, database):
     cursor = database.cursor()
     cursor.execute('''
         SELECT
+            Order_Number,
             Order_Date,
             Telescope_Name,
             Product_Quantity,
@@ -171,7 +177,7 @@ def sales_report_by_month(product, year, month, database):
 def get_sales_report_by_product(product, database):
     cursor = database.cursor()
     cursor.execute('''
-        SELECT Order_Date, Telescope_Name, Product_Quantity, Product_Price
+        SELECT Order_Number,Order_Date, Telescope_Name, Product_Quantity, Product_Price
         FROM orders 
         JOIN contains ON orders.Order_ID = contains.OrderID
         JOIN telescopes ON telescopes.TelescopeID = contains.TelescopeID
@@ -184,7 +190,9 @@ def get_sales_report_by_product(product, database):
 def earningreport(database):
     cursor = database.cursor()
     cursor.execute('''
+                   
     SELECT
+        
         t.Telescope_Name,
         c.Product_Price,
          t.Telescope_Cost,
