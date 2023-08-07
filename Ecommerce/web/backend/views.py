@@ -29,7 +29,8 @@ def clear():
 @views.route('/products')
 @login_required
 def products():
-    products = Telescopes()
+    products = back_Telescope()
+    print(products)
     return render_template('products.html', products = products)
 
 
@@ -123,9 +124,17 @@ def add_accounts():
         email = request.form['Email']
         pass1 = request.form['Password']
         pass2 = request.form['Password2']
+        
         if(fname != '' and lname != '' and pass1 != '' and pass2 !='' and email != ''):
-            addaccount(fname,lname,email,pass1,pass2)
-            flash('The new account have been added', 'succes')
+            if pass1 != pass2:
+                flash('Password dont match', 'error')
+            elif email_exists(email):
+                flash('Email already exists!', 'error')
+            else:
+                flash('The New Account Have Been Added', 'succes')
+                insert_user(fname, lname, email, pass1)
+        else:
+            flash('Fill all the blanks', 'error')
     return redirect(url_for('back_views.accounts'))
 
     
