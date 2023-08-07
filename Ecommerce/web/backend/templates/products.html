@@ -238,7 +238,17 @@
                       >
                     </h6>
                     <h6 class="product-price">
-                      <span>${{product['price']}}0</span>
+                      {% if product['price'] is defined %}
+                        {% set price_str = '%.2f' % product['price'] %}
+                        
+                        {% if price_str.endswith('.00') %}
+                            <span class="whole-price">${{ price_str }}</span>
+                        {% elif price_str.endswith('0') %}
+                            <span class="half-decimal-price">${{ price_str }}</span>
+                        {% else %}
+                            <span class="full-decimal-price">${{ price_str }}</span>
+                        {% endif %}
+                      {% endif %}
                     </h6>
                     <h6 class="product-name">
                       <a>{{product['stock']}} in stock</a>
@@ -354,7 +364,17 @@
                             </h5>
                             <h3 class="card-title">{{product['name']}}</h3>
                             <h4 class="card-title">
-                              <span>Price: ${{product['price']}}0</span>
+                              {% if product['price'] is defined %}
+                                {% set price_str = '%.2f' % product['price'] %}
+                                
+                                {% if price_str.endswith('.00') %}
+                                    <span class="whole-price">Price: ${{ price_str }}</span>
+                                {% elif price_str.endswith('0') %}
+                                    <span class="half-decimal-price">Price: ${{ price_str }}</span>
+                                {% else %}
+                                    <span class="full-decimal-price">Price: ${{ price_str }}</span>
+                                {% endif %}
+                              {% endif %}
                             </h4>
 
                             <p class="card-text">

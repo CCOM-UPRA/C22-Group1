@@ -18,17 +18,3 @@ def UsersList():
         userList.append(user)
         
     return userList
-
-def addaccount(fname, lname, email, pass1, pass2):
-    
-    if not fname or not lname or not email or not pass1 or not pass2:
-        return 'fill all the blanks'
-    
-    if pass1 != pass2:
-        return 'Password dont match!'
-    
-    if email_exists(email):
-        return 'Email already exists!'
-    print(fname, lname, email, pass1, pass2)
-    # insert_user(fname, lname, email, pass1)
-    return 'Cuenta Creada!'

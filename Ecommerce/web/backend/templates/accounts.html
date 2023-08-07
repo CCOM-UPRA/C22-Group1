@@ -166,6 +166,20 @@
             {% endif %}
         {% endwith %}
 
+        {% with messages = get_flashed_messages(category_filter='error') %}
+            {% if messages %}
+                <div class="inner-section profile-part">
+                    <div class="container">
+                        <div>
+                            {% for message in messages %}
+                                <h2 style="color: red; text-align: center;">{{ message }}</h2>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <!--=====================================
                 PRODUCT DETAILS PART START
         =======================================-->
